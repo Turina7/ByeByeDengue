@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.shortcuts import redirect
-
+#aaaaaaaaaaa
 urlpatterns = [
     #Redirect to the polls' homepage
     path('', lambda request: redirect('polls/homepage')),
