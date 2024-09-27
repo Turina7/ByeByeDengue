@@ -60,8 +60,6 @@ CREATE TABLE "Article" (
     "section" TEXT NOT NULL,
     "keywords" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
-
-    CONSTRAINT "Article_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -77,8 +75,6 @@ CREATE TABLE "News" (
     "section" TEXT NOT NULL,
     "keywords" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
-
-    CONSTRAINT "News_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -94,8 +90,6 @@ CREATE TABLE "Wiki" (
     "section" TEXT NOT NULL,
     "keywords" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
-
-    CONSTRAINT "Wiki_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -109,12 +103,3 @@ ALTER TABLE "Contribution" ADD CONSTRAINT "Contribution_userId_fkey" FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE "ForumMessage" ADD CONSTRAINT "ForumMessage_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Article" ADD CONSTRAINT "Article_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "News" ADD CONSTRAINT "News_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Wiki" ADD CONSTRAINT "Wiki_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
