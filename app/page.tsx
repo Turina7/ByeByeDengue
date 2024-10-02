@@ -1,13 +1,13 @@
 "use client";
 
-import TabMenu from "@/app/components/tabMenu"; // Importa o componente TabMenu
+import TabMenu from "@/app/components/tabMenu"; // Import TabMenu component
 import { useState } from "react";
-import styles from "./page.module.css"; // Importa o CSS
+import styles from "./page.module.css"; // Import CSS
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState("Home"); // Aba ativa inicial
+  const [activeTab, setActiveTab] = useState("Home"); // Initial active tab
 
-  // Função para alterar a aba ativa
+  // Function to change the active tab
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
   };
@@ -16,24 +16,17 @@ export default function Home() {
     <div className={styles.ctas}>
       <main className={styles.main}>
 
-        {/* Componente TabMenu, recebe a aba ativa e a função de troca de aba */}
+        {/* TabMenu component, receives the active tab and the tab change function */}
         <TabMenu activeTab={activeTab} onTabChange={handleTabChange} />
 
-        {/* Conteúdo dinâmico baseado na aba ativa */}
+        {/* Dynamic content based on the active tab */}
         <div style={{ padding: "20px" }}>
-          {activeTab === "Home" && <p>Conteúdo da Home</p>}
-          {activeTab === "Wiki" && <p>Conteúdo da Wiki</p>}
-          {activeTab === "Mapas" && <p>Conteúdo dos Mapas</p>}
-          {activeTab === "Denúncias" && <p>Conteúdo das Denúncias</p>}
-          {activeTab === "Math" && <p>Conteúdo de Math</p>}
-          {activeTab === "FAQ" && <p>Conteúdo do FAQ</p>}
+          <h1>Home Page</h1>
         </div>
       </main>
 
-      {/* Rodapé */}
+      {/* Footer */}
       <footer className={styles.footer}>
-        <h1>Rodapé</h1>
-        {/* Adicione conteúdo de rodapé conforme necessário */}
       </footer>
     </div>
   );
