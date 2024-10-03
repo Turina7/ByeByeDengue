@@ -49,3 +49,8 @@
   left: 0; /* Para a linha ocupar toda a largura */
   right: 0; /* Para a linha ocupar toda a largura */
 }
+
+.logoAndButtonContainer {
+  display: flex; /* Usar flexbox para alinhamento horizontal */
+  align-items: center; /* Alinha verticalmente ao centro */
+}

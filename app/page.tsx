@@ -3,6 +3,7 @@
 import TabMenu from "@/app/components/tabMenu"; // Import TabMenu component
 import { useState } from "react";
 import styles from "./page.module.css"; // Import CSS
+import Button from "./components/button";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("Home"); // Initial active tab
