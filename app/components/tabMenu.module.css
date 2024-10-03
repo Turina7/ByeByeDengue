@@ -1,0 +1,56 @@
+/* TabMenu.module.css */
+.tabMenu {
+  padding: 10px 0;
+}
+
+.tabList {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  position: relative; /* Para facilitar o posicionamento da linha */
+}
+
+.tabItem {
+  font-size: 14px;
+  cursor: pointer;
+  color: black; /* Cor padrão das abas */
+  width: 100vh;
+  text-align: center; 
+  position: relative; /* Para a linha abaixo das abas */
+}
+
+.tabItem:hover {
+  color: #ff0000; /* Cor ao passar o mouse */
+}
+
+.active {
+  color: red; /* Cor da aba ativa */
+  font-weight: bold; /* Negrito para a aba ativa */
+}
+
+/* Linha preta abaixo das abas */
+.lineBelow {
+  height: 2px; /* Altura da linha */
+  background-color: black; /* Cor padrão da linha */
+  position: absolute; /* Para posicionar abaixo da aba ativa */
+  bottom: -10px; /* Ajusta a posição da linha */
+  left: 0; /* Para a linha começar do lado esquerdo */
+  right: 0; /* Para a linha ocupar toda a largura */
+}
+
+.activeLine {
+  background-color: red; /* Cor da linha abaixo da aba ativa */
+  height: 2px; /* Altura da linha da aba ativa */
+  position: absolute;
+  bottom: -10px; /* Posição da linha ativa */
+  left: 0; /* Para a linha ocupar toda a largura */
+  right: 0; /* Para a linha ocupar toda a largura */
+}
+
+.logoAndButtonContainer {
+  display: flex; /* Usar flexbox para alinhamento horizontal */
+  align-items: center; /* Alinha verticalmente ao centro */
+}

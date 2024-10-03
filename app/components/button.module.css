@@ -1,0 +1,22 @@
+.btn {
+    padding: 4px 6px;
+    font-size: 14px;
+    font-weight: 600;
+    width: 120px; /* Largura padrão */
+    height: 40px;
+    font: bold;
+    border: none;
+    border-radius: 8px;
+    background-color: #D70000;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .btn:hover {
+    background-color: #D70000;
+  }
+  
+  .btn:disabled {
+    background-color: grey;
+    cursor: not-allowed;
+  }
