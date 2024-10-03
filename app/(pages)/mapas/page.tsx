@@ -12,7 +12,7 @@ interface PageProps {
 
 const Page: FC<PageProps> = ({ title, content }) => {
   // Define the activeTab state
-  const [activeTab, setActiveTab] = useState<string>("Wiki");
+  const [activeTab, setActiveTab] = useState<string>("Mapas");
 
   // Handler to change the active tab
   const handleTabChange = (tab: string) => {
@@ -31,7 +31,7 @@ const Page: FC<PageProps> = ({ title, content }) => {
         <section className={styles.section}>
           <h1 className={styles.title}>{title}</h1>
           <TabMenu activeTab={activeTab} onTabChange={handleTabChange} />
-          <h1>WIKI</h1>
+          <h1>Mapas</h1>
           <p className={styles.content}>{content}</p>
         </section>
       </main>

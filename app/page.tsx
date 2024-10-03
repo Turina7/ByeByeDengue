@@ -6,7 +6,7 @@ import styles from "./page.module.css"; // Import CSS
 import Button from "./components/button";
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState("Home"); // Initial active tab
+  const [activeTab, setActiveTab] = useState("Home");
 
   // Function to change the active tab
   const handleTabChange = (tab: string) => {
@@ -20,7 +20,6 @@ export default function Home() {
         {/* TabMenu component, receives the active tab and the tab change function */}
         <TabMenu activeTab={activeTab} onTabChange={handleTabChange} />
 
-        {/* Dynamic content based on the active tab */}
         <div style={{ padding: "20px" }}>
           <h1>Home Page</h1>
         </div>

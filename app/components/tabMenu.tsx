@@ -13,7 +13,7 @@ interface TabMenuProps {
 }
 
 const TabMenu: React.FC<TabMenuProps> = ({ activeTab, onTabChange }) => {
-  const tabs = ["Home", "Wiki", "Mapas", "Denúncias", "Math", "FAQ"];
+  const tabs = ["Home", "Wiki", "Mapas", "Denuncias", "Math", "Forum"];
   const router = useRouter(); // Initialize the router
 
   const handleTabClick = (tab: string) => {
