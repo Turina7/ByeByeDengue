@@ -1,7 +1,7 @@
 "use client"; 
 
 import { useState } from "react";
-import TabMenu from "./components/tabMenu"; 
+import TabMenu from "./components/tabMenu/tabMenu";
 
 const ClientLayout = ({ children }: { children: React.ReactNode }) => {
   const [activeTab, setActiveTab] = useState("Home");

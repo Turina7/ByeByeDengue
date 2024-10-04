@@ -1,0 +1,54 @@
+.tabMenu {
+  padding: 10px 0;
+}
+
+.tabList {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  position: relative;
+}
+
+.tabItem {
+  font-size: 14px;
+  cursor: pointer;
+  color: black;
+  width: 100vh;
+  text-align: center; 
+  position: relative;
+}
+
+.tabItem:hover {
+  color: #ff0000;
+}
+
+.active {
+  color: red;
+  font-weight: bold;
+}
+
+.lineBelow {
+  height: 2px;
+  background-color: black;
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+}
+
+.activeLine {
+  background-color: red;
+  height: 2px;
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+}
+
+.logoAndButtonContainer {
+  display: flex;
+  align-items: center;
+}

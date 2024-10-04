@@ -1,11 +1,11 @@
-"use client"; // Ensure the component is treated as a client component
+"use client"; 
 
 import React from "react";
-import { useRouter } from "next/navigation"; // Import useRouter from next/navigation
+import { useRouter } from "next/navigation"; 
 import styles from "./tabMenu.module.css";
-import Image from "next/image"; // Import Image component from Next.js
-import Button from "./button";
-import logo from "@/app/images/Logo.png"; // Import the logo
+import Image from "next/image"; 
+import Button from "../button/button";
+import logo from "@/app/images/Logo.png"; 
 
 interface TabMenuProps {
   activeTab: string;
@@ -13,17 +13,21 @@ interface TabMenuProps {
 }
 
 const TabMenu: React.FC<TabMenuProps> = ({ activeTab, onTabChange }) => {
-  const tabs = ["Home", "Wiki", "Mapas", "Denuncias", "Math", "Forum"];
-  const router = useRouter(); // Initialize the router
+  const tabs = ["Home", "Wiki", "Mapas", "Denúncias", "Math", "Fórum"];
+  const router = useRouter(); 
 
   const handleTabClick = (tab: string) => {
-    onTabChange(tab); // Trigger the parent state changes
+    onTabChange(tab);
 
-    // Routing logic for Home and other tabs
-    if (tab === "Home") {
-      router.push("/"); // Navigate to root for Home
+    const normalizedTab = tab
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') 
+    .toLowerCase(); 
+
+    if (normalizedTab === "home") {
+      router.push("/"); 
     } else {
-      router.push(`/${tab.toLowerCase()}`); // Navigate to the respective route
+      router.push(`/${normalizedTab}`);
     }
   };
 
