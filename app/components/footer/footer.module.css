@@ -1,0 +1,54 @@
+.footer {
+  background-color: #ffffff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content {
+  display: flex; /* Flexbox para alinhar itens na horizontal */
+  justify-content: space-between; /* Espaço entre as colunas */
+  align-items: flex-start; /* Alinha no topo */
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+  border-top: 1px solid #ccc;
+}
+
+.content h1 {
+  font-size: 1.5rem; /* Diminui o tamanho da fonte do título */
+  margin-bottom: 5px; /* Menor espaçamento abaixo do título */
+}
+
+.content p {
+  font-size: 0.9rem; /* Diminui o tamanho da fonte da descrição */
+  color: #666; /* Cor do texto da descrição */
+  display: block; /* Força o 'p' a ficar abaixo do 'h1' */
+  margin: 0; /* Remove margem adicional */
+}
+
+.contact, .faq {
+  flex: 1; /* Distribui o espaço igualmente entre colunas */
+  margin: 0 20px; /* Espaçamento horizontal */
+}
+
+.contact ul, .faq ul {
+  list-style: none; /* Remove os marcadores */
+  padding: 0; /* Remove o padding padrão */
+}
+
+.contact li, .faq li {
+  margin: 5px 0; /* Espaçamento entre itens da lista */
+}
+
+.socialMedia {
+  margin-top: 20px; /* Espaçamento acima das redes sociais */
+}
+
+.socialMedia a {
+  margin: 0 10px; /* Espaçamento entre ícones */
+  color: #666; /* Cor dos ícones */
+  font-size: 1.5rem; /* Tamanho dos ícones */
+}
+

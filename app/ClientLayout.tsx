@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import TabMenu from "./components/tabMenu/tabMenu";
+import Footer from "./components/footer/footer";
 
 const ClientLayout = ({ children }: { children: React.ReactNode }) => {
   const [activeTab, setActiveTab] = useState("Home");
@@ -14,6 +15,7 @@ const ClientLayout = ({ children }: { children: React.ReactNode }) => {
     <>
       <TabMenu activeTab={activeTab} onTabChange={handleTabChange} />
       <main>{children}</main>
+      <Footer />
     </>
   );
 };

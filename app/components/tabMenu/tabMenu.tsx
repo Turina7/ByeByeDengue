@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import styles from "./tabMenu.module.css";
 import Image from "next/image"; 
 import Button from "../button/button";
-import logo from "@/app/images/Logo.png"; 
+import logo from "@/app/images/Logo.png";
+import Link from "next/link";
 
 interface TabMenuProps {
   activeTab: string;
@@ -34,21 +35,23 @@ const TabMenu: React.FC<TabMenuProps> = ({ activeTab, onTabChange }) => {
   return (
     <div className={styles.tabMenu}>
       <div className={styles.logoAndButtonContainer}>
-      <div className={styles.logoContainer}>
-        <Image
-          src={logo}
-          alt="Logo"
-          className={styles.logo}
-          layout="intrinsic"
-          width={150}
-          height={70}
-        />
+        <Link href = "/" onClick={() => handleTabClick("Home")}>
+          <div className={styles.logoContainer}>
+            <Image
+              src={logo}
+              alt="Logo"
+              className={styles.logo}
+              layout="intrinsic"
+              width={150}
+              height={70}
+            />
+          </div>
+        </Link>
+        <Button style={{ position: 'absolute', right: '10px' }} onClick={() => console.log('Clicado!')}>
+          Cadastre-se
+        </Button>
       </div>
-      <Button style={{ position: 'absolute', right: '10px' }} onClick={() => console.log('Clicado!')}>
-        Cadastre-se
-      </Button>
-    </div>
-
+  
       <ul className={styles.tabList}>
         {tabs.map((tab) => (
           <li
