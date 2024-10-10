@@ -1,0 +1,19 @@
+.artigoContainer {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+.title {
+    color: #d70000;
+    text-decoration: none;
+    margin-right: 8px;
+}
+
+.title:hover {
+    text-decoration: underline;
+}
+
+.authorDate {
+    color: rgb(0, 0, 0);
+}
