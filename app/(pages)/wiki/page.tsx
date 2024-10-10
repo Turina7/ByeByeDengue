@@ -28,7 +28,7 @@ const Page: React.FC<PageProps> = ({ title, content }) => {
           <br/>
           {/* LinkArtigo section */}
           <div className={styles.articleList}>
-            <LinkArtigo title="Quem é Aécio ao Egípcio?" author="Guilherme Turina" date="08/10/2024" link="https://www.camara.leg.br/deputados/74646" />
+            <LinkArtigo title="Aedes Aedypti - O Vetor" author="Governo do Estado do Espirito Santo" date="08/10/2024" link={`${window.location.href}/aedes-aedypti`}  />
             <br/>
             <LinkArtigo title="Tenho que tampar copo d'agua?" author="Tiago Marinho" date="30/09/2024" link="https://www.nadir.com.br/utensilios-domesticos/copo-de-vidro/copo-de-agua" />
             <br/>
