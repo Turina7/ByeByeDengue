@@ -11,7 +11,7 @@ interface LinkArtigoProps {
 const LinkArtigo: React.FC<LinkArtigoProps> = ({ title, author, date, link }) => {
     return (
         <div className={styles.artigoContainer}>
-            <a href={link} className={styles.title} target="_blank" rel="noopener noreferrer">
+            <a href={link} className={styles.title}>
                 {title}
             </a>
             <span className={styles.authorDate}>
