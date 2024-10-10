@@ -16,6 +16,11 @@
   border-top: 1px solid #ccc;
 }
 
+.logo {
+  width: 240px;
+  height: 112px;
+}
+
 .content h1 {
   font-size: 1.5rem; /* Diminui o tamanho da fonte do título */
   margin-bottom: 5px; /* Menor espaçamento abaixo do título */

@@ -11,12 +11,9 @@ const Footer: React.FC = () => {
     <footer className={styles.footer}>
       <div className={styles.content}>
         <Image
-              src={logo}
-              alt="Logo"
-              className={styles.logo}
-              layout="intrinsic"
-              width={150}
-              height={70}
+          src={logo}
+          alt="Logo"
+          className={styles.logo}
         />
         <div className={styles.contact}>
           <h2>Contato</h2>

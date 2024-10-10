@@ -41,9 +41,6 @@ const TabMenu: React.FC<TabMenuProps> = ({ activeTab, onTabChange }) => {
               src={logo}
               alt="Logo"
               className={styles.logo}
-              layout="intrinsic"
-              width={150}
-              height={70}
             />
           </div>
         </Link>
