@@ -1,0 +1,29 @@
+.explore, .feedbacks {
+  margin-top: 2rem;
+}
+
+.exploreGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.exploreItem {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.exploreItem img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.exploreItem h3 {
+  margin: 1rem;
+}
+
+.exploreItem p {
+  margin: 0 1rem 1rem;
+}

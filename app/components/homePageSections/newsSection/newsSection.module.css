@@ -1,0 +1,15 @@
+.news, .communityPosts {
+  margin-top: 2rem;
+}
+
+.newsItem {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.newsItem img {
+  margin-right: 1rem;
+  width: 100px;
+  height: 70px;
+}
