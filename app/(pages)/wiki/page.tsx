@@ -2,7 +2,7 @@
 
 import React from "react";
 import Head from "next/head";
-import styles from "@/app/page.module.css"; // Ensure this file exists with the necessary styling
+import styles from "@/app/page.module.css";
 import LinkArtigo from "@/app/components/linkArtigo/linkArtigo";
 
 interface PageProps {
@@ -22,17 +22,16 @@ const Page: React.FC<PageProps> = ({ title, content }) => {
       <main className={styles.main}>
         <section>
           <h1 className={styles.title}>{title}</h1>
-          <h2>WIKI</h2>
           <br/>
-          <h3>Principais Artigos</h3>
+          <h2>Principais Artigos</h2>
           <br/>
           {/* LinkArtigo section */}
           <div className={styles.articleList}>
             <LinkArtigo title="Aedes Aedypti - O Vetor" author="Governo do Estado do Espirito Santo" date="08/10/2024" link={`${window.location.href}/aedes-aedypti`}  />
             <br/>
-            <LinkArtigo title="Tenho que tampar copo d'agua?" author="Tiago Marinho" date="30/09/2024" link="https://www.nadir.com.br/utensilios-domesticos/copo-de-vidro/copo-de-agua" />
+            <LinkArtigo title="Sintomas e Atitudes" author="Governo do Estado do Paraná (Adaptado)" date="11/10/2024" link={`${window.location.href}/sintomas-atitudes`} />
             <br/>
-            <LinkArtigo title="Sou fã de Pneu, como proceder?" author="João Paulo" date="15/02/1986" link="https://istoe.com.br/relembre-as-maiores-maluquices-feitas-por-bolsonaristas-em-atos-golpistas-de-2022/"/>
+            <LinkArtigo title="Prevenção" author="Prefeitura de Itariri - SP" date="12/10/2024" link={`${window.location.href}/prevencao`} />
           </div>
           <br/>
           <br/>

@@ -1,12 +1,12 @@
 import React from 'react';
 import Article from '@/app/components/article/article';
-import aedesInfo from './aedesInfo';
+import prevencao from './prevencao';
 
 const App = () => {
   const articleData = {
-    title: "Aedes Aedypti - O vetor",
-    author: "Governo do Espirito Santo",
-    text: aedesInfo,
+    title: "Prevenção",
+    author: "Prefeitura de Itariri - SP",
+    text: prevencao,
   };
 
   return (
