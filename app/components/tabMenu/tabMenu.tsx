@@ -1,32 +1,36 @@
-"use client"; 
+"use client";
 
 import React from "react";
-import { useRouter } from "next/navigation"; 
+import { useRouter, usePathname } from "next/navigation";
 import styles from "./tabMenu.module.css";
-import Image from "next/image"; 
+import Image from "next/image";
 import Button from "../button/button";
 import logo from "@/app/images/Logo.png";
 import Link from "next/link";
 
-interface TabMenuProps {
-  activeTab: string;
-  onTabChange: (tab: string) => void;
-}
-
-const TabMenu: React.FC<TabMenuProps> = ({ activeTab, onTabChange }) => {
+const TabMenu: React.FC = () => {
   const tabs = ["Home", "Wiki", "Mapas", "Denúncias", "Math", "Fórum"];
-  const router = useRouter(); 
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const getActiveTab = (path: string) => {
+    if (path === '/') return 'Home';
+    const tab = tabs.find(tab => 
+      path.toLowerCase().includes(tab.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
+    );
+    return tab || 'Home';
+  };
+
+  const activeTab = getActiveTab(pathname);
 
   const handleTabClick = (tab: string) => {
-    onTabChange(tab);
-
     const normalizedTab = tab
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '') 
-    .toLowerCase(); 
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase();
 
     if (normalizedTab === "home") {
-      router.push("/"); 
+      router.push("/");
     } else {
       router.push(`/${normalizedTab}`);
     }
@@ -35,15 +39,12 @@ const TabMenu: React.FC<TabMenuProps> = ({ activeTab, onTabChange }) => {
   return (
     <div className={styles.tabMenu}>
       <div className={styles.logoAndButtonContainer}>
-        <Link href = "/" onClick={() => handleTabClick("Home")}>
+        <Link href="/" onClick={() => handleTabClick("Home")}>
           <div className={styles.logoContainer}>
             <Image
               src={logo}
               alt="Logo"
               className={styles.logo}
-              layout="intrinsic"
-              width={150}
-              height={70}
             />
           </div>
         </Link>

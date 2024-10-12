@@ -1,0 +1,41 @@
+.protect {
+  margin-top: 50px;
+}
+
+.protect h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.protect p {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.sections {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.sectionItem {
+  width: 30%;
+  text-align: left; 
+}
+
+.sectionItem img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.sectionItem h3 {
+  font-size: 1.5rem;
+  margin-top: 10px;
+}
+
+.sectionItem p {
+  font-size: 1rem;
+  color: #666;
+}

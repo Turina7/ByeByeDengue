@@ -48,6 +48,11 @@
   right: 0;
 }
 
+.logoContainer {
+  width: 150px;
+  height: 80px;
+}
+
 .logoAndButtonContainer {
   display: flex;
   align-items: center;
