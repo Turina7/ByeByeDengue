@@ -1,11 +1,11 @@
 "use client";
 
 import styles from './page.module.css';
-import { ProtectSection } from "@/app/components/homePageSections/protectSection/protectSection";
-import { NewsSection } from "@/app/components/homePageSections/newsSection/newsSection";
-import { CommunityPostsSection } from "@/app/components/homePageSections/communityPostsSection/communityPosts";
-import { ExploreSection } from "@/app/components/homePageSections/exploreSection/exploreSection";
-import { FeedbackSection } from "@/app/components/homePageSections/feedbackSection/feedbackSection"
+import { ProtectSection } from "@/app/components/homepageSections/protectSection/protectSection";
+import { NewsSection } from "@/app/components/homepageSections/newsSection/newsSection";
+import { CommunityPostsSection } from "@/app/components/homepageSections/communityPostsSection/communityPosts";
+import { ExploreSection } from "@/app/components/homepageSections/exploreSection/exploreSection";
+import { FeedbackSection } from "@/app/components/homepageSections/feedbackSection/feedbackSection"
 
 export default function Home() {
   return (
