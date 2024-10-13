@@ -1,4 +1,4 @@
-import styles from "./supportSections.module.css"
+import styles from "./supportSection.module.css"
 
 export function SupportSection() {
 	return(
