@@ -3,7 +3,7 @@
 import React from "react";
 import Head from "next/head";
 import styles from "@/app/page.module.css";
-import LinkArtigo from "@/app/components/linkArtigo/linkArtigo";
+import LinkArtigo from "@/app/components/wikipageSections/linkArtigo/linkArtigo";
 
 interface PageProps {
   title: string;

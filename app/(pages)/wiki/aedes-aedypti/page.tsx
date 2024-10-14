@@ -1,5 +1,5 @@
 import React from 'react';
-import Article from '@/app/components/article/article';
+import Article from '@/app/components/wikipageSections/article/article';
 import aedesInfo from './aedesInfo';
 
 const App = () => {
