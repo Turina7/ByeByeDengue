@@ -5,7 +5,8 @@ import { ProtectSection } from "@/app/components/homepageSections/protectSection
 import { NewsSection } from "@/app/components/homepageSections/newsSection/newsSection";
 import { CommunityPostsSection } from "@/app/components/homepageSections/communityPostsSection/communityPosts";
 import { ExploreSection } from "@/app/components/homepageSections/exploreSection/exploreSection";
-import { FeedbackSection } from "@/app/components/homepageSections/feedbackSection/feedbackSection"
+import { FeedbackSection } from "@/app/components/homepageSections/feedbackSection/feedbackSection";
+import { SupportSection } from "@/app/components/homepageSections/supportSection/supportSection";
 
 export default function Home() {
   return (
@@ -25,6 +26,7 @@ export default function Home() {
         <CommunityPostsSection />
         <ExploreSection />
         <FeedbackSection />
+        <SupportSection />
       </main>
     </div>
   );
