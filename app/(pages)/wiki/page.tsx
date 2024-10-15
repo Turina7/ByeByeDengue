@@ -27,7 +27,7 @@ const Page: React.FC<PageProps> = ({ title, content }) => {
           <br/>
           {/* LinkArtigo section */}
           <div className={styles.articleList}>
-            <LinkArtigo title="Aedes Aedypti - O Vetor" author="Governo do Estado do Espirito Santo" date="08/10/2024" link={`wiki/aedes-aedypti`}  />
+            <LinkArtigo title="Aedes Aegypti - O Vetor" author="Governo do Estado do Espirito Santo" date="08/10/2024" link={`wiki/aedes-aegypti`}  />
             <br/>
             <LinkArtigo title="Sintomas e Atitudes" author="Governo do Estado do Paraná (Adaptado)" date="11/10/2024" link={`wiki/sintomas-atitudes`} />
             <br/>

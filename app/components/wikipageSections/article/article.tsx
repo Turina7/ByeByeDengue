@@ -8,8 +8,40 @@ interface ArticleProps {
   text: string;
 }
 
+interface LinkItem {
+  term: string;
+  url: string;
+}
+
+const linkItems: LinkItem[] = [
+  { term: 'Aedes aegypti', url: '/wiki/aedes-aegypti' },
+  { term: 'sintomas', url: '/wiki/sintomas-atitudes' },
+  { term: 'prenveção', url: '/wiki/prevencao' },
+];
+
+const linkifyText = (text: string) => {
+  let result: (string | JSX.Element)[] = [text];
+
+  linkItems.forEach(({ term, url }) => {
+    result = result.flatMap(part =>
+      typeof part === 'string'
+        ? part.split(new RegExp(`(${term})`, 'gi')).map((subPart, index) =>
+            subPart.toLowerCase() === term.toLowerCase() ? (
+              <a href={url} className={styles.link} key={`${term}-${index}`}>
+                {term}
+              </a>
+            ) : (
+              subPart
+            )
+          )
+        : part
+    );
+  });
+
+  return result;
+};
+
 const Article: React.FC<ArticleProps> = ({ title, author, text }) => {
-  // Dividir o texto em parágrafos onde houver uma quebra de linha dupla '\n\n'
   const paragraphs = text.split('\n\n').filter(paragraph => paragraph.trim() !== '');
 
   return (
@@ -18,13 +50,12 @@ const Article: React.FC<ArticleProps> = ({ title, author, text }) => {
       <h2 className={styles['article-author']}>By {author}</h2>
       {paragraphs.map((paragraph, index) => (
         <p key={index} className={styles['article-text']}>
-          {paragraph}
+          {linkifyText(paragraph)}
         </p>
       ))}
     </div>
   );
 };
-
 
 Article.propTypes = {
   title: PropTypes.string.isRequired,
