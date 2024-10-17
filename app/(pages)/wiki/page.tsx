@@ -3,7 +3,7 @@
 import React from "react";
 import Head from "next/head";
 import styles from "@/app/page.module.css";
-import LinkArtigo from "@/app/components/linkArtigo/linkArtigo";
+import LinkArtigo from "@/app/components/wikipageSections/linkArtigo/linkArtigo";
 
 interface PageProps {
   title: string;
@@ -27,11 +27,11 @@ const Page: React.FC<PageProps> = ({ title, content }) => {
           <br/>
           {/* LinkArtigo section */}
           <div className={styles.articleList}>
-            <LinkArtigo title="Aedes Aedypti - O Vetor" author="Governo do Estado do Espirito Santo" date="08/10/2024" link={`${window.location.href}/aedes-aedypti`}  />
+            <LinkArtigo title="Aedes Aegypti - O Vetor" author="Governo do Estado do Espirito Santo" date="08/10/2024" link={`wiki/aedes-aegypti`}  />
             <br/>
-            <LinkArtigo title="Sintomas e Atitudes" author="Governo do Estado do Paraná (Adaptado)" date="11/10/2024" link={`${window.location.href}/sintomas-atitudes`} />
+            <LinkArtigo title="Sintomas e Atitudes" author="Governo do Estado do Paraná (Adaptado)" date="11/10/2024" link={`wiki/sintomas-atitudes`} />
             <br/>
-            <LinkArtigo title="Prevenção" author="Prefeitura de Itariri - SP" date="12/10/2024" link={`${window.location.href}/prevencao`} />
+            <LinkArtigo title="Prevenção" author="Prefeitura de Itariri - SP" date="12/10/2024" link={`wiki/prevencao`} />
           </div>
           <br/>
           <br/>
