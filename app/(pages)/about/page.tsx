@@ -1,7 +1,7 @@
 "use client";
 
 import Head from "next/head";
-import styles from "@/app/page.module.css";
+import styles from "./about.module.css";
 import Button from "@/app/components/button/button";
 import Image from "next/image";
 import logo from "@/app/images/about-logo.png";
