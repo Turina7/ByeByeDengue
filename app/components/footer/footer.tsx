@@ -5,16 +5,19 @@ import styles from "./footer.module.css";
 import Image from "next/image"; 
 import logo from "@/app/images/Logo-2.png";
 import { FaFacebookF, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'; 
+import Link from "next/link";
 
 const Footer: React.FC = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.content}>
+        <Link href="/about">
         <Image
           src={logo}
           alt="Logo"
           className={styles.logo}
         />
+        </Link>
         <div className={styles.contact}>
           <h2>Contato</h2>
           <ul>
@@ -34,8 +37,8 @@ const Footer: React.FC = () => {
         <div className={styles.faq}>
           <h2>Dúvidas Frequentes</h2>
           <ul>
-            <li><a href="/objectives">Nossos Objetivos</a></li>
-            <li><a href="/how-to-help">Como ajudar?</a></li>
+            <li><a href="/about">Nossos Objetivos</a></li>
+            <li><a href="/about">Como ajudar?</a></li>
             <li><a href="/feedback">Feedback de Denúncias</a></li>
           </ul>
         </div>
