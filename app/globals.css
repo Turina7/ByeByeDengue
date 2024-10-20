@@ -88,28 +88,3 @@ button:hover {
     color-scheme: dark;
   }
 }
-
-.mapContainer {
-  display: flex;
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.map {
-  flex: 1;
-}
-
-.locationInfo {
-  flex: 1;
-}
-
-.mapImage {
-  width: 100%;
-  height: auto;
-}
-
-.title {
-  font-size: 2rem;
-  font-weight: bold;
-}
-

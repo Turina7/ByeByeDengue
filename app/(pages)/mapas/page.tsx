@@ -1,6 +1,8 @@
 import React from 'react';
 import Head from 'next/head';
-import styles from '.@/app/page.module.css';
+import styles from './mapas.module.css';
+import Image from 'next/image';
+import map from '@/app/images/mapas.png';
 
 interface PageProps {
   title: string;
@@ -23,7 +25,7 @@ const MapPage: React.FC<PageProps> = ({ title, locationInfo }) => {
           <div className={styles.mapContainer}>
             {/* Espaço para o mapa mockado */}
             <div className={styles.map}>
-              <img src="/image/mapas.jpg" alt="Mapa Interativo" className={styles.mapImage} />
+              <Image src={map} alt="Mapa Interativo" className={styles.mapImage} />
             </div>
 
             {/* Informações do local ao lado do mapa */}

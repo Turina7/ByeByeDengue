@@ -1,6 +1,8 @@
 import React from 'react';
 import Head from 'next/head';
-import styles from '.@/app/page.module.css';
+import styles from '@/app/page.module.css';
+import Image from 'next/image';
+import graph from '@/app/images/graficos-estatisticos.jpg'
 
 interface PageProps {
   title: string;
@@ -42,7 +44,7 @@ const Page: React.FC<PageProps> = ({ title, content }) => {
           {/* Espaço para a imagem */}
           <h2>Visualização Gráfica</h2>
           <div className={styles.imageContainer}>
-            <img src="/images/graficos-estatisticos.jpg" alt="Gráfico de Dados Estatísticos" className={styles.image}/>
+            <Image src={graph} alt="Gráfico de Dados Estatísticos" className={styles.image}/>
           </div>
 
           {/* Content adicional */}
