@@ -52,15 +52,13 @@ export default function DenguePage() {
       <div className={styles.toggleButtons}>
         <button 
           onClick={() => setIsNewReport(true)}
-          className={isNewReport ? styles.active : ''}
-          style={{ color: 'white' }}
+          className={`${styles.toggleButton} ${isNewReport ? styles.active : ''}`}
         >
           Nova denúncia
         </button>
         <button 
           onClick={() => setIsNewReport(false)}
-          className={!isNewReport ? styles.active : ''}
-          style={{ color: 'white' }}
+          className={`${styles.toggleButton} ${!isNewReport ? styles.active : ''}`}
         >
           Acompanhar
         </button>
@@ -77,7 +75,7 @@ export default function DenguePage() {
               value={formData.nome}
               onChange={handleInputChange}
               required
-              style={{ backgroundColor: 'white', border: '1px solid #ccc' }}
+              className={styles.input}
             />
           </div>
           <div className={styles.formGroup}>
@@ -89,7 +87,7 @@ export default function DenguePage() {
               value={formData.sobrenome}
               onChange={handleInputChange}
               required
-              style={{ backgroundColor: 'white', border: '1px solid #ccc' }}
+              className={styles.input}
             />
           </div>
           <div className={styles.formGroup}>
@@ -101,7 +99,7 @@ export default function DenguePage() {
               value={formData.contato}
               onChange={handleInputChange}
               required
-              style={{ backgroundColor: 'white', border: '1px solid #ccc' }}
+              className={styles.input}
             />
           </div>
           <div className={styles.formGroup}>
@@ -113,7 +111,7 @@ export default function DenguePage() {
               value={formData.local}
               onChange={handleInputChange}
               required
-              style={{ backgroundColor: 'white', border: '1px solid #ccc' }}
+              className={styles.input}
             />
           </div>
           <div className={styles.formGroup}>
@@ -124,16 +122,12 @@ export default function DenguePage() {
               value={formData.motivo}
               onChange={handleInputChange}
               required
-              style={{ 
-                backgroundColor: 'white', 
-                border: '1px solid #ccc',
-                color: '#333' 
-              }}  
+              className={styles.select}
             >
-              <option value="" style={{ color: '#333' }}>Selecione</option>
-              <option value="lixo_entulho" style={{ color: '#333' }}>Lixo e entulho</option>
-              <option value="piscina_descoberta" style={{ color: '#333' }}>Piscina descoberta</option>
-              <option value="area_abandonada" style={{ color: '#333' }}>Área abandonada</option>
+              <option value="">Selecione</option>
+              <option value="lixo_entulho">Lixo e entulho</option>
+              <option value="piscina_descoberta">Piscina descoberta</option>
+              <option value="area_abandonada">Área abandonada</option>
             </select>
           </div>
           <button type="submit" className={styles.submitButton}>
@@ -146,8 +140,8 @@ export default function DenguePage() {
           <div className={styles.formGroup}>
             <input 
               type="text" 
-              placeholder="Número do protocolo" 
-              style={{ backgroundColor: 'white', border: '1px solid #ccc' }}
+              placeholder="Número do protocolo"
+              className={styles.input}
             />
             <button className={styles.submitButton}>
               Buscar
