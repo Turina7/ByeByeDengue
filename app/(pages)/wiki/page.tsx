@@ -19,7 +19,18 @@ const Page = () => {
       date: "08/10/2024",
       link: "wiki/aedes-aegypti"
     },
-    // ... other articles
+    {
+      title: "Sintomas e Atitudes",
+      author: "Governo do Estado do Paraná (Adaptado)", 
+      date: "11/10/2024",
+      link: "wiki/sintomas-atitudes" 
+    },
+    {
+      title: "Prevenção",
+      author: "Prefeitura de Itariri - SP", 
+      date: "12/10/2024", 
+      link: "wiki/prevencao" 
+    },
   ];
 
   const popularArticles: Article[] = [
@@ -29,7 +40,19 @@ const Page = () => {
       date: "08/10/2024",
       link: "https://www.publico.pt/2023/05/21/azul/noticia/portugal-olho-mosquitos-aedes-transmitem-doencas-infecciosas-2050302"
     },
-    // ... other articles
+    {
+      title: "Fuzil mata o mosquito?",
+      author: "Tiago Marinho",
+      date: "30/09/2024",
+      link: "https://pt.wikipedia.org/wiki/Fuzil" 
+    },
+    {
+      title: "Lei impactante sobre a dengue",
+      author: "João Paulo",
+      date: "15/02/1986",
+      link: "https://blog.lfg.com.br/legislacao/leis-absurdas/"
+    },
+
   ];
 
   return (
