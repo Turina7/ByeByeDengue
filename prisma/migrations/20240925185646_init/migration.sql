@@ -59,7 +59,7 @@ CREATE TABLE "Article" (
     "status" TEXT NOT NULL,
     "section" TEXT NOT NULL,
     "keywords" TEXT NOT NULL,
-    "userId" INTEGER NOT NULL,
+    "userId" INTEGER NOT NULL
 );
 
 -- CreateTable
@@ -74,7 +74,7 @@ CREATE TABLE "News" (
     "category" TEXT NOT NULL,
     "section" TEXT NOT NULL,
     "keywords" TEXT NOT NULL,
-    "userId" INTEGER NOT NULL,
+    "userId" INTEGER NOT NULL
 );
 
 -- CreateTable
@@ -89,7 +89,7 @@ CREATE TABLE "Wiki" (
     "category" TEXT NOT NULL,
     "section" TEXT NOT NULL,
     "keywords" TEXT NOT NULL,
-    "userId" INTEGER NOT NULL,
+    "userId" INTEGER NOT NULL
 );
 
 -- CreateIndex
