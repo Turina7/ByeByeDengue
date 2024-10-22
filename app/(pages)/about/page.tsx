@@ -22,7 +22,6 @@ const Page = () => {
     <main className={styles.main}>
       <section className={styles.container}>
         <div className={styles.leftColumn}>
-          <h1 className={styles.title}>About Us</h1> 
           <h2>Sobre o Projeto</h2>
           <p>
             Este projeto foi criado para

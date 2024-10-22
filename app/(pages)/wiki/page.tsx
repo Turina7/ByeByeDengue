@@ -58,9 +58,8 @@ const Page = () => {
   return (
     <main className={styles.main}>
       <section>
-        <h1 className={styles.title}>Wiki da Dengue</h1>
         <br/>
-        <h2>Principais Artigos</h2>
+        <h2>Principais Artigos</h2> 
         <br/>
         <div className={styles.articleList}>
           {mainArticles.map((article, index) => (
