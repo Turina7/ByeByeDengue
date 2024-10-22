@@ -1,0 +1,53 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.toggleButtons {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.toggleButtons button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  background: #D70000;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.toggleButtons button.active {
+  background: #7b0000;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.formGroup input,
+.formGroup select {
+  width: 100%;
+  padding: 8px;
+}
+
+.submitButton {
+  background-color: #D70000;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.trackReport {
+  margin-top: 20px;
+}
+
+.infoSection {
+  margin-top: 40px;
+}
