@@ -1,0 +1,76 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.toggleButtons {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.toggleButton {
+  padding: 10px 20px;
+  margin-right: 10px;
+  background: #D70000;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  color: white;
+}
+
+.toggleButton.active {
+  background: #7b0000;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333; 
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: 8px;
+  background-color: white;
+  border: 1px solid #ccc;
+  color: #333; 
+}
+
+.select {
+  background-color: white;
+}
+
+.select option {
+  background-color: white;
+  color: #333;
+}
+
+.submitButton {
+  background-color: #D70000;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background-color: #b00000;
+}
+
+.trackReport {
+  margin-top: 20px;
+}
+
+.infoSection {
+  margin-top: 40px;
+}
+
+.input::placeholder,
+.select::placeholder {
+  color: #666;
+}
