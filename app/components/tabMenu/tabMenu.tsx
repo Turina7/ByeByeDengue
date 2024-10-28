@@ -48,7 +48,7 @@ const TabMenu: React.FC = () => {
             />
           </div>
         </Link>
-        <Button style={{ position: 'absolute', right: '10px' }} onClick={() => console.log('Clicado!')}>
+        <Button style={{ position: 'absolute', right: '10px' }} onClick={() => router.push("/login?signup=true")}>
           Cadastre-se
         </Button>
       </div>

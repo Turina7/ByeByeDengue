@@ -1,0 +1,47 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+    padding-top: 30px;
+    padding-bottom: 10px;
+}
+
+.loginCard {
+    padding: 20px;
+    width: 100%;
+    background-color: #f9f9f9;
+    max-width: 400px; /* Define um limite de largura para o card */
+    border: 1px solid #ddd; /* Borda leve para o card */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Leve sombra para o card */
+}
+
+.formGroup {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.formGroup input, .formGroup textarea {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.link {
+    font-size: 1rem;
+    color: #D70000;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.errorInput {
+    border: 2px solid #D70000;
+    background-color: #ffe6e6;
+  }
+  
