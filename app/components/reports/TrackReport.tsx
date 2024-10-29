@@ -4,10 +4,11 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { getReportByProtocol } from '@/actions/actions';
 import styles from '@/app/(pages)/denuncias/page.module.css';
+import { Report } from '@/types/report';
 
 export default function TrackReport() {
   const [protocol, setProtocol] = useState('');
-  const [report, setReport] = useState(null);
+  const [report, setReport] = useState<Report | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -17,9 +18,9 @@ export default function TrackReport() {
     setError('');
     try {
       const reportData = await getReportByProtocol(protocol);
-      setReport(reportData);
+      setReport(reportData as Report);
     } catch (error) {
-			console.error('Error fetching report:', error);
+      console.error('Error fetching report:', error);
       setError('Denúncia não encontrada ou erro ao buscar');
       setReport(null);
     } finally {
@@ -60,18 +61,19 @@ export default function TrackReport() {
           <p><strong>Local:</strong> {report.location}</p>
           <p><strong>Data da Observação:</strong> {new Date(report.observationDate).toLocaleString()}</p>
           <p><strong>Descrição:</strong> {report.description}</p>
-          {report.file && (
+          {report.fileUrl && (
             <div>
               <strong>Foto anexada:</strong>
+							{/* TODO: fileUrl is not the src, need to take care of the blob storage */}
               <div className={styles.imageContainer}> 
-								<Image 
-									src={report.file}
-									alt="Foto da denúncia"
-									fill
-									className={styles.reportImage}
-									sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-								/>
-						</div>
+                <Image 
+                  src={report.fileUrl}
+                  alt="Foto da denúncia"
+                  fill
+                  className={styles.reportImage}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              </div>
             </div>
           )}
         </div>

@@ -30,11 +30,8 @@ function generateProtocol() {
 
 export async function createReport(formData: FormData) {
   try {
-    let filePath = null;
-    const file = formData.get('file') as File;
-    if (file && file.size > 0) {
-      filePath = await saveFile(file);
-    }
+    // TODO: implement file upload to blob storage
+    const fileUrl = null; 
 
     const report = await prisma.report.create({
       data: {
@@ -45,7 +42,7 @@ export async function createReport(formData: FormData) {
         location: formData.get('location') as string,
         observationDate: new Date(formData.get('observationDate') as string),
         status: 'Em análise',
-        file: filePath,
+        fileUrl: fileUrl,
       }
     });
 

@@ -1,7 +1,13 @@
 import React from 'react';
 import styles from './SuccessDialog.module.css';
 
-const SuccessDialog = ({ isOpen, onClose, protocol }) => {
+interface SuccessDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  protocol: string;
+}
+
+const SuccessDialog: React.FC<SuccessDialogProps> = ({ isOpen, onClose, protocol }) => {
   if (!isOpen) return null;
 
   return (

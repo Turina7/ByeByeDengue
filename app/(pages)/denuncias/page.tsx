@@ -9,6 +9,7 @@ import SuccessDialog from '@/app/components/reports/SuccessDialog';
 import plantas from '@/app/images/plantas-image.jpg';
 import entulho from '@/app/images/entulho-image.jpg';
 
+// TODO: replace with real user ID
 const MOCK_USER_ID = 1;
 
 const focusTypes = [

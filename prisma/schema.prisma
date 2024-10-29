@@ -32,7 +32,7 @@ model Report {
   location        String
   observationDate DateTime
   status          String
-  file            String?
+  fileUrl         String?
   user            User      @relation(fields: [userId], references: [id])
 }
 
