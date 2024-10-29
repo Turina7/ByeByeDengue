@@ -1,158 +1,162 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import styles from './page.module.css';
 import plantas from '@/app/images/plantas-image.jpg';
 import entulho from '@/app/images/entulho-image.jpg';
 
-interface FormData {
-  nome: string;
-  sobrenome: string;
-  contato: string;
-  local: string;
-  motivo: string;
-}
+const MOCK_USER_ID = 1;
 
-const initialFormData: FormData = {
-  nome: '',
-  sobrenome: '',
-  contato: '',
-  local: '',
-  motivo: ''
-};
+const focusTypes = [
+  { value: 'RECIPIENTES', label: 'Água parada em recipientes' },
+  { value: 'PNEUS', label: 'Pneus abandonados' },
+  { value: 'LIXO', label: 'Lixo acumulado' },
+  { value: 'OUTROS', label: 'Outros potenciais focos' },
+];
 
 export default function DenguePage() {
-  const [isNewReport, setIsNewReport] = useState(true);
-  const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [isNewReport, setIsNewReport] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  async function handleSubmit(formData: FormData) {
+    setLoading(true);
     try {
-      console.log('Form submitted:', formData);
-      setFormData(initialFormData);
+      formData.append('userId', String(MOCK_USER_ID));
+      
+      await createReport(formData);
+      
+      const form = document.querySelector('form') as HTMLFormElement;
+      form?.reset();
+      
+      alert('Denúncia enviada com sucesso!');
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('Error submitting report:', error);
+      alert('Erro ao enviar denúncia. Tente novamente.');
+    } finally {
+      setLoading(false);
     }
-  };
+  }
 
   return (
     <div className={styles.container}>
-      <h1>Denúncias</h1>
-      <p>Aqui você pode criar e acompanhar denúncias</p>
-      
-      <div className={styles.toggleButtons}>
-        <button 
-          onClick={() => setIsNewReport(true)}
-          className={`${styles.toggleButton} ${isNewReport ? styles.active : ''}`}
-        >
-          Nova denúncia
-        </button>
-        <button 
-          onClick={() => setIsNewReport(false)}
-          className={`${styles.toggleButton} ${!isNewReport ? styles.active : ''}`}
-        >
-          Acompanhar
-        </button>
-      </div>
+  <h1>Sistema de Denúncias - Focos de Dengue</h1>
+  
+  <div className={styles.toggleButtons}>
+    <button 
+      onClick={() => setIsNewReport(true)}
+      className={`${styles.toggleButton} ${isNewReport ? styles.active : ''}`}
+    >
+      Nova denúncia
+    </button>
+    <button 
+      onClick={() => setIsNewReport(false)}
+      className={`${styles.toggleButton} ${!isNewReport ? styles.active : ''}`}
+    >
+      Acompanhar
+    </button>
+  </div>
 
-      {isNewReport ? (
-        <form onSubmit={handleSubmit}>
+  {isNewReport ? (
+    <div className={styles.reportForm}>
+      <h2>Nova Denúncia</h2>
+      <div className={styles.reportFormContent}>
+        <form action={handleSubmit}>
           <div className={styles.formGroup}>
-            <label htmlFor="nome">Nome</label>
-            <input
-              type="text"
-              id="nome"
-              name="nome"
-              value={formData.nome}
-              onChange={handleInputChange}
-              required
-              className={styles.input}
-            />
-          </div>
-          <div className={styles.formGroup}>
-            <label htmlFor="sobrenome">Sobrenome</label>
-            <input
-              type="text"
-              id="sobrenome"
-              name="sobrenome"
-              value={formData.sobrenome}
-              onChange={handleInputChange}
-              required
-              className={styles.input}
-            />
-          </div>
-          <div className={styles.formGroup}>
-            <label htmlFor="contato">Contato</label>
-            <input
-              type="email"
-              id="contato"
-              name="contato"
-              value={formData.contato}
-              onChange={handleInputChange}
-              required
-              className={styles.input}
-            />
-          </div>
-          <div className={styles.formGroup}>
-            <label htmlFor="local">Local</label>
-            <input
-              type="text"
-              id="local"
-              name="local"
-              value={formData.local}
-              onChange={handleInputChange}
-              required
-              className={styles.input}
-            />
-          </div>
-          <div className={styles.formGroup}>
-            <label htmlFor="motivo">Motivo da denúncia</label>
+            <label htmlFor="focusType">Tipo de Foco</label>
             <select
-              id="motivo"
-              name="motivo"
-              value={formData.motivo}
-              onChange={handleInputChange}
+              id="focusType"
+              name="focusType"
               required
               className={styles.select}
             >
-              <option value="">Selecione</option>
-              <option value="lixo_entulho">Lixo e entulho</option>
-              <option value="piscina_descoberta">Piscina descoberta</option>
-              <option value="area_abandonada">Área abandonada</option>
+              <option value="">Selecione o tipo de foco</option>
+              {focusTypes.map((type) => (
+                <option key={type.value} value={type.value}>
+                  {type.label}
+                </option>
+              ))}
             </select>
           </div>
-          <button type="submit" className={styles.submitButton}>
-            Enviar denúncia
-          </button>
-        </form>
-      ) : (
-        <div className={styles.trackReport}>
-          <p>Para acompanhar sua denúncia, insira o número de protocolo:</p>
+
           <div className={styles.formGroup}>
-            <input 
-              type="text" 
-              placeholder="Número do protocolo"
+            <label htmlFor="description">Descrição da Situação</label>
+            <textarea
+              id="description"
+              name="description"
+              required
+              className={styles.input}
+              rows={4}
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="location">Localização</label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              required
               className={styles.input}
             />
-            <button className={styles.submitButton}>
-              Buscar
-            </button>
           </div>
+          
+          <div className={styles.formGroup}>
+            <label htmlFor="observationDate">Data da Observação</label>
+            <input
+              type="datetime-local"
+              id="observationDate"
+              name="observationDate"
+              required
+              className={styles.input}
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="file">Anexar Foto (Opcional)</label>
+            <input
+              type="file"
+              id="file"
+              name="file"
+              accept="image/*"
+              className={styles.input}
+            />
+            <small className={styles.helpText}>
+              Anexe uma foto do local para ajudar na identificação
+            </small>
+          </div>
+
+          <button 
+            type="submit" 
+            className={styles.submitButton}
+            disabled={loading}
+          >
+            {loading ? 'Enviando...' : 'Enviar Denúncia'}
+          </button>
+        </form>
+      </div>
+    </div>
+  ) : (
+        <div className={styles.trackReport}>
+        <p>Para acompanhar sua denúncia, insira o número de protocolo:</p>
+        <div className={styles.formGroup}>
+          <input 
+            type="text" 
+            placeholder="Número do protocolo"
+            className={styles.input}
+          />
         </div>
+        <button className={styles.submitButton}>
+          Buscar
+        </button>
+      </div>
       )}
 
       <div className={styles.infoSection}>
-        <h2>Entulho</h2>
-        <p>Lixo e entulho pode ser foco de água parada e criadouro do mosquito aedes aegypti</p>
+        <h2>Cuidados importantes</h2>
+        
+        <h3>Entulho</h3>
+        <p>Lixo e entulho podem ser foco de água parada e criadouro do mosquito Aedes aegypti</p>
         <Image 
           src={entulho}
           alt="Entulho" 
@@ -161,7 +165,7 @@ export default function DenguePage() {
           priority
         />
         
-        <h2>Plantas</h2>
+        <h3>Plantas</h3>
         <p>Cuide para que as plantas não acumulem água. Não use pratinhos nos vasos e verifique sempre a presença de água parada</p>
         <Image 
           src={plantas}
