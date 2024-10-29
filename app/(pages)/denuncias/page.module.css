@@ -58,8 +58,6 @@
   color: #333; 
 }
 
-/* Adicione estes estilos ao seu arquivo page.module.css */
-
 .reportForm {
   margin-top: 30px;
   background-color: #f9f9f9;
@@ -144,7 +142,6 @@ textarea.input {
   cursor: not-allowed;
 }
 
-/* Manter os estilos existentes para o container e toggleButtons */
 .container {
   max-width: 800px;
   margin: 0 auto;
@@ -169,7 +166,6 @@ textarea.input {
   background: #7b0000;
 }
 
-/* E os estilos para a seção de informações */
 .infoSection {
   margin-top: 40px;
   padding: 24px;
@@ -236,8 +232,6 @@ textarea.input {
 .select::placeholder {
   color: #666;
 }
-
-/* Atualize estes estilos no seu arquivo page.module.css */
 
 .trackReport {
   margin-top: 30px;
