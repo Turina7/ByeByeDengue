@@ -1,24 +1,17 @@
 "use client";
-import { useSearchParams } from "next/navigation";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import styles from "./login.module.css";
 import Button from "@/app/components/button/button";
  
-export default function LoginPage() {
+const LoginPage = () => {
   const nameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
 
   const [error, setError] = useState<string[]>([]);
-  const [signup, setSignup] = useState(false);
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    if (searchParams.get('signup'))
-      setSignup(true);
-  }, [searchParams]);
- 
+  const [signup, setSignup] = useState(true);
+  
   async function handleSubmit() {
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
@@ -102,3 +95,5 @@ export default function LoginPage() {
     </div>
   );
 }
+
+export default LoginPage;
