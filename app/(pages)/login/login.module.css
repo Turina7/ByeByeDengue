@@ -11,10 +11,10 @@
     padding: 20px;
     width: 100%;
     background-color: #f9f9f9;
-    max-width: 400px; /* Define um limite de largura para o card */
-    border: 1px solid #ddd; /* Borda leve para o card */
+    max-width: 400px;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Leve sombra para o card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .formGroup {
