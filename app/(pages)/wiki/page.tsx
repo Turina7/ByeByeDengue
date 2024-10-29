@@ -1,9 +1,17 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import styles from "@/app/page.module.css";
 import LinkArtigo from "@/app/components/wikipageSections/linkArtigo/linkArtigo";
+
+interface Article {
+  id: number;
+  title: string;
+  summary: string;
+  createdAt: string;
+  userId: number;
+}
 
 interface PageProps {
   title: string;
@@ -11,6 +19,23 @@ interface PageProps {
 }
 
 const Page: React.FC<PageProps> = ({ title, content }) => {
+  const [articles, setArticles] = useState<Article[]>([]);
+
+  // Fetch para buscar os artigos da API
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const response = await fetch("articles");
+        const data = await response.json();
+        setArticles(data);
+      } catch (error) {
+        console.error("Erro ao buscar artigos:", error);
+      }
+    };
+    
+    fetchArticles();
+  }, []);
+
   return (
     <>
       <Head>
@@ -25,13 +50,16 @@ const Page: React.FC<PageProps> = ({ title, content }) => {
           <br/>
           <h2>Principais Artigos</h2>
           <br/>
-          {/* LinkArtigo section */}
           <div className={styles.articleList}>
-            <LinkArtigo title="Aedes Aegypti - O Vetor" author="Governo do Estado do Espirito Santo" date="08/10/2024" link={`wiki/aedes-aegypti`}  />
-            <br/>
-            <LinkArtigo title="Sintomas e Atitudes" author="Governo do Estado do Paraná (Adaptado)" date="11/10/2024" link={`wiki/sintomas-atitudes`} />
-            <br/>
-            <LinkArtigo title="Prevenção" author="Prefeitura de Itariri - SP" date="12/10/2024" link={`wiki/prevencao`} />
+            {articles.map((article) => (
+              <LinkArtigo
+                key={article.id}
+                title={article.title}
+                author={`Autor ID ${article.userId}`} // Ajuste conforme os dados do autor, se tiver mais detalhes
+                date={new Date(article.createdAt).toLocaleDateString()}
+                link={`/wiki/${article.title.toLowerCase().replace(/ /g, "-")}`}  // Link baseado no título
+              />
+            ))}
           </div>
           <br/>
           <br/>
@@ -43,7 +71,6 @@ const Page: React.FC<PageProps> = ({ title, content }) => {
           <br/>
           <LinkArtigo title="Lei impactante sobre a dengue" author="João Paulo" date="15/02/1986" link="https://blog.lfg.com.br/legislacao/leis-absurdas/"/>
 
-          {/* Content */}
           <p className={styles.content}>{content}</p>
         </section>
       </main>
