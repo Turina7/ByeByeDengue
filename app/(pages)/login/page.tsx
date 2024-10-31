@@ -1,16 +1,29 @@
 "use client";
 import { useRef, useState } from "react";
+import { createUser } from '@/actions/actions';
 import styles from "./login.module.css";
 import Button from "@/app/components/button/button";
+import SuccessDialog from "@/app/components/login/SuccessDialog";
+import { useRouter } from "next/navigation";
  
 const LoginPage = () => {
+  const router = useRouter();
+
   const nameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
 
+  const [loading, setLoading] = useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [message, setMessage] = useState('');
   const [error, setError] = useState<string[]>([]);
-  const [signup, setSignup] = useState(true);
+  const [signup, setSignup] = useState(false);
+
+  const handleCreatedUser = () => {
+    setShowSuccessDialog(false);
+    setSignup(false);
+  };
   
   async function handleSubmit() {
     const email = emailRef.current?.value;
@@ -19,24 +32,47 @@ const LoginPage = () => {
     const confirmPassword = confirmPasswordRef.current?.value;
 
     const newError: string[] = [];
+    const formData = new FormData();
 
-    if (signup && !name) newError.push("name");
-    if (!email) newError.push("email");
-    if (!password) newError.push("password");
-    if (signup && !confirmPassword) newError.push("confirmPassword");
+    if (!email) newError.push("email"); else formData.append("email", email);;
+    if (!password) newError.push("password"); else formData.append("password", password);
 
     if (signup) {
-      if ( password == confirmPassword) {
-        // logica para criar usuario
-  
+      if (!name) newError.push("name"); else formData.append("name", name);
+      if (!confirmPassword) newError.push("confirmPassword");
+      if (password !== confirmPassword) newError.push("mismatchPassword");
+
+      if (newError.length == 0) {
+        // criar usuario
+        formData.append("status", "active");
+        formData.append("role", "user");
+        setLoading(true);
+        try {
+          await createUser(formData);
+          setMessage("Usuário criado com sucesso");
+          setShowSuccessDialog(true);
+
+        } catch (error) {
+          alert((error as Error).message || "Erro ao criar usuário. Tente novamente.");
+          console.error('Error creating account:', error);
+
+        } finally {
+          setLoading(false);
+        }
       } else {
-        newError.push("mismatchPassword");
+        setError(newError);
+        return;
       }
     } else {
-      // logica de autenticacao de usuario existente
+      // autenticar usuario
+      if (newError.length == 0) {
+        // setLoading(true);
+
+      } else {
+        setError(newError);
+        return;
+      }
     }
-     
-    setError(newError);
  
   }
  
@@ -79,7 +115,8 @@ const LoginPage = () => {
         </div></>
           }
           <div style={{ alignItems: 'center', justifyContent: 'space-between', display: 'flex'}}>
-            <Button onClick={() => handleSubmit()}>{signup ? "Cadastrar" : "Login"}</Button>
+            <Button onClick={() => handleSubmit()}>{signup ? (loading ? 'Cadastrando...' : "Cadastrar") : 
+            loading ? "Entrando..." : "Login"}</Button>
             <a onClick={() => setSignup(!signup)}
                className={styles.link}> {signup ? "Já tenho uma conta" : "Não tenho uma conta"}</a>
           </div>
@@ -92,6 +129,11 @@ const LoginPage = () => {
           </div>
         )}
       </div>
+      <SuccessDialog 
+        isOpen={showSuccessDialog}
+        onClose={handleCreatedUser}
+        message={message}
+      />
     </div>
   );
 }
