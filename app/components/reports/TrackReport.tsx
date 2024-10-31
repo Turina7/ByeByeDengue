@@ -62,18 +62,14 @@ export default function TrackReport() {
           <p><strong>Data da Observação:</strong> {new Date(report.observationDate).toLocaleString()}</p>
           <p><strong>Descrição:</strong> {report.description}</p>
           {report.fileUrl && (
-            <div>
-              <strong>Foto anexada:</strong>
-							{/* TODO: fileUrl is not the src, need to take care of the blob storage */}
-              <div className={styles.imageContainer}> 
-                <Image 
-                  src={report.fileUrl}
-                  alt="Foto da denúncia"
-                  fill
-                  className={styles.reportImage}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              </div>
+            <div className={styles.imagePreview}>
+              <Image 
+                src={report.fileUrl}
+                alt="Foto do local"
+                width={300}
+                height={200}
+                objectFit="cover"
+              />
             </div>
           )}
         </div>

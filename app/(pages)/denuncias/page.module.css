@@ -298,3 +298,20 @@ textarea.input {
 .trackReport .submitButton:hover {
   background-color: #b00000;
 }
+
+.errorText {
+  color: #dc2626;
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.submitButton.loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

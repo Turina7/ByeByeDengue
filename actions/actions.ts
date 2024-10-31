@@ -2,6 +2,8 @@
 
 import prisma from "@/lib/db";
 import { revalidatePath } from "next/cache";
+import { put } from '@vercel/blob';
+import { randomUUID } from "crypto";
 
 export async function createUser(formData: FormData) {
 	try {
@@ -30,8 +32,25 @@ function generateProtocol() {
 
 export async function createReport(formData: FormData) {
   try {
-    // TODO: implement file upload to blob storage
-    const fileUrl = null; 
+    let fileUrl = null;
+    const file = formData.get('file') as File;
+    
+    if (file && file.size > 0) {
+      try {
+        const extension = file.name.split('.').pop();
+        const uniqueName = `${randomUUID()}.${extension}`;
+        
+        const { url } = await put(uniqueName, file, {
+          access: 'public',
+          token: process.env.BLOB_READ_WRITE_TOKEN!
+        });
+        
+        fileUrl = url;
+      } catch (uploadError) {
+        console.error('Error uploading file:', uploadError);
+        throw new Error('Failed to upload file');
+      }
+    }
 
     const report = await prisma.report.create({
       data: {
@@ -42,11 +61,15 @@ export async function createReport(formData: FormData) {
         location: formData.get('location') as string,
         observationDate: new Date(formData.get('observationDate') as string),
         status: 'Em análise',
-        fileUrl: fileUrl,
+        fileUrl: fileUrl, 
       }
     });
 
-    return { success: true, protocol: report.protocol };
+    return { 
+      success: true, 
+      protocol: report.protocol,
+      fileUrl: fileUrl 
+    };
   } catch (error) {
     console.error('Error creating report:', error);
     throw new Error('Failed to create report');
