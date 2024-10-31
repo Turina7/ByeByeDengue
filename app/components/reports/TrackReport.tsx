@@ -62,14 +62,21 @@ export default function TrackReport() {
           <p><strong>Data da Observação:</strong> {new Date(report.observationDate).toLocaleString()}</p>
           <p><strong>Descrição:</strong> {report.description}</p>
           {report.fileUrl && (
-            <div className={styles.imagePreview}>
-              <Image 
-                src={report.fileUrl}
-                alt="Foto do local"
-                width={300}
-                height={200}
-                objectFit="cover"
-              />
+            <div className={styles.imageContainer}>
+              <div className={styles.imagePreview}>
+                <Image 
+                  src={report.fileUrl}
+                  alt="Foto do local"
+                  width={300}
+                  height={200}
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
+              {report.fileDescription && (
+                <p className={styles.fileDescription}>
+                  <strong>Descrição da Foto:</strong> {report.fileDescription}
+                </p>
+              )}
             </div>
           )}
         </div>

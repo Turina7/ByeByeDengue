@@ -61,20 +61,15 @@ export async function createReport(formData: FormData) {
         location: formData.get('location') as string,
         observationDate: new Date(formData.get('observationDate') as string),
         status: 'Em análise',
-        fileUrl: fileUrl, 
+        fileUrl: fileUrl,
+        fileDescription: file && file.size > 0 ? formData.get('fileDescription') as string : null,
       }
     });
 
-    return { 
-      success: true, 
-      protocol: report.protocol,
-      fileUrl: fileUrl 
-    };
+    return { success: true, protocol: report.protocol };
   } catch (error) {
     console.error('Error creating report:', error);
     throw new Error('Failed to create report');
-  } finally {
-    revalidatePath('/denuncias');
   }
 }
 
