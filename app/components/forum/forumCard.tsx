@@ -3,7 +3,6 @@ import Button from "../button/button";
 import Image from "next/image";
 import styles from './forumCard.module.css';
 
-//TODO: mover as interfaces para types
 export interface Comment {
   id: number;
   content: string;
@@ -41,6 +40,7 @@ const ForumCard: React.FC<ForumCardProps> = ({
 }) => {
   const [newComment, setNewComment] = useState("");
   const [isCommenting, setIsCommenting] = useState(false);
+  const [showComments, setShowComments] = useState(false);
 
   const onSubmitComment = () => {
     if (newComment.trim()) {
@@ -49,6 +49,8 @@ const ForumCard: React.FC<ForumCardProps> = ({
       setIsCommenting(false);
     }
   };
+
+  const hasComments = cardContent.comments.length > 0;
 
   return (
     <div className={`${styles.forumCard} ${active ? styles.active : ""}`}>
@@ -74,10 +76,14 @@ const ForumCard: React.FC<ForumCardProps> = ({
           <Image
             src={cardContent.imageUrl}
             alt="Imagem do post"
-            width={400}
-            height={300}
+            width={0}
+            height={0}
+            sizes="100vw"
             className={styles.postImage}
-            objectFit="contain"
+            style={{
+              width: '100%',
+              height: 'auto',
+            }}
           />
         </div>
       )}
@@ -86,57 +92,75 @@ const ForumCard: React.FC<ForumCardProps> = ({
         {cardContent.message}
       </div>
 
-      <div className={styles.forumCardComments}>
-        <strong>
-          <span style={{ color: '#D70000' }}>
-            Comentários {cardContent.comments.length}
-          </span>
-        </strong>
-        <div className={styles.commentsList}>
-          {cardContent.comments.map((comment) => (
-            <div key={comment.id} className={styles.commentItem}>
-              <div className={styles.commentHeader}>
-                <strong>{comment.userName}:</strong>
-                {(comment.userId === currentUserId) && (
-                  <button
-                    onClick={() => handleDeleteComment(cardContent.id, comment.id)}
-                    className={styles.deleteCommentButton}
-                    title="Deletar comentário"
-                  >
-                    ×
-                  </button>
-                )}
-              </div>
-              <div className={styles.commentContent}>
-                {comment.content}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <div className={styles.commentsSection}>
+        {hasComments && (
+          <button 
+            onClick={() => setShowComments(!showComments)}
+            className={styles.toggleComments}
+          >
+            <span>Comentários ({cardContent.comments.length})</span>
+            <span className={`${styles.arrow} ${showComments ? styles.arrowUp : styles.arrowDown}`}>
+              ▼
+            </span>
+          </button>
+        )}
 
-      {isCommenting ? (
-        <div className={styles.commentForm}>
-          <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Digite seu comentário..."
-            className={styles.commentInput}
-          />
-          <div className={styles.commentButtons}>
-            <Button onClick={onSubmitComment}>
-              Enviar
-            </Button>
-            <Button onClick={() => setIsCommenting(false)}>
-              Cancelar
-            </Button>
+        {hasComments && showComments && (
+          <div className={styles.forumCardComments}>
+            <div className={styles.commentsList}>
+              {cardContent.comments.map((comment) => (
+                <div key={comment.id} className={styles.commentItem}>
+                  <div className={styles.commentHeader}>
+                    <strong>{comment.userName}:</strong>
+                    {(comment.userId === currentUserId) && (
+                      <button
+                        onClick={() => handleDeleteComment(cardContent.id, comment.id)}
+                        className={styles.deleteCommentButton}
+                        title="Deletar comentário"
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
+                  <div className={styles.commentContent}>
+                    {comment.content}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      ) : (
-        <Button onClick={() => setIsCommenting(true)}>
-          Comentar
-        </Button>
-      )}
+        )}
+
+        {/* Área de novo comentário */}
+        {(showComments || !hasComments) && (
+          <div className={styles.newCommentArea}>
+            {isCommenting ? (
+              <div className={styles.commentForm}>
+                <textarea
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  placeholder="Digite seu comentário..."
+                  className={styles.commentInput}
+                />
+                <div className={styles.commentButtons}>
+                  <Button onClick={onSubmitComment}>
+                    Enviar
+                  </Button>
+                  <Button onClick={() => setIsCommenting(false)}>
+                    Cancelar
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className={styles.commentButtonWrapper}>
+                <Button onClick={() => setIsCommenting(true)}>
+                  {hasComments ? 'Comentar' : 'Seja o primeiro a comentar'}
+                </Button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

@@ -403,3 +403,37 @@ export async function deleteForumComment(commentId: number, userId: number) {
     throw new Error("Failed to delete comment");
   }
 }
+
+export async function getRecentImagePosts() {
+  try {
+    const posts = await prisma.forumMessage.findMany({
+      where: {
+        status: "active",
+        imageUrl: {
+          not: null
+        }
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: 2,
+    });
+
+    return posts.map((post) => ({
+      id: post.id,
+      imageUrl: post.imageUrl,
+      message: post.message,
+      userName: post.user.name,
+    }));
+  } catch (error) {
+    console.error("Error fetching recent posts:", error);
+    return [];
+  }
+}

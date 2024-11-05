@@ -155,18 +155,15 @@
 }
 
 .postImageContainer {
+  position: relative;
+  width: 100%;
   margin: 12px 0;
   border-radius: 8px;
   overflow: hidden;
   background-color: #f2f2f2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .postImage {
-  max-width: 100%;
-  height: auto;
   display: block;
   border-radius: 8px;
 }
@@ -180,4 +177,125 @@
   .postImage {
     border-radius: 0;
   }
+}
+
+.commentsSection {
+  margin-top: 12px;
+}
+
+.toggleComments {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  color: #D70000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.toggleComments:hover {
+  background-color: rgba(215, 0, 0, 0.1);
+}
+
+.arrow {
+  display: inline-block;
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+.arrowUp {
+  transform: rotate(180deg);
+}
+
+.arrowDown {
+  transform: rotate(0deg);
+}
+
+.forumCardComments {
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #f2f2f2;
+}
+
+.commentsList {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 8px;
+}
+
+.commentItem {
+  padding: 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.commentItem:last-child {
+  border-bottom: none;
+}
+
+.commentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.commentHeader strong {
+  color: #333;
+}
+
+.commentContent {
+  font-size: 13px;
+  color: #333;
+  margin-left: 4px;
+}
+
+.newCommentArea {
+  margin-top: 8px;
+}
+
+.commentButtonWrapper {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 8px;
+}
+
+.deleteCommentButton {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 6px;
+  line-height: 1;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.deleteCommentButton:hover {
+  color: #D70000;
+  background-color: rgba(215, 0, 0, 0.1);
+}
+
+.commentsList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.commentsList::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.commentsList::-webkit-scrollbar-thumb {
+  background: #D70000;
+  border-radius: 3px;
+}
+
+.commentsList::-webkit-scrollbar-thumb:hover {
+  background: #b30000;
 }
