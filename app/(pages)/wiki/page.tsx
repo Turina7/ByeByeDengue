@@ -2,9 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-
 import LinkArtigo from "@/app/components/wikipageSections/linkArtigo/linkArtigo";
-import "./wiki.module.css"; // Importando o CSS
+import styles from "./wiki.module.css";
 
 interface Article {
   id: number;
@@ -14,14 +13,12 @@ interface Article {
   userId: number;
 }
 
-interface Article {
+interface PageProps {
   title: string;
-  author: string;
-  date: string;
-  link: string;
+  content: string;
 }
 
-const Page: React.FC<PageProps> = ({ title, content }) => {
+const Page = ({ title, content }: PageProps) => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -54,17 +51,17 @@ const Page: React.FC<PageProps> = ({ title, content }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <main className="main">
+      <main className={styles.main}>
         <section>
-          <h1 className="title">{title}</h1>
+          <h1 className={styles.title}>{title}</h1>
           <h2>Principais Artigos</h2>
           
           {loading ? (
             <p>Carregando artigos...</p>
           ) : error ? (
-            <p className="error">{error}</p>
+            <p className={styles.error}>{error}</p>
           ) : (
-            <div className="articleList">
+            <div className={styles.articleList}>
               {articles.slice(0, 5).map((article) => (
                 <LinkArtigo
                   key={article.id}
@@ -97,11 +94,10 @@ const Page: React.FC<PageProps> = ({ title, content }) => {
             link="https://blog.lfg.com.br/legislacao/leis-absurdas/"
           />
 
-          <p className="content">{content}</p>
+          <p className={styles.content}>{content}</p>
         </section>
       </main>
     </>
-
   );
 };
 
