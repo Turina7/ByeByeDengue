@@ -93,17 +93,15 @@ const ForumCard: React.FC<ForumCardProps> = ({
       </div>
 
       <div className={styles.commentsSection}>
-        {hasComments && (
-          <button 
-            onClick={() => setShowComments(!showComments)}
-            className={styles.toggleComments}
-          >
-            <span>Comentários ({cardContent.comments.length})</span>
-            <span className={`${styles.arrow} ${showComments ? styles.arrowUp : styles.arrowDown}`}>
-              ▼
-            </span>
-          </button>
-        )}
+        <button 
+          onClick={() => setShowComments(!showComments)}
+          className={styles.toggleComments}
+        >
+          <span>Comentários ({cardContent.comments.length})</span>
+          <span className={`${styles.arrow} ${showComments ? styles.arrowUp : styles.arrowDown}`}>
+            ▼
+          </span>
+        </button>
 
         {hasComments && showComments && (
           <div className={styles.forumCardComments}>
@@ -131,7 +129,6 @@ const ForumCard: React.FC<ForumCardProps> = ({
           </div>
         )}
 
-        {/* Área de novo comentário */}
         {(showComments || !hasComments) && (
           <div className={styles.newCommentArea}>
             {isCommenting ? (
@@ -154,7 +151,7 @@ const ForumCard: React.FC<ForumCardProps> = ({
             ) : (
               <div className={styles.commentButtonWrapper}>
                 <Button onClick={() => setIsCommenting(true)}>
-                  {hasComments ? 'Comentar' : 'Seja o primeiro a comentar'}
+                  Comentar
                 </Button>
               </div>
             )}
