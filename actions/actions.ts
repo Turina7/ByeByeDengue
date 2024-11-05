@@ -3,6 +3,7 @@
 import prisma from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 export async function createUser(formData: FormData) {
 
@@ -12,7 +13,7 @@ export async function createUser(formData: FormData) {
 	});
 
 	if (user !== null) {
-		throw new Error('Usuario ja existe');
+		throw new Error('Usuario ja cadastrado');
 	}
 
 	try {
@@ -29,9 +30,33 @@ export async function createUser(formData: FormData) {
 
 	} catch (error) {
 		console.log(error);
-		throw new Error('Failed to create user');
+		throw new Error('Erro ao criar usuario');
 
 	} finally {
 		revalidatePath('/login');
 	  }
 };
+
+export async function loginUser(email: string, password: string) {
+
+	const user = await prisma.user.findUnique({
+	  where: { email },
+	});
+  
+	if (!user) {
+	  throw new Error("Usuário não encontrado");
+	}
+  
+	const isPasswordValid = bcrypt.compareSync(password, user.password);
+	if (!isPasswordValid) {
+	  throw new Error("Senha incorreta");
+	}
+  
+	const token = jwt.sign(
+	  { userId: user.id, role: user.role },
+	  process.env.JWT_SECRET as string,
+	  { expiresIn: '1h' }
+	);
+  
+	return token;
+  }

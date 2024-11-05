@@ -5,6 +5,7 @@ import styles from "./login.module.css";
 import Button from "@/app/components/button/button";
 import SuccessDialog from "@/app/components/login/SuccessDialog";
 import { useRouter } from "next/navigation";
+import axios from 'axios';
  
 const LoginPage = () => {
   const router = useRouter();
@@ -64,9 +65,19 @@ const LoginPage = () => {
         return;
       }
     } else {
-      // autenticar usuario
       if (newError.length == 0) {
-        // setLoading(true);
+        // autenticar usuário
+        setLoading(true);
+        try {
+          const response = await axios.post('/api/auth/login', { email, password });
+          console.log(response);
+          console.log('Login bem-sucedido');
+          router.push('/');
+        } catch (error) {
+          alert([(error as Error).message || 'Erro no login. Tente novamente.']);
+        } finally {
+          setLoading(false);
+        }
 
       } else {
         setError(newError);
