@@ -64,6 +64,7 @@ export default function TrackReport() {
           {report.fileUrl && (
             <div className={styles.imageContainer}>
               <div className={styles.imagePreview}>
+                {/* TODO: dimensoes das imagens no css */}
                 <Image 
                   src={report.fileUrl}
                   alt="Foto do local"

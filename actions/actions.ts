@@ -151,12 +151,33 @@ export type ForumPost = {
 
 export async function createForumPost(formData: FormData) {
   try {
+    let imageUrl = null;
+    const file = formData.get('image') as File;
+    
+    if (file && file.size > 0) {
+      try {
+        const extension = file.name.split('.').pop();
+        const uniqueName = `forum/${randomUUID()}.${extension}`;
+        
+        const { url } = await put(uniqueName, file, {
+          access: 'public',
+          token: process.env.BLOB_READ_WRITE_TOKEN!
+        });
+        
+        imageUrl = url;
+      } catch (uploadError) {
+        console.error('Error uploading image:', uploadError);
+        throw new Error('Failed to upload image');
+      }
+    }
+
     const post = await prisma.forumMessage.create({
       data: {
-        userId: parseInt(formData.get("userId") as string),
-        message: formData.get("message") as string,
-        status: "active",
-        section: formData.get("section") as string,
+        userId: parseInt(formData.get('userId') as string),
+        message: formData.get('message') as string,
+        imageUrl: imageUrl,
+        status: 'active',
+        section: formData.get('section') as string,
       },
     });
 
@@ -216,20 +237,21 @@ export async function createComment(formData: FormData) {
   try {
     const comment = await prisma.comment.create({
       data: {
-        content: formData.get("content") as string,
-        postId: parseInt(formData.get("postId") as string),
-        userId: parseInt(formData.get("userId") as string),
-        status: "active",
+        content: formData.get('content') as string,
+        postId: parseInt(formData.get('postId') as string),
+        userId: parseInt(formData.get('userId') as string),
+        status: 'active',
       },
     });
 
     revalidatePath("/forum");
     return { success: true, commentId: comment.id };
   } catch (error) {
-    console.error("Error creating comment:", error);
-    throw new Error("Failed to create comment");
+    console.error('Error creating comment:', error);
+    throw new Error('Failed to create comment');
   }
 }
+
 
 export async function getPostComments(postId: number) {
   try {
@@ -300,6 +322,7 @@ export async function getForumPosts() {
       id: post.id,
       header: `${post.user.name} publicou:`,
       post: post.message,
+      imageUrl: post.imageUrl,
       message: "",
       comments: post.comments.map(comment => ({
         id: comment.id,

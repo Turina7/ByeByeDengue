@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Button from "../button/button";
+import Image from "next/image";
 import styles from './forumCard.module.css';
 
+//TODO: mover as interfaces para types
 export interface Comment {
   id: number;
   content: string;
@@ -14,6 +16,7 @@ export interface CardContent {
   id: number;
   header: string;
   post: string;
+  imageUrl?: string | null;
   message: string;
   comments: Comment[];
   userId: number;
@@ -65,6 +68,19 @@ const ForumCard: React.FC<ForumCardProps> = ({
       <div className={styles.forumCardPost}>
         {cardContent.post}
       </div>
+
+      {cardContent.imageUrl && (
+        <div className={styles.postImageContainer}>
+          <Image
+            src={cardContent.imageUrl}
+            alt="Imagem do post"
+            width={400}
+            height={300}
+            className={styles.postImage}
+            objectFit="contain"
+          />
+        </div>
+      )}
 
       <div className={styles.forumCardMessage}>
         {cardContent.message}

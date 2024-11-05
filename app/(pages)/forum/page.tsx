@@ -15,7 +15,7 @@ import {
 
 const Page = () => {
   const [forumPosts, setForumPosts] = useState<CardContent[]>([]);
-  const currentUserId = 1; // mocked user!!!
+  const currentUserId = 1; // Substituir pelo ID do usuário atual logado
   
   const loadPosts = async () => {
     try {
@@ -30,12 +30,15 @@ const Page = () => {
     loadPosts();
   }, []);
 
-  const handleCreatePost = async (message: string) => {
+  const handleCreatePost = async (message: string, image: File | null) => {
     try {
       const formData = new FormData();
       formData.append("message", message);
       formData.append("userId", currentUserId.toString());
       formData.append("section", "general");
+      if (image) {
+        formData.append("image", image);
+      }
       
       await createForumPost(formData);
       await loadPosts();
