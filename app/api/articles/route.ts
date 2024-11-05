@@ -5,7 +5,7 @@ export async function GET() {
     try {
       console.log("Iniciando busca no banco de dados");
       const articles = await prisma.article.findMany();
-      console.log("Artigos encontrados:", articles);
+      console.log("Artigos encontrados");
       return NextResponse.json(articles);
     } catch (error) {
       console.error("Erro ao buscar artigos no banco de dados:", error);
