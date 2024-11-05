@@ -58,6 +58,7 @@ export default function DenguePage() {
         
         <h3>Entulho</h3>
         <p>Lixo e entulho podem ser foco de água parada e criadouro do mosquito Aedes aegypti</p>
+        {/* TODO: dimensoes das imagens no css */}
         <Image 
           src={entulho}
           alt="Entulho" 

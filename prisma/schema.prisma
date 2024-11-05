@@ -18,6 +18,7 @@ model User {
   updatedAt     DateTime       @updatedAt
   contributions Contribution[]
   forumMessages ForumMessage[]
+  comments      Comment[]
   reports       Report[]
 }
 
@@ -47,14 +48,28 @@ model Contribution {
 }
 
 model ForumMessage {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  message   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  status    String
-  section   String
-  user      User     @relation(fields: [userId], references: [id])
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  message     String
+  imageUrl    String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  status      String
+  section     String
+  user        User      @relation(fields: [userId], references: [id])
+  comments    Comment[]
+}
+
+model Comment {
+  id          Int          @id @default(autoincrement())
+  content     String
+  postId      Int
+  userId      Int
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  status      String       @default("active")
+  post        ForumMessage @relation(fields: [postId], references: [id])
+  user        User         @relation(fields: [userId], references: [id])
 }
 
 model Article {
