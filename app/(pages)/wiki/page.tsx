@@ -5,20 +5,19 @@ import Head from "next/head";
 import LinkArtigo from "@/app/components/wikipageSections/linkArtigo/linkArtigo";
 import styles from "./wiki.module.css";
 
-interface Article {
+type Article = {
   id: number;
   title: string;
   summary: string;
   createdAt: string;
   userId: number;
-}
+};
 
-interface PageProps {
-  title: string;
-  content: string;
-}
+const Page = () => {
+  // Define title and content directly within the component
+  const title = "Página de Artigos";
+  const content = "Bem-vindo à página de artigos! Aqui você encontra os principais conteúdos.";
 
-const Page = ({ title, content }: PageProps) => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -30,7 +29,7 @@ const Page = ({ title, content }: PageProps) => {
         if (!response.ok) {
           throw new Error("Erro ao buscar artigos");
         }
-        const data = await response.json();
+        const data: Article[] = await response.json(); // Type assertion for the expected data
         setArticles(data);
       } catch (error) {
         setError("Erro ao carregar artigos. Tente novamente mais tarde.");
@@ -55,7 +54,7 @@ const Page = ({ title, content }: PageProps) => {
         <section>
           <h1 className={styles.title}>{title}</h1>
           <h2>Principais Artigos</h2>
-          
+
           {loading ? (
             <p>Carregando artigos...</p>
           ) : error ? (
