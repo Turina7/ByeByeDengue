@@ -137,3 +137,246 @@ export async function updateReportStatus(protocol: string, status: string) {
     throw new Error('Failed to update report status');
   }
 }
+
+export type ForumPost = {
+  id: number;
+  header: string;
+  post: string;
+  message: string;
+  comments: string[];
+  userId: number;
+  status: string;
+  section: string;
+};
+
+export async function createForumPost(formData: FormData) {
+  try {
+    const post = await prisma.forumMessage.create({
+      data: {
+        userId: parseInt(formData.get("userId") as string),
+        message: formData.get("message") as string,
+        status: "active",
+        section: formData.get("section") as string,
+      },
+    });
+
+    revalidatePath("/forum");
+    return { success: true, postId: post.id };
+  } catch (error) {
+    console.error("Error creating forum post:", error);
+    throw new Error("Failed to create forum post");
+  }
+}
+
+export async function updateForumPost(postId: number, message: string) {
+  try {
+    await prisma.forumMessage.update({
+      where: { id: postId },
+      data: {
+        message,
+        updatedAt: new Date(),
+      },
+    });
+
+    revalidatePath("/forum");
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating forum post:", error);
+    throw new Error("Failed to update forum post");
+  }
+}
+
+export async function getUserForumPosts(userId: number) {
+  try {
+    const posts = await prisma.forumMessage.findMany({
+      where: {
+        userId,
+        status: "active",
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return posts;
+  } catch (error) {
+    console.error("Error fetching user forum posts:", error);
+    throw new Error("Failed to fetch user forum posts");
+  }
+}
+
+export async function createComment(formData: FormData) {
+  try {
+    const comment = await prisma.comment.create({
+      data: {
+        content: formData.get("content") as string,
+        postId: parseInt(formData.get("postId") as string),
+        userId: parseInt(formData.get("userId") as string),
+        status: "active",
+      },
+    });
+
+    revalidatePath("/forum");
+    return { success: true, commentId: comment.id };
+  } catch (error) {
+    console.error("Error creating comment:", error);
+    throw new Error("Failed to create comment");
+  }
+}
+
+export async function getPostComments(postId: number) {
+  try {
+    const comments = await prisma.comment.findMany({
+      where: {
+        postId,
+        status: "active",
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+
+    return comments.map(comment => ({
+      id: comment.id,
+      content: comment.content,
+      userId: comment.userId,
+      userName: comment.user.name,
+      createdAt: comment.createdAt,
+    }));
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    throw new Error("Failed to fetch comments");
+  }
+}
+
+export async function getForumPosts() {
+  try {
+    const posts = await prisma.forumMessage.findMany({
+      where: {
+        status: "active",
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+          },
+        },
+        comments: {
+          where: {
+            status: "active",
+          },
+          include: {
+            user: {
+              select: {
+                name: true,
+              },
+            },
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return posts.map((post) => ({
+      id: post.id,
+      header: `${post.user.name} publicou:`,
+      post: post.message,
+      message: "",
+      comments: post.comments.map(comment => ({
+        id: comment.id,
+        content: comment.content,
+        userId: comment.userId,
+        userName: comment.user.name,
+        createdAt: comment.createdAt,
+      })),
+      userId: post.userId,
+    }));
+  } catch (error) {
+    console.error("Error fetching forum posts:", error);
+    throw new Error("Failed to fetch forum posts");
+  }
+}
+
+export async function deleteForumPost(postId: number, userId: number) {
+  try {
+    const post = await prisma.forumMessage.findUnique({
+      where: { id: postId },
+    });
+
+    if (!post) {
+      throw new Error("Post not found");
+    }
+
+    if (post.userId !== userId) {
+      throw new Error("Unauthorized");
+    }
+
+    await prisma.forumMessage.update({
+      where: { id: postId },
+      data: {
+        status: "deleted",
+      },
+    });
+
+    await prisma.comment.updateMany({
+      where: { postId },
+      data: {
+        status: "deleted",
+      },
+    });
+
+    revalidatePath("/forum");
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting forum post:", error);
+    throw new Error("Failed to delete forum post");
+  }
+}
+
+export async function deleteForumComment(commentId: number, userId: number) {
+  try {
+    const comment = await prisma.comment.findUnique({
+      where: { id: commentId },
+    });
+
+    if (!comment) {
+      throw new Error("Comment not found");
+    }
+
+    if (comment.userId !== userId) {
+      throw new Error("Unauthorized");
+    }
+
+    await prisma.comment.update({
+      where: { id: commentId },
+      data: {
+        status: "deleted",
+      },
+    });
+
+    revalidatePath("/forum");
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    throw new Error("Failed to delete comment");
+  }
+}
