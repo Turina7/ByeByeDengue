@@ -8,25 +8,45 @@ import { getRecentImagePosts } from "@/actions/actions";
 
 interface RecentPost {
   id: number;
-  imageUrl: string;
+  imageUrl: string | null;
   message: string;
   userName: string;
 }
 
+type PostWithImage = Omit<RecentPost, 'imageUrl'> & { imageUrl: string };
+
 export function CommunityPostsSection() {
-  const [recentPosts, setRecentPosts] = useState<RecentPost[]>([]);
+  const [recentPosts, setRecentPosts] = useState<PostWithImage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadPosts() {
-      const posts = await getRecentImagePosts();
-      setRecentPosts(posts);
-      setIsLoading(false);
+      try {
+        const posts = await getRecentImagePosts();
+        const validPosts = posts.filter((post): post is PostWithImage => 
+          post.imageUrl !== null
+        );
+        setRecentPosts(validPosts);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load posts');
+      } finally {
+        setIsLoading(false);
+      }
     }
     loadPosts();
   }, []);
 
-	return (
+  if (error) {
+    return (
+      <div className={styles.communityPosts}>
+        <h2>Posts da comunidade</h2>
+        <div className={styles.error}>Erro ao carregar posts: {error}</div>
+      </div>
+    );
+  }
+
+  return (
     <div className={styles.communityPosts}>
       <h2>Posts da comunidade</h2>
       <div className={styles.postsContainer}>
@@ -35,7 +55,7 @@ export function CommunityPostsSection() {
         ) : recentPosts.length > 0 ? (
           recentPosts.map((post) => (
             <div key={post.id} className={styles.postItem}>
-              <div className={styles.postImage}>
+              <div className={styles.postImageContainer}>
                 <Image
                   src={post.imageUrl}
                   alt={`Post de ${post.userName}`}

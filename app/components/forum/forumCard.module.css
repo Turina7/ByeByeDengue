@@ -6,6 +6,7 @@
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 400px;
+  width: 100%;
 }
 
 .forumCard.active {
@@ -55,12 +56,12 @@
   margin-top: 8px;
   background-color: #f2f2f2;
   border-radius: 8px;
-  padding: 8px;
 }
 
 .commentItem {
   padding: 8px;
   border-bottom: 1px solid #e0e0e0;
+  word-wrap: break-word;
   font-size: 13px;
   color: #333;
 }
@@ -84,6 +85,7 @@
   font-size: 13px;
   background-color: #f2f2f2;
   color: #333;
+  box-sizing: border-box;
 }
 
 .commentInput::placeholder {
@@ -109,6 +111,15 @@
 
   .forumCard {
     max-width: 100%;
+    padding: 12px;
+  }
+
+  .commentItem {
+    padding: 6px;
+  }
+
+  .forumCardComments {
+    padding: 6px;
   }
 }
 
@@ -143,10 +154,15 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 4px;
+  width: 100%;
 }
 
 .commentContent {
+  font-size: 13px;
+  color: #333;
   margin-left: 4px;
+  width: 100%;
+  word-break: break-word;
 }
 
 .deleteCommentButton {
@@ -221,6 +237,7 @@
   padding: 8px;
   border-radius: 8px;
   background-color: #f2f2f2;
+  width: 100%;
 }
 
 .commentsList {
