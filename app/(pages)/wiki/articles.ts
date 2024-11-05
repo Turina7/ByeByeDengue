@@ -18,3 +18,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
+
+// articles.ts
+export const fetchArticles = async () => {
+  // Simulação de fetch ou chamada real para sua API
+  const response = await fetch("/api/articles"); // Altere conforme necessário
+  if (!response.ok) throw new Error("Erro ao buscar artigos");
+  return response.json();
+};
+
