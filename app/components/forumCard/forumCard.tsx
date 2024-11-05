@@ -12,7 +12,7 @@ export interface cardContent {
 interface forumCardProps {
     cardContent: cardContent;
     active: boolean;
-    handleComment: Function;
+    handleComment: () => void;
 }
 
 const ForumCard: React.FC<forumCardProps> = ({

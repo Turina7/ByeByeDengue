@@ -1,10 +1,18 @@
 import prisma from "@/lib/db";
 import { createUser } from "@/actions/actions";
 import Link from "next/link";
-import styles from './user.module.css'
+import styles from './user.module.css';
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  status: string;
+  role: string;
+}
 
 export default async function Users() {
-  const users = await prisma.user.findMany();
+  const users: User[] = await prisma.user.findMany();
 
   return (
     <div className={styles.container}>
@@ -13,7 +21,7 @@ export default async function Users() {
         {users.map((user) => (
           <li key={user.id}>
             <Link href={`/users/${user.id}`}>
-							{user.name} 
+              {user.name}
             </Link>
           </li>
         ))}

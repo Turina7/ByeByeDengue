@@ -1,31 +1,86 @@
-"use client";
+'use client';
 
-import Head from "next/head";
-import styles from "@/app/page.module.css";
+import React from 'react';
+import Image from 'next/image';
+import { useFormStatus } from 'react-dom';
+import styles from './page.module.css';
+import TrackReport from '@/app/components/reports/TrackReport';
+import ReportForm from '@/app/components/reports/ReportForm';
+import SuccessDialog from '@/app/components/reports/SuccessDialog';
+import plantas from '@/app/images/plantas-image.jpg';
+import entulho from '@/app/images/entulho-image.jpg';
 
-interface PageProps {
-  title: string;
-  content: string;
-}
+export default function DenguePage() {
+  const [isNewReport, setIsNewReport] = React.useState(true);
+  const [showSuccessDialog, setShowSuccessDialog] = React.useState(false);
+  const [protocol, setProtocol] = React.useState('');
+  const { pending } = useFormStatus();
 
-const Page: FC<PageProps> = ({ title, content }) => {
+  const handleSuccess = (newProtocol: string) => {
+    setProtocol(newProtocol);
+    setShowSuccessDialog(true);
+  };
+
   return (
-    <>
-      <Head>
-        <title>{title}</title>
-        <meta name="description" content="Generic page layout" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
+    <div className={styles.container}>
+      <h1>Sistema de Denúncias - Focos de Dengue</h1>
+      
+      <div className={styles.toggleButtons}>
+        <button 
+          onClick={() => setIsNewReport(true)}
+          className={`${styles.toggleButton} ${isNewReport ? styles.active : ''}`}
+          disabled={pending}
+        >
+          Nova denúncia
+        </button>
+        <button 
+          onClick={() => setIsNewReport(false)}
+          className={`${styles.toggleButton} ${!isNewReport ? styles.active : ''}`}
+          disabled={pending}
+        >
+          Acompanhar
+        </button>
+      </div>
 
-      <main className={styles.main}>
-        <section className={styles.section}>
-          <h1 className={styles.title}>{title}</h1>
-          <h1>Denuncias</h1>
-          <p className={styles.content}>{content}</p>
-        </section>
-      </main>
-    </>
+      {isNewReport ? (
+        <div className={styles.reportForm}>
+          <h2>Nova Denúncia</h2>
+          <div className={styles.reportFormContent}>
+            <ReportForm onSuccess={handleSuccess} />
+          </div>
+        </div>
+      ) : (
+        <TrackReport />
+      )}
+
+      <div className={styles.infoSection}>
+        <h2>Cuidados importantes</h2>
+        
+        <h3>Entulho</h3>
+        <p>Lixo e entulho podem ser foco de água parada e criadouro do mosquito Aedes aegypti</p>
+        <Image 
+          src={entulho}
+          alt="Entulho" 
+          width={300} 
+          height={200}
+          priority
+        />
+        
+        <h3>Plantas</h3>
+        <p>Cuide para que as plantas não acumulem água. Não use pratinhos nos vasos e verifique sempre a presença de água parada</p>
+        <Image 
+          src={plantas}
+          alt="Plantas" 
+          width={300} 
+          height={200}
+        />
+      </div>
+      
+      <SuccessDialog 
+        isOpen={showSuccessDialog}
+        onClose={() => setShowSuccessDialog(false)}
+        protocol={protocol}
+      />
+    </div>
   );
-};
-
-export default Page;
+}

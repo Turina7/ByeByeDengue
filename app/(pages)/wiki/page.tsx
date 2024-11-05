@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
+
 import LinkArtigo from "@/app/components/wikipageSections/linkArtigo/linkArtigo";
 import "./wiki.module.css"; // Importando o CSS
 
@@ -13,9 +14,11 @@ interface Article {
   userId: number;
 }
 
-interface PageProps {
+interface Article {
   title: string;
-  content: string;
+  author: string;
+  date: string;
+  link: string;
 }
 
 const Page: React.FC<PageProps> = ({ title, content }) => {
@@ -98,6 +101,7 @@ const Page: React.FC<PageProps> = ({ title, content }) => {
         </section>
       </main>
     </>
+
   );
 };
 
