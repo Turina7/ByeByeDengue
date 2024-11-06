@@ -1,15 +1,55 @@
-.news, .communityPosts {
-  margin-top: 2rem;
+.news {
+  margin: 20px;
+}
+
+.newsItemsContainer {
+  display: flex;
+  flex-direction: column;
 }
 
 .newsItem {
   display: flex;
-  align-items: flex-start;
-  margin-bottom: 1rem;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .newsItem img {
-  margin-right: 1rem;
-  width: 100px;
-  height: 70px;
+  margin-right: 10px;
+}
+
+.newsItem h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.newsLink {
+  color: blue;
+  text-decoration: none;
+}
+
+.newsLink:hover {
+  text-decoration: underline;
+}
+
+.navigation {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.arrowButton {
+  background-color: #D70000;
+  border: 1px solid #D70000;
+  color: white;
+  font-size: 20px;
+  padding: 10px 15px; 
+  cursor: pointer;
+  margin: 0 10px;
+  border-radius: 5px;
+}
+
+.arrowButton:hover {
+  background-color: #D70000;
+  border-color: #D70000;
 }
