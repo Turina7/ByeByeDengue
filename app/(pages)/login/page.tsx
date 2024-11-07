@@ -71,7 +71,6 @@ const LoginPage = () => {
         try {
           const response = await axios.post('/api/auth/login', { email, password });
           console.log(response);
-          console.log('Login bem-sucedido');
           router.push('/');
         } catch (error) {
           alert([(error as Error).message || 'Erro no login. Tente novamente.']);

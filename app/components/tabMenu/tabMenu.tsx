@@ -7,6 +7,8 @@ import Image from "next/image";
 import Button from "../button/button";
 import logo from "@/app/images/Logo.png";
 import Link from "next/link";
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const TabMenu: React.FC = () => {
   const tabs = ["Home", "Wiki", "Mapas", "Denúncias", "Math", "Fórum"];
@@ -22,6 +24,13 @@ const TabMenu: React.FC = () => {
   };
 
   const activeTab = getActiveTab(pathname);
+  const isLoggedIn = Cookies.get('token') !== undefined;
+
+  const handleButtonClick = async () => {
+      const response = await axios.post('/api/auth/logout');
+      console.log(response);
+      router.push('/login');
+  };
 
   const handleTabClick = (tab: string) => {
     const normalizedTab = tab
@@ -32,6 +41,10 @@ const TabMenu: React.FC = () => {
     if (normalizedTab === "home") {
       router.push("/");
     } else {
+      // obriga recarregamento completo nas rotas protegidas
+      if (normalizedTab === 'denuncias' || normalizedTab === 'forum') {
+        window.location.href = `/${normalizedTab}`;
+      } else
       router.push(`/${normalizedTab}`);
     }
   };
@@ -48,8 +61,8 @@ const TabMenu: React.FC = () => {
             />
           </div>
         </Link>
-        <Button style={{ position: 'absolute', right: '10px' }} onClick={() => router.push("/login")}>
-          Cadastre-se
+        <Button style={{ position: 'absolute', right: '10px' }} onClick={() => handleButtonClick()}>
+          {isLoggedIn ? 'Sair' : 'Cadastre-se'}
         </Button>
       </div>
   

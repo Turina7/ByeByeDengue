@@ -1,18 +1,19 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import jwt from 'jsonwebtoken';
+import { jwtVerify } from 'jose';
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const token = req.cookies.get('token')?.value;
 
   if (!token) {
-    return NextResponse.redirect(new URL('/login', req.url));
+    return NextResponse.redirect(new URL(`/login`, req.url), { headers: { 'Cache-Control': 'no-store' } });
   }
 
   try {
-    jwt.verify(token, process.env.JWT_SECRET as string);
+    await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET as string));
     return NextResponse.next();
-  } catch {
+  } catch (error) {
+    console.log('error:', error);
     return NextResponse.redirect(new URL('/login', req.url));
   }
 }
