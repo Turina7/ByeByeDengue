@@ -9,7 +9,7 @@ export async function POST(req: Request) {
 
     const res = NextResponse.json({ message: 'Login bem-sucedido' });
     res.cookies.set('token', token, {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       maxAge: 3600,
       path: '/',

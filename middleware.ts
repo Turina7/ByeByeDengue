@@ -6,7 +6,14 @@ export async function middleware(req: NextRequest) {
   const token = req.cookies.get('token')?.value;
 
   if (!token) {
-    return NextResponse.redirect(new URL(`/login`, req.url), { headers: { 'Cache-Control': 'no-store' } });
+    const redirectResponse = NextResponse.redirect(new URL('/login', req.url));
+
+    redirectResponse.headers.set(
+      'Set-Cookie',
+      `redirectPath=${req.nextUrl.pathname}; Path=/; Max-Age=600`
+    );
+
+    return redirectResponse;
   }
 
   try {

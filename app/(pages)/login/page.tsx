@@ -6,6 +6,7 @@ import Button from "@/app/components/button/button";
 import SuccessDialog from "@/app/components/login/SuccessDialog";
 import { useRouter } from "next/navigation";
 import axios from 'axios';
+import Cookies from 'js-cookie';
  
 const LoginPage = () => {
   const router = useRouter();
@@ -34,6 +35,9 @@ const LoginPage = () => {
 
     const newError: string[] = [];
     const formData = new FormData();
+
+    const redirectTo = Cookies.get('redirectPath');
+    if (redirectTo) Cookies.remove('redirectPath');
 
     if (!email) newError.push("email"); else formData.append("email", email);;
     if (!password) newError.push("password"); else formData.append("password", password);
@@ -71,7 +75,7 @@ const LoginPage = () => {
         try {
           const response = await axios.post('/api/auth/login', { email, password });
           console.log(response);
-          router.push('/');
+          router.push(redirectTo ?? '/');
         } catch (error) {
           alert([(error as Error).message || 'Erro no login. Tente novamente.']);
         } finally {
