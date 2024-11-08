@@ -1,87 +1,34 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import style from "@/app/components/forum/forumCard.module.css";
+import style from "@/app/components/forumCard/forumCard.module.css";
 import styles from "@/app/page.module.css";
-import ForumCard, { CardContent } from "@/app/components/forum/forumCard";
-import CreatePostForm from "@/app/components/forum/createPost";
-import { 
-  getForumPosts, 
-  createForumPost, 
-  createComment,
-  deleteForumPost,
-  deleteForumComment 
-} from "@/actions/actions";
+import ForumCard, { cardContent } from "@/app/components/forumCard/forumCard";
 
 const Page = () => {
-  const [forumPosts, setForumPosts] = useState<CardContent[]>([]);
-  const currentUserId = 1; // Substituir pelo ID do usuário atual logado
-  
-  const loadPosts = async () => {
-    try {
-      const posts = await getForumPosts();
-      setForumPosts(posts);
-    } catch (error) {
-      console.error("Error loading posts:", error);
-    }
-  };
+  const forumPosts: cardContent[] = [
+    {
+      header: "Tiago Marinho repostou:",
+      post: "O Ministério da Saúde adverte: se seque bem após o banho, água parada em pneus dá dengue.",
+      message: "O que banho tem a ver com pneu?",
+      comments: [],
+    },
+    {
+      header: "João Paulo comentou:",
+      post: "Por favor, lembrem-se de não acumular água parada nos quintais.",
+      message: "Muito importante, João!",
+      comments: ["Falou e disse.", "Pois é!", "Tem razão, João"],
+    },
+    {
+      header: "Guilherme repostou:",
+      post: "Prestem atenção nos focos do mosquito!",
+      message: "Concordo!",
+      comments: ["Verdade, todos temos que colaborar."],
+    },
+  ];
 
-  useEffect(() => {
-    loadPosts();
-  }, []);
-
-  const handleCreatePost = async (message: string, image: File | null) => {
-    try {
-      const formData = new FormData();
-      formData.append("message", message);
-      formData.append("userId", currentUserId.toString());
-      formData.append("section", "general");
-      if (image) {
-        formData.append("image", image);
-      }
-      
-      await createForumPost(formData);
-      await loadPosts();
-    } catch (error) {
-      console.error("Error creating post:", error);
-    }
-  };
-
-  const handleComment = async (postId: number, comment: string) => {
-    try {
-      const formData = new FormData();
-      formData.append("content", comment);
-      formData.append("postId", postId.toString());
-      formData.append("userId", currentUserId.toString());
-
-      await createComment(formData);
-      await loadPosts();
-    } catch (error) {
-      console.error("Error creating comment:", error);
-    }
-  };
-
-  const handleDeletePost = async (postId: number) => {
-    if (window.confirm("Tem certeza que deseja deletar esta postagem?")) {
-      try {
-        await deleteForumPost(postId, currentUserId);
-        await loadPosts();
-      } catch (error) {
-        console.error("Error deleting post:", error);
-      }
-    }
-  };
-
-  const handleDeleteComment = async (postId: number, commentId: number) => {
-    if (window.confirm("Tem certeza que deseja deletar este comentário?")) {
-      try {
-        await deleteForumComment(commentId, currentUserId);
-        await loadPosts();
-      } catch (error) {
-        console.error("Error deleting comment:", error);
-      }
-    }
-  };
+  const handleComment = () => {
+    console.log('Comentar');
+  }
 
   return (
     <main className={styles.main}>
@@ -91,19 +38,13 @@ const Page = () => {
           Este é o espaço da comunidade!
           Aqui você pode ver as postagens em alta e publicar sua mensagem ou comentário. Experimente!
         </p>
-
-        <CreatePostForm onSubmit={handleCreatePost} />
-
         <div className={style.cardContainer}>
-          {forumPosts.map((post) => (
+          {forumPosts.map((post, index) => (
             <ForumCard
-              key={post.id}
+              key={index}
               cardContent={post}
               active={true}
-              handleComment={(comment) => handleComment(post.id, comment)}
-              handleDeletePost={handleDeletePost}
-              handleDeleteComment={handleDeleteComment}
-              currentUserId={currentUserId}
+              handleComment={handleComment}
             />
           ))}
         </div>

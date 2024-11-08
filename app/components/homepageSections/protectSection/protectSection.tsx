@@ -14,7 +14,6 @@ export function ProtectSection() {
 
 			<div className={styles.sections}>
 				<div className={styles.sectionItem}>
-					{/* TODO: dimensoes das imagens no css */}
 					<Image
 						src={vetor}
 						alt="O vetor"

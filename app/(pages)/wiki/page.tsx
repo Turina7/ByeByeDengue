@@ -1,102 +1,87 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import Head from "next/head";
+import React from "react";
+import styles from "@/app/page.module.css";
 import LinkArtigo from "@/app/components/wikipageSections/linkArtigo/linkArtigo";
-import styles from "./wiki.module.css";
 
-type Article = {
-  id: number;
+interface Article {
   title: string;
-  summary: string;
-  createdAt: string;
-  userId: number;
-};
+  author: string;
+  date: string;
+  link: string;
+}
 
 const Page = () => {
-  // Define title and content directly within the component
-  const title = "Página de Artigos";
-  const content = "Bem-vindo à página de artigos! Aqui você encontra os principais conteúdos.";
+  const mainArticles: Article[] = [
+    {
+      title: "Aedes Aegypti - O Vetor",
+      author: "Governo do Estado do Espirito Santo",
+      date: "08/10/2024",
+      link: "wiki/aedes-aegypti"
+    },
+    {
+      title: "Sintomas e Atitudes",
+      author: "Governo do Estado do Paraná (Adaptado)", 
+      date: "11/10/2024",
+      link: "wiki/sintomas-atitudes" 
+    },
+    {
+      title: "Prevenção",
+      author: "Prefeitura de Itariri - SP", 
+      date: "12/10/2024", 
+      link: "wiki/prevencao" 
+    },
+  ];
 
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const popularArticles: Article[] = [
+    {
+      title: "Dengue em portugal?",
+      author: "Guilherme Turina",
+      date: "08/10/2024",
+      link: "https://www.publico.pt/2023/05/21/azul/noticia/portugal-olho-mosquitos-aedes-transmitem-doencas-infecciosas-2050302"
+    },
+    {
+      title: "Fuzil mata o mosquito?",
+      author: "Tiago Marinho",
+      date: "30/09/2024",
+      link: "https://pt.wikipedia.org/wiki/Fuzil" 
+    },
+    {
+      title: "Lei impactante sobre a dengue",
+      author: "João Paulo",
+      date: "15/02/1986",
+      link: "https://blog.lfg.com.br/legislacao/leis-absurdas/"
+    },
 
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const response = await fetch("/api/articles");
-        if (!response.ok) {
-          throw new Error("Erro ao buscar artigos");
-        }
-        const data: Article[] = await response.json(); // Type assertion for the expected data
-        setArticles(data);
-      } catch (error) {
-        setError("Erro ao carregar artigos. Tente novamente mais tarde.");
-        console.error("Erro ao buscar artigos:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchArticles();
-  }, []);
+  ];
 
   return (
-    <>
-      <Head>
-        <title>{title}</title>
-        <meta name="description" content="Generic page layout" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-
-      <main className={styles.main}>
-        <section>
-          <h1 className={styles.title}>{title}</h1>
-          <h2>Principais Artigos</h2>
-
-          {loading ? (
-            <p>Carregando artigos...</p>
-          ) : error ? (
-            <p className={styles.error}>{error}</p>
-          ) : (
-            <div className={styles.articleList}>
-              {articles.slice(0, 5).map((article) => (
-                <LinkArtigo
-                  key={article.id}
-                  title={article.title}
-                  author={`Autor ID ${article.userId}`}
-                  date={new Date(article.createdAt).toLocaleDateString()}
-                  link={`/articles/${article.id}`}
-                />
-              ))}
-            </div>
-          )}
-
-          <h2>Mais curtidos</h2>
-          <LinkArtigo
-            title="Dengue em portugal?"
-            author="Guilherme Turina"
-            date="08/10/2024"
-            link="https://www.publico.pt/2023/05/21/azul/noticia/portugal-olho-mosquitos-aedes-transmitem-doencas-infecciosas-2050302"
-          />
-          <LinkArtigo
-            title="Fuzil mata o mosquito?"
-            author="Tiago Marinho"
-            date="30/09/2024"
-            link="https://pt.wikipedia.org/wiki/Fuzil"
-          />
-          <LinkArtigo
-            title="Lei impactante sobre a dengue"
-            author="João Paulo"
-            date="15/02/1986"
-            link="https://blog.lfg.com.br/legislacao/leis-absurdas/"
-          />
-
-          <p className={styles.content}>{content}</p>
-        </section>
-      </main>
-    </>
+    <main className={styles.main}>
+      <section>
+        <br/>
+        <h2>Principais Artigos</h2> 
+        <br/>
+        <div className={styles.articleList}>
+          {mainArticles.map((article, index) => (
+            <React.Fragment key={index}>
+              <LinkArtigo {...article} />
+              {index < mainArticles.length - 1 && <br/>}
+            </React.Fragment>
+          ))}
+        </div>
+        
+        <br/>
+        <br/>
+        <h2>Mais curtidos</h2>
+        <br/>
+        {popularArticles.map((article, index) => (
+          <React.Fragment key={index}>
+            <LinkArtigo {...article} />
+            {index < popularArticles.length - 1 && <br/>}
+          </React.Fragment>
+        ))}
+      </section>
+    </main>
   );
 };
 

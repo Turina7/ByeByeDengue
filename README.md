@@ -1,3 +1,4 @@
+
 # ByeByeDengue
 Trabalho de PCS3643 - Laboratório de Engenharia de Software I (2024) || Wiki sobre arboviroses
 
@@ -16,18 +17,11 @@ Trabalho de PCS3643 - Laboratório de Engenharia de Software I (2024) || Wiki so
    npm install
    ```
 
-2. **Configuração da Base de Dados e Variáveis de Ambiente**:
+2. **Configuração da Base de Dados**:
    - Copie o arquivo `.env.example`, renomeie para `.env` e preencha com os dados necessários:
    ```env
    DATABASE_URL="endereço_da_base_de_dados"
-   BLOB_READ_WRITE_TOKEN="seu_token_de_acesso_blob"
-   JWT_SECRET="sua_chave_secreta_jwt"
    ```
-
-   Onde:
-   - `DATABASE_URL`: URL de conexão com seu banco de dados
-   - `BLOB_READ_WRITE_TOKEN`: Token para operações de leitura e escrita de blobs
-   - `JWT_SECRET`: Chave secreta para geração de tokens JWT
 
 ### Aplicando Alterações no Banco de Dados
 
