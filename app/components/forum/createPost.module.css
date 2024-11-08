@@ -1,0 +1,118 @@
+.createPostContainer {
+  border: 1px solid #999;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.createPostTitle {
+  color: #D70000;
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.createPostForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.createPostInput {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px;
+  border: 1px solid #999;
+  border-radius: 8px;
+  resize: vertical;
+  font-size: 14px;
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+.createPostInput::placeholder {
+  color: #666;
+}
+
+.createPostInput:focus {
+  outline: none;
+  border-color: #D70000;
+  color: #333;
+}
+
+/* Estilos para upload de imagem */
+.imageUploadContainer {
+  margin: 8px 0;
+}
+
+.imageInput {
+  display: none;
+}
+
+.imageInputLabel {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #f2f2f2;
+  border: 1px solid #999;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.imageInputLabel:hover {
+  background-color: #e0e0e0;
+  border-color: #666;
+}
+
+.imagePreviewContainer {
+  margin-top: 12px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.imagePreview {
+  position: relative;
+  display: inline-block;
+}
+
+.imagePreview img {
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.removeImageButton {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.2s ease;
+}
+
+.removeImageButton:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+@media (max-width: 768px) {
+  .createPostContainer {
+    margin: 16px;
+  }
+}
