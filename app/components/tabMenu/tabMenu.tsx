@@ -4,9 +4,9 @@ import React from "react";
 import { useRouter, usePathname } from "next/navigation";
 import styles from "./tabMenu.module.css";
 import Image from "next/image";
-import Button from "../button/button";
 import logo from "@/app/images/Logo.png";
 import Link from "next/link";
+import AuthButton from "../authButton/authButton";
 
 const TabMenu: React.FC = () => {
   const tabs = ["Home", "Wiki", "Mapas", "Denúncias", "Math", "Fórum"];
@@ -32,6 +32,10 @@ const TabMenu: React.FC = () => {
     if (normalizedTab === "home") {
       router.push("/");
     } else {
+      // obriga recarregamento completo nas rotas protegidas
+      if (normalizedTab === 'denuncias' || normalizedTab === 'forum') {
+        window.location.href = `/${normalizedTab}`;
+      } else
       router.push(`/${normalizedTab}`);
     }
   };
@@ -48,9 +52,7 @@ const TabMenu: React.FC = () => {
             />
           </div>
         </Link>
-        <Button style={{ position: 'absolute', right: '10px' }} onClick={() => console.log('Clicado!')}>
-          Cadastre-se
-        </Button>
+        <AuthButton className={styles.authButton} />
       </div>
   
       <ul className={styles.tabList}>
