@@ -4,11 +4,9 @@ import React from "react";
 import { useRouter, usePathname } from "next/navigation";
 import styles from "./tabMenu.module.css";
 import Image from "next/image";
-import Button from "../button/button";
 import logo from "@/app/images/Logo.png";
 import Link from "next/link";
-import Cookies from 'js-cookie';
-import axios from 'axios';
+import AuthButton from "../authButton/authButton";
 
 const TabMenu: React.FC = () => {
   const tabs = ["Home", "Wiki", "Mapas", "Denúncias", "Math", "Fórum"];
@@ -24,13 +22,6 @@ const TabMenu: React.FC = () => {
   };
 
   const activeTab = getActiveTab(pathname);
-  const isLoggedIn = Cookies.get('token') !== undefined;
-
-  const handleButtonClick = async () => {
-      const response = await axios.post('/api/auth/logout');
-      console.log(response);
-      router.push('/login');
-  };
 
   const handleTabClick = (tab: string) => {
     const normalizedTab = tab
@@ -61,9 +52,7 @@ const TabMenu: React.FC = () => {
             />
           </div>
         </Link>
-        <Button style={{ position: 'absolute', right: '10px' }} onClick={() => handleButtonClick()}>
-          {isLoggedIn ? 'Sair' : 'Cadastre-se'}
-        </Button>
+        <AuthButton className={styles.authButton} />
       </div>
   
       <ul className={styles.tabList}>

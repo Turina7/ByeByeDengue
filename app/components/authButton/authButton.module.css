@@ -1,0 +1,22 @@
+.authButton {
+  position: absolute;
+  right: 10px;
+  width: 120px;
+  height: 40px;
+  padding: 4px 6px;
+  font-size: 14px;
+  font-weight: 600;
+  background-color: #D70000;
+  color: white;
+  border-radius: 8px;
+}
+
+.authButton:hover {
+  background-color: #D70000;
+}
+
+.authButtonContainer {
+  position: absolute;
+  right: 10px;
+  width: 120px;
+}

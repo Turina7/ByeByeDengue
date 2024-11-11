@@ -33,9 +33,22 @@ export async function GET() {
     const response = await axios.get<GDELTResponse>(url);
     const articles = response.data.articles || [];
     
-    const validArticles = articles.filter(
-      (article: GDELTArticle) => article.title && article.url
-    );
+    const validArticles = articles.filter((article: GDELTArticle) => {
+      if (!article.title || !article.url) return false;
+      
+      if (article.socialimage) {
+        try {
+          const imageUrl = new URL(article.socialimage);
+          article.socialimage = imageUrl.toString();
+          return true;
+        } catch {
+          article.socialimage = '';
+          return true;
+        }
+      }
+      
+      return true;
+    });
 
     return NextResponse.json(validArticles);
   } catch (error) {

@@ -1,4 +1,4 @@
-"use client"; // Ensure the component is treated as a client component
+"use client";
 
 import React, { ButtonHTMLAttributes } from "react";
 import styles from "./button.module.css"; 
@@ -9,12 +9,15 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button: React.FC<ButtonProps> = ({
     children,
+    className,
     ...rest
 }) => {
+    const combinedClassName = `${styles.btn} ${className || ''}`.trim();
+
     return (
         <button 
-            className={`${styles.btn}`}  // Combina a classe `btn` com qualquer outra classe passada como prop
-            {...rest}  // Desestrutura as outras props, como onClick, type, etc.
+            className={combinedClassName}
+            {...rest}
         >
             {children}
         </button>

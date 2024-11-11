@@ -7,9 +7,11 @@ import SuccessDialog from "@/app/components/login/SuccessDialog";
 import { useRouter } from "next/navigation";
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useAuth } from '@/contexts/AuthContext';
  
 const LoginPage = () => {
   const router = useRouter();
+  const { setAuthenticated } = useAuth();
 
   const nameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -39,7 +41,7 @@ const LoginPage = () => {
     const redirectTo = Cookies.get('redirectPath');
     if (redirectTo) Cookies.remove('redirectPath');
 
-    if (!email) newError.push("email"); else formData.append("email", email);;
+    if (!email) newError.push("email"); else formData.append("email", email);
     if (!password) newError.push("password"); else formData.append("password", password);
 
     if (signup) {
@@ -56,11 +58,9 @@ const LoginPage = () => {
           await createUser(formData);
           setMessage("Usuário criado com sucesso");
           setShowSuccessDialog(true);
-
         } catch (error) {
           alert((error as Error).message || "Erro ao criar usuário. Tente novamente.");
           console.error('Error creating account:', error);
-
         } finally {
           setLoading(false);
         }
@@ -73,75 +73,90 @@ const LoginPage = () => {
         // autenticar usuário
         setLoading(true);
         try {
-          const response = await axios.post('/api/auth/login', { email, password });
-          console.log(response);
+          await axios.post('/api/auth/login', { email, password });
+          setAuthenticated(true); // Atualiza o estado global de autenticação
           router.push(redirectTo ?? '/');
         } catch (error) {
           alert([(error as Error).message || 'Erro no login. Tente novamente.']);
         } finally {
           setLoading(false);
         }
-
       } else {
         setError(newError);
         return;
       }
     }
- 
   }
  
   return (
     <div className={styles.container}>
       <div className={styles.loginCard}>
-          {signup && <><label>Nome</label><div className={styles.formGroup}>
-          <input
-            type="text"
-            placeholder='João da Silva'
-            ref={nameRef}
-            className={error.includes("name") ? styles.errorInput : ''} />
-        </div></>
-          }
+          {signup && (
+            <>
+              <label>Nome</label>
+              <div className={styles.formGroup}>
+                <input
+                  type="text"
+                  placeholder='João da Silva'
+                  ref={nameRef}
+                  className={error.includes("name") ? styles.errorInput : ''}
+                />
+              </div>
+            </>
+          )}
           <label>Email</label>
           <div className={styles.formGroup}>
               <input 
-              type="email"
-              placeholder='Email'
-              ref={emailRef}
-              className={error.includes("email") ? styles.errorInput : ''}
+                type="email"
+                placeholder='Email'
+                ref={emailRef}
+                className={error.includes("email") ? styles.errorInput : ''}
               />
           </div>
           <label>Senha</label>
           <div className={styles.formGroup}>
               <input 
-              type="password" 
-              placeholder='Senha'
-              ref={passwordRef}
-              className={error.includes("password") ? styles.errorInput : ''}
+                type="password" 
+                placeholder='Senha'
+                ref={passwordRef}
+                className={error.includes("password") ? styles.errorInput : ''}
               />
           </div>
-          {signup && <><label>Confirme a senha</label><div className={styles.formGroup}>
-          <input
-            type="password"
-            placeholder='Senha'
-            ref={confirmPasswordRef}
-            className={error.includes("confirmPassword") || error.includes("mismatchPassword") ?
-              styles.errorInput : ''} />
-        </div></>
-          }
+          {signup && (
+            <>
+              <label>Confirme a senha</label>
+              <div className={styles.formGroup}>
+                <input
+                  type="password"
+                  placeholder='Senha'
+                  ref={confirmPasswordRef}
+                  className={error.includes("confirmPassword") || error.includes("mismatchPassword") ?
+                    styles.errorInput : ''}
+                />
+              </div>
+            </>
+          )}
           <div style={{ alignItems: 'center', justifyContent: 'space-between', display: 'flex'}}>
-            <Button onClick={() => handleSubmit()}>{signup ? (loading ? 'Cadastrando...' : "Cadastrar") : 
-            loading ? "Entrando..." : "Login"}</Button>
-            <a onClick={() => setSignup(!signup)}
-               className={styles.link}> {signup ? "Já tenho uma conta" : "Não tenho uma conta"}</a>
+            <Button onClick={() => handleSubmit()}>
+              {signup 
+                ? (loading ? 'Cadastrando...' : "Cadastrar") 
+                : (loading ? "Entrando..." : "Login")}
+            </Button>
+            <a 
+              onClick={() => setSignup(!signup)}
+              className={styles.link}
+            > 
+              {signup ? "Já tenho uma conta" : "Não tenho uma conta"}
+            </a>
           </div>
           {error.length > 0 && (
-          <div>
-              {!error.includes("mismatchPassword") ? 
-              <p>{`Preencha todos os campos`}</p> :
-              <p>{`As senhas devem ser iguais`}</p>
+            <div>
+              {!error.includes("mismatchPassword") 
+                ? <p>{`Preencha todos os campos`}</p>
+                : <p>{`As senhas devem ser iguais`}</p>
               }
-          </div>
-        )}
+            </div>
+          )}
       </div>
       <SuccessDialog 
         isOpen={showSuccessDialog}
