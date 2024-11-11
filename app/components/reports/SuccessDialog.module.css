@@ -1,0 +1,95 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.dialog {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.iconContainer {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 16px;
+  background: #e6f4ea;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  color: #34a853;
+  width: 24px;
+  height: 24px;
+}
+
+.title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.message {
+  text-align: center;
+  margin-bottom: 12px;
+  color: #666;
+}
+
+.protocol {
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.protocolNumber {
+  color: #34a853;
+  margin-left: 4px;
+}
+
+.helpText {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #777;
+  margin-bottom: 24px;
+}
+
+.button {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  background-color: #34a853;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  background-color: #2d9248;
+}
+
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 168, 83, 0.4);
+}
