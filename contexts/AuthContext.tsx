@@ -13,16 +13,16 @@ interface User {
 
 interface AuthContextType {
   isAuthenticated: boolean | null;
-  setAuthenticated: (value: boolean) => void;
   user: User | null;
+  setAuthenticated: (value: boolean) => void;
   setUser: (user: User | null) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
   isAuthenticated: null,
-  setAuthenticated: () => {},
   user: null,
-  setUser: () => {},
+  setAuthenticated: () => {},
+  setUser: () => {}
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -52,20 +52,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     checkAuth();
   }, []);
 
-  const setAuthenticated = (value: boolean) => {
-    setIsAuthenticated(value);
-    if (!value) {
-      setUser(null);
-    }
-  };
-
   return (
-    <AuthContext.Provider value={{ 
-      isAuthenticated, 
-      setAuthenticated,
-      user, 
-      setUser 
-    }}>
+    <AuthContext.Provider 
+      value={{
+        isAuthenticated,
+        user,
+        setAuthenticated: setIsAuthenticated,
+        setUser
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

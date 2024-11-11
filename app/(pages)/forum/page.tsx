@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 import style from "@/app/components/forum/forumCard.module.css";
 import styles from "@/app/page.module.css";
 import ForumCard, { CardContent } from "@/app/components/forum/forumCard";
@@ -19,12 +19,6 @@ const Page = () => {
   const [forumPosts, setForumPosts] = useState<CardContent[]>([]);
   const { user, isAuthenticated } = useAuth();
   const router = useRouter();
-
-  useEffect(() => {
-    if (isAuthenticated === false) {
-      router.push('/login');
-    }
-  }, [isAuthenticated, router]);
   
   const loadPosts = async () => {
     try {
@@ -39,15 +33,19 @@ const Page = () => {
     loadPosts();
   }, []);
 
-  if (isAuthenticated === null || !user) {
-    return <div>Carregando...</div>;
-  }
+  async function handleCreatePost(message: string, image: File | null) {
+    if (!user || !isAuthenticated) {
+      console.error("Usuário não autenticado");
+      router.push('/login');
+      return;
+    }
 
-  const handleCreatePost = async (message: string, image: File | null) => {
+    const userId = user.id; // Guardar o ID em uma constante após a verificação
+
     try {
       const formData = new FormData();
       formData.append("message", message);
-      formData.append("userId", user.id.toString());
+      formData.append("userId", userId.toString());
       formData.append("section", "general");
       if (image) {
         formData.append("image", image);
@@ -61,11 +59,19 @@ const Page = () => {
   };
 
   const handleComment = async (postId: number, comment: string) => {
+    if (!user || !isAuthenticated) {
+      console.error("Usuário não autenticado");
+      router.push('/login');
+      return;
+    }
+
+    const userId = user.id;
+
     try {
       const formData = new FormData();
       formData.append("content", comment);
       formData.append("postId", postId.toString());
-      formData.append("userId", user.id.toString());
+      formData.append("userId", userId.toString());
 
       await createComment(formData);
       await loadPosts();
@@ -75,9 +81,17 @@ const Page = () => {
   };
 
   const handleDeletePost = async (postId: number) => {
+    if (!user || !isAuthenticated) {
+      console.error("Usuário não autenticado");
+      router.push('/login');
+      return;
+    }
+
+    const userId = user.id;
+
     if (window.confirm("Tem certeza que deseja deletar esta postagem?")) {
       try {
-        await deleteForumPost(postId, user.id);
+        await deleteForumPost(postId, userId);
         await loadPosts();
       } catch (error) {
         console.error("Error deleting post:", error);
@@ -86,15 +100,27 @@ const Page = () => {
   };
 
   const handleDeleteComment = async (postId: number, commentId: number) => {
+    if (!user || !isAuthenticated) {
+      console.error("Usuário não autenticado");
+      router.push('/login');
+      return;
+    }
+
+    const userId = user.id;
+
     if (window.confirm("Tem certeza que deseja deletar este comentário?")) {
       try {
-        await deleteForumComment(commentId, user.id);
+        await deleteForumComment(commentId, userId);
         await loadPosts();
       } catch (error) {
         console.error("Error deleting comment:", error);
       }
     }
   };
+
+  if (!isAuthenticated || !user) {
+    return <div>Carregando...</div>;
+  }
 
   return (
     <main className={styles.main}>
