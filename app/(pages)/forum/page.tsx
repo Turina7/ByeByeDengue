@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
 import style from "@/app/components/forum/forumCard.module.css";
 import styles from "@/app/page.module.css";
 import ForumCard, { CardContent } from "@/app/components/forum/forumCard";
@@ -15,7 +17,14 @@ import {
 
 const Page = () => {
   const [forumPosts, setForumPosts] = useState<CardContent[]>([]);
-  const currentUserId = 1; // Substituir pelo ID do usuário atual logado
+  const { user, isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isAuthenticated === false) {
+      router.push('/login');
+    }
+  }, [isAuthenticated, router]);
   
   const loadPosts = async () => {
     try {
@@ -30,11 +39,15 @@ const Page = () => {
     loadPosts();
   }, []);
 
+  if (isAuthenticated === null || !user) {
+    return <div>Carregando...</div>;
+  }
+
   const handleCreatePost = async (message: string, image: File | null) => {
     try {
       const formData = new FormData();
       formData.append("message", message);
-      formData.append("userId", currentUserId.toString());
+      formData.append("userId", user.id.toString());
       formData.append("section", "general");
       if (image) {
         formData.append("image", image);
@@ -52,7 +65,7 @@ const Page = () => {
       const formData = new FormData();
       formData.append("content", comment);
       formData.append("postId", postId.toString());
-      formData.append("userId", currentUserId.toString());
+      formData.append("userId", user.id.toString());
 
       await createComment(formData);
       await loadPosts();
@@ -64,7 +77,7 @@ const Page = () => {
   const handleDeletePost = async (postId: number) => {
     if (window.confirm("Tem certeza que deseja deletar esta postagem?")) {
       try {
-        await deleteForumPost(postId, currentUserId);
+        await deleteForumPost(postId, user.id);
         await loadPosts();
       } catch (error) {
         console.error("Error deleting post:", error);
@@ -75,7 +88,7 @@ const Page = () => {
   const handleDeleteComment = async (postId: number, commentId: number) => {
     if (window.confirm("Tem certeza que deseja deletar este comentário?")) {
       try {
-        await deleteForumComment(commentId, currentUserId);
+        await deleteForumComment(commentId, user.id);
         await loadPosts();
       } catch (error) {
         console.error("Error deleting comment:", error);
@@ -103,7 +116,7 @@ const Page = () => {
               handleComment={(comment) => handleComment(post.id, comment)}
               handleDeletePost={handleDeletePost}
               handleDeleteComment={handleDeleteComment}
-              currentUserId={currentUserId}
+              currentUserId={user.id}
             />
           ))}
         </div>
