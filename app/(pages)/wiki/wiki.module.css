@@ -1,64 +1,72 @@
 /* pageStyles.css */
 
 .articleCard a {
-    color: red; /* Define a cor vermelha para os links */
-    text-decoration: none; /* Remove o sublinhado, se desejar */
-  }
-  
-  .articleCard a:hover {
-    text-decoration: underline; /* Adiciona sublinhado ao passar o mouse, se desejar */
-  }
-  
-  .articleTitle {
-    font-size: 1.2rem;
-    margin-bottom: 8px;
-    font-weight: bold;
-  }
-  
-  /* Outros estilos já existentes */
-  .main {
-    padding: 20px;
-  }
-  
-  .title {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .articleList {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-  
-  .articleCard {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 16px;
-    width: calc(33.333% - 16px);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-    background-color: #fff;
-  }
-  
-  .articleCard:hover {
-    transform: translateY(-4px);
-  }
-  
-  .articleSummary {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 12px;
-  }
-  
-  .articleInfo {
-    font-size: 0.8rem;
-    color: #999;
-  }
-  
-  .error {
-    color: red;
-    font-weight: bold;
-  }
-  
+  color: red; /* Define a cor vermelha para os links */
+  text-decoration: none; /* Remove o sublinhado, se desejar */
+}
+
+.articleCard a:hover {
+  text-decoration: underline; /* Adiciona sublinhado ao passar o mouse, se desejar */
+}
+
+.articleTitle {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* Outros estilos já existentes */
+.main {
+  padding: 20px;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.articleList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.articleCard {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  width: calc(33.333% - 16px);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  background-color: #fff;
+}
+
+.articleCard:hover {
+  transform: translateY(-4px);
+}
+
+.articleSummary {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.articleInfo {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+  margin-top: 20px;
+}
+
