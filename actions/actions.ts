@@ -336,6 +336,7 @@ export async function getForumPosts() {
         user: {
           select: {
             name: true,
+            imageUrl: true,
           },
         },
         comments: {
@@ -346,6 +347,7 @@ export async function getForumPosts() {
             user: {
               select: {
                 name: true,
+                imageUrl: true,
               },
             },
           },
@@ -370,9 +372,12 @@ export async function getForumPosts() {
         content: comment.content,
         userId: comment.userId,
         userName: comment.user.name,
+        userImageUrl: comment.user.imageUrl,
         createdAt: comment.createdAt,
       })),
       userId: post.userId,
+      userName: post.user.name,
+      userImageUrl: post.user.imageUrl,
     }));
   } catch (error) {
     console.error("Error fetching forum posts:", error);

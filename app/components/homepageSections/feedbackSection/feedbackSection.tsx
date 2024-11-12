@@ -4,7 +4,6 @@ import Image from "next/image";
 import styles from "./feedbackSection.module.css";
 import { useEffect, useState } from "react";
 import { getFeedbacks } from "@/actions/actions";
-import defaultAvatar from "@/app/images/default-avatar.jpg";
 
 type FeedbackWithUser = {
   id: number;
@@ -13,8 +12,7 @@ type FeedbackWithUser = {
   user: {
     id: number;
     name: string;
-    imageUrl: string | null;
-    role?: string;
+    imageUrl: string;
   };
 };
 
@@ -25,7 +23,14 @@ export function FeedbackSection() {
     async function loadFeedbacks() {
       try {
         const response = await getFeedbacks();
-        setFeedbacks(response.slice(0, 3));
+        const processedFeedbacks: FeedbackWithUser[] = response.slice(0, 3).map(feedback => ({
+          ...feedback,
+          user: {
+            ...feedback.user,
+            imageUrl: feedback.user.imageUrl || "https://mugjkckn6xaf3d21.public.blob.vercel-storage.com/forum/00afdcce-458c-4dea-b694-80cb6d88cf59-CLy5b9sPwQsBABMU7BwwiEBUJPCAOn.jpg"
+          }
+        }));
+        setFeedbacks(processedFeedbacks);
       } catch (error) {
         console.error("Error loading feedbacks:", error);
       }
@@ -43,7 +48,7 @@ export function FeedbackSection() {
             <p>{feedback.feedback}</p>
             <div className={styles.feedbackAuthor}>
               <Image 
-                src={feedback.user.imageUrl || defaultAvatar} 
+                src={feedback.user.imageUrl} 
                 alt={feedback.user.name} 
                 width={50} 
                 height={50}
@@ -51,10 +56,9 @@ export function FeedbackSection() {
               />
               <div>
                 <h4>{feedback.user.name}</h4>
-                <p>{feedback.user.role || 'Membro'}</p>
                 <small className={styles.feedbackDate}>
                   {new Date(feedback.createdAt).toLocaleDateString('pt-BR')}
-                </small>
+                </small>  
               </div>
             </div>
           </div>

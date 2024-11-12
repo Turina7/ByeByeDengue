@@ -14,7 +14,7 @@ model User {
   password      String
   status        String
   role          String
-  imageUrl      String?
+  imageUrl      String        @default("https://mugjkckn6xaf3d21.public.blob.vercel-storage.com/forum/00afdcce-458c-4dea-b694-80cb6d88cf59-CLy5b9sPwQsBABMU7BwwiEBUJPCAOn.jpg")
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   feedbacks     Feedback[]
