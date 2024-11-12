@@ -11,7 +11,7 @@ import { useAuth } from '@/contexts/AuthContext';
  
 const LoginPage = () => {
   const router = useRouter();
-  const { setAuthenticated } = useAuth();
+  const { setAuthenticated, setUser } = useAuth();
 
   const nameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -73,8 +73,9 @@ const LoginPage = () => {
         // autenticar usuário
         setLoading(true);
         try {
-          await axios.post('/api/auth/login', { email, password });
-          setAuthenticated(true); // Atualiza o estado global de autenticação
+          const response = await axios.post('/api/auth/login', { email, password });
+          setAuthenticated(true);
+          setUser(response.data.user);
           router.push(redirectTo ?? '/');
         } catch (error) {
           alert([(error as Error).message || 'Erro no login. Tente novamente.']);

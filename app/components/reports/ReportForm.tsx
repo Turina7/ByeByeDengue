@@ -2,10 +2,10 @@
 
 import React from 'react';
 import { useFormStatus } from 'react-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import styles from '@/app/(pages)/denuncias/page.module.css';
 import { createReport } from '@/actions/actions';
 
-const MOCK_USER_ID = 1;
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
 
@@ -39,6 +39,7 @@ export default function ReportForm({ onSuccess }: ReportFormProps) {
   const [hasFile, setHasFile] = React.useState(false);
   const formRef = React.useRef<HTMLFormElement>(null);
   const { pending } = useFormStatus();
+  const { user } = useAuth();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFileError('');
@@ -50,6 +51,12 @@ export default function ReportForm({ onSuccess }: ReportFormProps) {
     setFileError('');
     
     try {
+      if (!user?.id) {
+        alert('Erro: Usuário não identificado. Por favor, faça login novamente.');
+        window.location.href = '/login';
+        return;
+      }
+
       const file = formData.get('file') as File;
       if (file && file.size > 0) {
         if (file.size > MAX_FILE_SIZE) {
@@ -69,7 +76,12 @@ export default function ReportForm({ onSuccess }: ReportFormProps) {
         }
       }
 
-      formData.append('userId', String(MOCK_USER_ID));
+      const userId = user?.id;
+      if (!userId) {
+        throw new Error('ID do usuário não disponível');
+      }
+
+      formData.append('userId', String(userId));
       
       const result = await createReport(formData);
       
@@ -81,8 +93,17 @@ export default function ReportForm({ onSuccess }: ReportFormProps) {
       onSuccess(result.protocol);
     } catch (error) {
       console.error('Error submitting report:', error);
-      alert('Erro ao enviar denúncia. Tente novamente.');
+      if (error instanceof Error && error.message === 'ID do usuário não disponível') {
+        alert('Erro de autenticação. Por favor, faça login novamente.');
+        window.location.href = '/login';
+      } else {
+        alert('Erro ao enviar denúncia. Tente novamente.');
+      }
     }
+  }
+
+  if (!user) {
+    return <div>Carregando dados do usuário...</div>;
   }
 
   return (
