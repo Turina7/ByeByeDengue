@@ -478,3 +478,35 @@ export async function getRecentImagePosts() {
     return [];
   }
 }
+
+export async function createFeedback(userId: number, feedback: string) {
+  try {
+    const newFeedback = await prisma.feedback.create({
+      data: {
+        userId,
+        feedback,
+      },
+    });
+    return { success: true, data: newFeedback };
+  } catch (error) {
+    console.error("Error creating feedback:", error);
+    return { success: false, error: "Falha ao enviar feedback" };
+  }
+}
+
+export async function getFeedbacks() {
+  try {
+    const feedbacks = await prisma.feedback.findMany({
+      include: {
+        user: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+    return { success: true, data: feedbacks };
+  } catch (error) {
+    console.error("Error fetching feedbacks:", error);
+    return { success: false, error: "Falha ao carregar feedbacks" };
+  }
+}

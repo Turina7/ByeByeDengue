@@ -40,7 +40,7 @@ const Page = () => {
       return;
     }
 
-    const userId = user.id; // Guardar o ID em uma constante após a verificação
+    const userId = user.id;
 
     try {
       const formData = new FormData();
