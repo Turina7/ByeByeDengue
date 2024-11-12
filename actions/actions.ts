@@ -479,34 +479,45 @@ export async function getRecentImagePosts() {
   }
 }
 
-export async function createFeedback(userId: number, feedback: string) {
+export async function createFeedback(formData: FormData) {
   try {
+    const userId = parseInt(formData.get("userId") as string);
+    const feedback = formData.get("feedback") as string;
+
     const newFeedback = await prisma.feedback.create({
       data: {
         userId,
         feedback,
       },
     });
-    return { success: true, data: newFeedback };
+    return newFeedback;
   } catch (error) {
     console.error("Error creating feedback:", error);
-    return { success: false, error: "Falha ao enviar feedback" };
+    throw error;
   }
 }
 
 export async function getFeedbacks() {
   try {
     const feedbacks = await prisma.feedback.findMany({
+      take: 3,
       include: {
-        user: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+            imageUrl: true,
+            role: true,
+          },
+        },
       },
       orderBy: {
         createdAt: 'desc',
       },
     });
-    return { success: true, data: feedbacks };
+    return feedbacks;
   } catch (error) {
     console.error("Error fetching feedbacks:", error);
-    return { success: false, error: "Falha ao carregar feedbacks" };
+    throw error;
   }
 }
