@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import LinkArtigo from "@/app/components/wikipageSections/linkArtigo/linkArtigo";
+import ArticleComponent from "@/app/components/wikipageSections/ArticleComponent";
 import styles from "./wiki.module.css";
 
 type Article = {
@@ -10,13 +10,13 @@ type Article = {
   title: string;
   summary: string;
   createdAt: string;
+  text: string;
   userId: number;
 };
 
 const Page = () => {
-  // Define title and content directly within the component
-  const title = "Página de Artigos";
-  const content = "Bem-vindo à página de artigos! Aqui você encontra os principais conteúdos.";
+  const title = "";
+  const content = "";
 
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
@@ -29,7 +29,7 @@ const Page = () => {
         if (!response.ok) {
           throw new Error("Erro ao buscar artigos");
         }
-        const data: Article[] = await response.json(); // Type assertion for the expected data
+        const data: Article[] = await response.json();
         setArticles(data);
       } catch (error) {
         setError("Erro ao carregar artigos. Tente novamente mais tarde.");
@@ -38,7 +38,6 @@ const Page = () => {
         setLoading(false);
       }
     };
-
     fetchArticles();
   }, []);
 
@@ -62,37 +61,17 @@ const Page = () => {
           ) : (
             <div className={styles.articleList}>
               {articles.slice(0, 5).map((article) => (
-                <LinkArtigo
+                <ArticleComponent
                   key={article.id}
                   title={article.title}
                   author={`Autor ID ${article.userId}`}
                   date={new Date(article.createdAt).toLocaleDateString()}
-                  link={`/articles/${article.id}`}
+                  text={article.text}
+                  summary={article.summary}
                 />
               ))}
             </div>
           )}
-
-          <h2>Mais curtidos</h2>
-          <LinkArtigo
-            title="Dengue em portugal?"
-            author="Guilherme Turina"
-            date="08/10/2024"
-            link="https://www.publico.pt/2023/05/21/azul/noticia/portugal-olho-mosquitos-aedes-transmitem-doencas-infecciosas-2050302"
-          />
-          <LinkArtigo
-            title="Fuzil mata o mosquito?"
-            author="Tiago Marinho"
-            date="30/09/2024"
-            link="https://pt.wikipedia.org/wiki/Fuzil"
-          />
-          <LinkArtigo
-            title="Lei impactante sobre a dengue"
-            author="João Paulo"
-            date="15/02/1986"
-            link="https://blog.lfg.com.br/legislacao/leis-absurdas/"
-          />
-
           <p className={styles.content}>{content}</p>
         </section>
       </main>
