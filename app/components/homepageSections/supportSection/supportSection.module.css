@@ -18,6 +18,10 @@
   gap: 1rem;
 }
 
+.buttonLink {
+  text-decoration: none;
+}
+
 .supportButtons button {
   padding: 0.5rem 1rem;
   font-size: 1rem;
@@ -27,12 +31,20 @@
   transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
-.supportButtons button:first-child {
+.donateButton {
   background-color: #D70000;
   color: white;
 }
 
-.supportButtons button:last-child {
+.donateButton:hover {
+  background-color: #b00000;
+}
+
+.feedbackButton {
   background-color: #E0E0E0;
   color: black;
+}
+
+.feedbackButton:hover {
+  background-color: #d0d0d0;
 }

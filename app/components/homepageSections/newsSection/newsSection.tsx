@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Loading from "@/app/components/loading/Loading";
 import Image from "next/image";
 import styles from "./newsSection.module.css";
 import mosquito from "@/app/images/mosquito.jpg";
@@ -37,12 +38,7 @@ export function NewsSection() {
   }, []);
 
   if (isLoading) {
-    return (
-      <div className={styles.loadingContainer}>
-        <div className={styles.spinner}></div>
-        <p>Carregando notícias...</p>
-      </div>
-    );
+    return <Loading message="Carregando notícias..." />;
   }
 
   if (error) {

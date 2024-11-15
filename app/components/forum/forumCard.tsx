@@ -8,6 +8,7 @@ export interface Comment {
   content: string;
   userId: number;
   userName: string;
+  userImageUrl: string;
   createdAt: Date;
 }
 
@@ -19,6 +20,8 @@ export interface CardContent {
   message: string;
   comments: Comment[];
   userId: number;
+  userName: string;
+  userImageUrl: string;
 }
 
 interface ForumCardProps {
@@ -55,7 +58,18 @@ const ForumCard: React.FC<ForumCardProps> = ({
   return (
     <div className={`${styles.forumCard} ${active ? styles.active : ""}`}>
       <div className={styles.forumCardHeader}>
-        {cardContent.header}
+        <div className={styles.userInfo}>
+          <Image
+            src={cardContent.userImageUrl}
+            alt={`Foto de ${cardContent.userName}`}
+            width={40}
+            height={40}
+            className={styles.userAvatar}
+          />
+          <div className={styles.headerText}>
+            <span className={styles.postHeader}>{cardContent.header}</span>
+          </div>
+        </div>
         {cardContent.userId === currentUserId && (
           <button
             onClick={() => handleDeletePost(cardContent.id)}
@@ -109,7 +123,16 @@ const ForumCard: React.FC<ForumCardProps> = ({
               {cardContent.comments.map((comment) => (
                 <div key={comment.id} className={styles.commentItem}>
                   <div className={styles.commentHeader}>
-                    <strong>{comment.userName}:</strong>
+                    <div className={styles.commentUserInfo}>
+                      <Image
+                        src={comment.userImageUrl}
+                        alt={`Foto de ${comment.userName}`}
+                        width={30}
+                        height={30}
+                        className={styles.commentUserAvatar}
+                      />
+                      <strong>{comment.userName}:</strong>
+                    </div>
                     {(comment.userId === currentUserId) && (
                       <button
                         onClick={() => handleDeleteComment(cardContent.id, comment.id)}

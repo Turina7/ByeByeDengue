@@ -336,6 +336,7 @@ export async function getForumPosts() {
         user: {
           select: {
             name: true,
+            imageUrl: true,
           },
         },
         comments: {
@@ -346,6 +347,7 @@ export async function getForumPosts() {
             user: {
               select: {
                 name: true,
+                imageUrl: true,
               },
             },
           },
@@ -370,9 +372,12 @@ export async function getForumPosts() {
         content: comment.content,
         userId: comment.userId,
         userName: comment.user.name,
+        userImageUrl: comment.user.imageUrl,
         createdAt: comment.createdAt,
       })),
       userId: post.userId,
+      userName: post.user.name,
+      userImageUrl: post.user.imageUrl,
     }));
   } catch (error) {
     console.error("Error fetching forum posts:", error);
@@ -476,5 +481,48 @@ export async function getRecentImagePosts() {
   } catch (error) {
     console.error("Error fetching recent posts:", error);
     return [];
+  }
+}
+
+export async function createFeedback(formData: FormData) {
+  try {
+    const userId = parseInt(formData.get("userId") as string);
+    const feedback = formData.get("feedback") as string;
+
+    const newFeedback = await prisma.feedback.create({
+      data: {
+        userId,
+        feedback,
+      },
+    });
+    return newFeedback;
+  } catch (error) {
+    console.error("Error creating feedback:", error);
+    throw error;
+  }
+}
+
+export async function getFeedbacks() {
+  try {
+    const feedbacks = await prisma.feedback.findMany({
+      take: 3,
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            imageUrl: true,
+            role: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+    return feedbacks;
+  } catch (error) {
+    console.error("Error fetching feedbacks:", error);
+    throw error;
   }
 }
