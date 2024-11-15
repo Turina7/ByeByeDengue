@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
+import Loading from "@/app/components/loading/Loading";
 import Image from "next/image";
 import styles from "./communityPosts.module.css";
 import Link from "next/link";
@@ -51,7 +52,7 @@ export function CommunityPostsSection() {
       <h2>Posts da comunidade</h2>
       <div className={styles.postsContainer}>
         {isLoading ? (
-          <div className={styles.loading}>Carregando posts...</div>
+          <Loading message="Carregando posts..." />
         ) : recentPosts.length > 0 ? (
           recentPosts.map((post) => (
             <div key={post.id} className={styles.postItem}>

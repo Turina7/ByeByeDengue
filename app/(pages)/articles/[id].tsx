@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import Loading from "@/app/components/loading/Loading";
 
 interface Article {
   id: number;
@@ -31,7 +32,7 @@ const ArticlePage: React.FC = () => {
     }
   }, [id]);
 
-  if (!article) return <p>Carregando...</p>;
+  if (!article) return <Loading message="Carregando..." />;
 
   return (
     <main>

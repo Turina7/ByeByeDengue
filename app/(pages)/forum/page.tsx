@@ -7,6 +7,7 @@ import style from "@/app/components/forum/forumCard.module.css";
 import styles from "@/app/page.module.css";
 import ForumCard, { CardContent } from "@/app/components/forum/forumCard";
 import CreatePostForm from "@/app/components/forum/createPost";
+import Loading from "@/app/components/loading/Loading";
 import { 
   getForumPosts, 
   createForumPost, 
@@ -119,7 +120,7 @@ const Page = () => {
   };
 
   if (!isAuthenticated || !user) {
-    return <div>Carregando...</div>;
+    return <Loading message="Carregando..." />;
   }
 
   return (

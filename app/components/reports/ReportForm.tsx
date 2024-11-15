@@ -5,6 +5,7 @@ import { useFormStatus } from 'react-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import styles from '@/app/(pages)/denuncias/page.module.css';
 import { createReport } from '@/actions/actions';
+import Loading from '@/app/components/loading/Loading';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
@@ -103,7 +104,7 @@ export default function ReportForm({ onSuccess }: ReportFormProps) {
   }
 
   if (!user) {
-    return <div>Carregando dados do usuário...</div>;
+    return <Loading message="Carregando dados do usuário..." />;
   }
 
   return (

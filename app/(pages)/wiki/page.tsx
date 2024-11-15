@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import ArticleComponent from "@/app/components/wikipageSections/ArticleComponent";
 import styles from "./wiki.module.css";
+import Loading from "@/app/components/loading/Loading";
 
 type Article = {
   id: number;
@@ -55,7 +56,7 @@ const Page = () => {
           <h2>Principais Artigos</h2>
 
           {loading ? (
-            <p>Carregando artigos...</p>
+            <Loading message="Carregando artigos..." />
           ) : error ? (
             <p className={styles.error}>{error}</p>
           ) : (

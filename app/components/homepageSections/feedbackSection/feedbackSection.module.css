@@ -72,3 +72,29 @@
     margin-bottom: 1rem;
   }
 }
+
+.error {
+  text-align: center;
+  padding: 2rem;
+  color: #D70000;
+}
+
+.retryButton {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #D70000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.retryButton:hover {
+  background-color: #FF0000;
+}
+
+.empty {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
