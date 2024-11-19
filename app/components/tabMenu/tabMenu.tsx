@@ -1,17 +1,20 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import styles from "./tabMenu.module.css";
 import Image from "next/image";
 import logo from "@/app/images/Logo.png";
 import Link from "next/link";
 import AuthButton from "../authButton/authButton";
+import userIcon from "@/app/images/user-icon.jpg";
+import gearIcon from "@/app/images/gear-icon.png";
 
 const TabMenu: React.FC = () => {
   const tabs = ["Home", "Wiki", "Mapas", "Denúncias", "Math", "Fórum"];
   const router = useRouter();
   const pathname = usePathname();
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 
   const getActiveTab = (path: string) => {
     if (path === '/') return 'Home';
@@ -52,6 +55,21 @@ const TabMenu: React.FC = () => {
             />
           </div>
         </Link>
+        <div
+          className={styles.userIcon}
+          onClick={() => setIsDropDownOpen(!isDropDownOpen)}>
+          <Image src={userIcon} alt="User Icon" width={60} height={60} />
+        </div>
+
+        {isDropDownOpen && (
+            <div className={styles.dropdownMenu}>
+              <div className={styles.menuItem} onClick={() => router.push("/settings")}>
+                <Image src={gearIcon} alt="Gear Icon" width={16} height={16} className={styles.icon} />
+                <span>Configurações</span>
+              </div>
+            </div>
+          )}
+
         <AuthButton className={styles.authButton} />
       </div>
   
