@@ -5,12 +5,10 @@ import Image from "next/image";
 import styles from "./settings.module.css";
 import userIcon from "../../images/user-icon.jpg";
 import { useAuth } from '@/contexts/AuthContext';
-import { useRouter } from 'next/navigation';
 import { updateUser, getUserPic } from "@/actions/actions";
 
 const UserSettings: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
-  const router = useRouter();
   const [responseMessage, setResponseMessage] = useState<{
     type: 'success' | 'error',
     message: string
