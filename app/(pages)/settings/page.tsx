@@ -56,7 +56,6 @@ const UserSettings: React.FC = () => {
     
     if (!user || !isAuthenticated) {
       console.error("Usuário não autenticado");
-      router.push('/login');
       return;
     }
 
