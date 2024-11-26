@@ -2,9 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
+import { useAuth } from '@/contexts/AuthContext';
 import ArticleComponent from "@/app/components/wikipageSections/ArticleComponent";
 import styles from "./wiki.module.css";
 import Loading from "@/app/components/loading/Loading";
+import Button from '@/app/components/button/button';
+import { Modal, Box, Typography } from '@mui/material';
+import CreateArticleForm from "@/app/components/wikipageSections/CreateArticleForm";
 
 type Article = {
   id: number;
@@ -18,10 +22,30 @@ type Article = {
 const Page = () => {
   const title = "";
   const content = "";
+  const { user, isAuthenticated } = useAuth();
 
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [openModal, setOpenModal] = useState(false);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+
+  const handlePublishClick = () => {
+    if (user?.role === "admin" || user?.role === "verified") {
+      setShowCreateForm(true);
+    } else {
+      setOpenModal(true);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const handleArticleCreated = (articleId: number) => {
+    setShowCreateForm(false);
+    router.push(`/wiki/${articleId}`);
+  };
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -42,6 +66,10 @@ const Page = () => {
     fetchArticles();
   }, []);
 
+  if (loading) {
+    return <Loading message="Carregando..." />;
+  }
+
   return (
     <>
       <Head>
@@ -55,9 +83,23 @@ const Page = () => {
           <h1 className={styles.title}>{title}</h1>
           <h2>Principais Artigos</h2>
 
-          {loading ? (
-            <Loading message="Carregando artigos..." />
-          ) : error ? (
+          <div className={styles.publishButtonContainer}>
+            <Button 
+              onClick={handlePublishClick}
+              disabled={!isAuthenticated || !user}
+            >
+              Publicar Artigo
+            </Button>
+          </div>
+
+          {showCreateForm && (
+            <CreateArticleForm 
+              userId={user.id}
+              onSuccess={handleArticleCreated}
+            />
+          )}
+
+          {error ? (
             <p className={styles.error}>{error}</p>
           ) : (
             <div className={styles.articleList}>
@@ -75,6 +117,21 @@ const Page = () => {
           )}
           <p className={styles.content}>{content}</p>
         </section>
+
+        <Modal
+          open={openModal}
+          onClose={handleCloseModal}
+          aria-labelledby="role-verification-modal"
+        >
+          <Box className={styles.modalContainer}>
+            <Typography variant="body1">
+              Para publicar artigos você deve ser um usuário verificado. Se deseja ser um usuário verificado, entre em contato em ssouza@usp.br
+            </Typography>
+            <Button onClick={handleCloseModal}>
+              Fechar
+            </Button>
+          </Box>
+        </Modal>
       </main>
     </>
   );

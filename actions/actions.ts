@@ -526,3 +526,81 @@ export async function getFeedbacks() {
     throw error;
   }
 }
+
+export async function createArticle(formData: FormData) {
+  try {
+    let imageUrl = null;
+    const file = formData.get('file') as File;
+    
+    if (file && file.size > 0) {
+      try {
+        const extension = file.name.split('.').pop();
+        const uniqueName = `${randomUUID()}.${extension}`;
+        
+        const { url } = await put(uniqueName, file, {
+          access: 'public',
+          token: process.env.BLOB_READ_WRITE_TOKEN!
+        });
+        
+        imageUrl = url;
+      } catch (uploadError) {
+        console.error('Error uploading file:', uploadError);
+        throw new Error('Failed to upload file');
+      }
+    }
+
+    const article = await prisma.article.create({
+      data: {
+        title: formData.get('title') as string,
+        summary: formData.get('summary') as string,
+        description: formData.get('description') as string,
+        text: formData.get('text') as string,
+        section: formData.get('section') as string,
+        keywords: formData.get('keywords') as string,
+        status: 'pending',
+        imageUrl: imageUrl,
+        userId: parseInt(formData.get('userId') as string),
+      }
+    });
+
+    return { success: true, id: article.id };
+  } catch (error) {
+    console.error('Error creating article:', error);
+    throw new Error('Failed to create article');
+  }
+}
+
+export interface FeaturedArticle {
+  id: number;
+  title: string;
+  summary: string;
+  imageUrl: string | null;
+}
+
+export async function getFeaturedArticles() {
+  try {
+    const articles = await prisma.article.findMany({
+      where: {
+        imageUrl: {
+          not: null
+        },
+        status: 'approved'
+      },
+      select: {
+        id: true,
+        title: true,
+        summary: true,
+        imageUrl: true
+      },
+      take: 3,
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+    
+    return articles;
+  } catch (error) {
+    console.error('Error fetching featured articles:', error);
+    throw new Error('Failed to load featured articles');
+  }
+}
