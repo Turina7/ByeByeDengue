@@ -1,41 +1,88 @@
 .protect {
-  margin-top: 50px;
+  padding: 2rem;
+  text-align: center;
 }
 
 .protect h2 {
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
-
-.protect p {
-  font-size: 1rem;
-  color: #666;
-  margin-bottom: 30px;
+  margin-bottom: 1rem;
+  color: #333;
 }
 
 .sections {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .sectionItem {
-  width: 30%;
-  text-align: left; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+  text-decoration: none;
+  color: inherit;
 }
 
-.sectionItem img {
+.sectionItem:hover {
+  transform: translateY(-5px);
+}
+
+.imageContainer {
   width: 100%;
-  height: auto;
-  margin-bottom: 10px;
+  height: 200px;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.articleImage {
+  border-radius: 8px;
 }
 
 .sectionItem h3 {
-  font-size: 1.5rem;
-  margin-top: 10px;
+  margin: 1rem 0;
+  color: #333;
+  font-size: 1.2rem;
 }
 
 .sectionItem p {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #666;
+  line-height: 1.5;
+}
+
+.error {
+  color: #D70000;
+  padding: 1rem;
+  text-align: center;
+  background-color: #ffe6e6;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.noArticlesMessage {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .sections {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .protect {
+    padding: 1rem;
+  }
 }

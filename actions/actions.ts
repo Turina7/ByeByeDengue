@@ -526,60 +526,80 @@ export async function getFeedbacks() {
   }
 }
 
-export async function updateUser(formData: FormData) {
+export async function createArticle(formData: FormData) {
   try {
-    const data: Record<string, any> = {};
-    const userId = parseInt(formData.get('userId') as string);
-    const name = formData.get("name") as string || "";
-    const password = formData.get("password") as string || "";
-    const imageFile = formData.get("imageFile") as File || null;
-
-    const hashedPassword = password ? bcrypt.hashSync(formData.get("password") as string, 10) : undefined;
-
-    if (name) data.name = name;
-    if (hashedPassword) data.password = hashedPassword;
-    if (imageFile && imageFile.size > 0) {
+    let imageUrl = null;
+    const file = formData.get('file') as File;
+    
+    if (file && file.size > 0) {
       try {
-        const extension = imageFile.name.split('.').pop();
+        const extension = file.name.split('.').pop();
         const uniqueName = `${randomUUID()}.${extension}`;
         
-        const { url } = await put(uniqueName, imageFile, {
+        const { url } = await put(uniqueName, file, {
           access: 'public',
           token: process.env.BLOB_READ_WRITE_TOKEN!
         });
         
-        data.imageUrl = url;
+        imageUrl = url;
       } catch (uploadError) {
         console.error('Error uploading file:', uploadError);
         throw new Error('Failed to upload file');
       }
     }
 
-    const updatedUser = await prisma.user.update({
-      where: { id: userId },
-      data
+    const article = await prisma.article.create({
+      data: {
+        title: formData.get('title') as string,
+        summary: formData.get('summary') as string,
+        description: formData.get('description') as string,
+        text: formData.get('text') as string,
+        section: formData.get('section') as string,
+        keywords: formData.get('keywords') as string,
+        status: 'pending',
+        imageUrl: imageUrl,
+        userId: parseInt(formData.get('userId') as string),
+      }
     });
 
-    return updatedUser;
+    return { success: true, id: article.id };
   } catch (error) {
-    console.error("Erro ao atualizar usuário:", error);
-    throw new Error("Não foi possível atualizar o usuário");
+    console.error('Error creating article:', error);
+    throw new Error('Failed to create article');
   }
 }
 
-export async function getUserPic(userId: number) {
+export interface FeaturedArticle {
+  id: number;
+  title: string;
+  summary: string;
+  imageUrl: string | null;
+}
+
+export async function getFeaturedArticles() {
   try {
-    if (userId) {
-      const user = await prisma.user.findUnique({
-        where: { id: userId },
-      });
-      return user?.imageUrl;
-    }
-    else {
-      throw new Error("Id inválido");
-    }
+    const articles = await prisma.article.findMany({
+      where: {
+        imageUrl: {
+          not: null
+        },
+        status: 'approved'
+      },
+      select: {
+        id: true,
+        title: true,
+        summary: true,
+        imageUrl: true
+      },
+      take: 3,
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+    
+    return articles;
   } catch (error) {
-    console.error("Erro ao consultar usuário:", error);
-    throw new Error("Não foi possível consultar usuário");
+    console.error('Error fetching featured articles:', error);
+    throw new Error('Failed to load featured articles');
   }
 }
