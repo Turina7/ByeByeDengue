@@ -15,10 +15,10 @@ export default function Home() {
         <div className={styles.intro}>
           <h1 className={styles.mainTitle}>Juntos, vamos combater a dengue!</h1>
           <h2 className={styles.subTitle}>
-            Junte-se a comunidade para lorem ipsum dolor sit amet, consectetur
-            adipiscing elit. Pellentesque in bibendum ante. Donec sagittis ante
-            vel dolor dapibus finibus. Nunc ut eleifend diam. Suspendisse ante
-            eros, feugiat quis sollicitudin ac.
+          Descubra o ByeByeDengue! Nosso site é sua principal ferramenta na luta contra a dengue. 
+          Aqui você encontra análises detalhadas sobre a doença, lê artigos, participa de fóruns interativos com outros 
+          usuários para compartilhar experiências e dúvidas, além de explorar recursos exclusivos para prevenção 
+          e combate ao mosquito. Juntos, podemos fazer a diferença! 🚫🦟
           </h2>
         </div>
         <ProtectSection />

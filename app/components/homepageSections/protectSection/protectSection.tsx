@@ -23,7 +23,7 @@ export function ProtectSection() {
 						height={70}
 					/>
 					<h3>O vetor</h3>
-					<p>Body text for whatever you’d like to add more to the subheading.</p>
+					<p>O Aedes aegypti, transmissor da dengue, zika e chikungunya, se prolifera em água parada. Combatê-lo exige eliminar criadouros e conscientizar a população.</p>
 				</div>
 				<div className={styles.sectionItem}>
 					<Image
@@ -34,7 +34,7 @@ export function ProtectSection() {
 						height={70}
 					/>
 					<h3>Sintomas e atitudes</h3>
-					<p>Body text for whatever you’d like to expand on the main point.</p>
+					<p>Febre alta, dores no corpo e manchas na pele são sinais de alerta. Procurar um médico e evitar automedicação ajudam na recuperação.</p>
 				</div>
 				<div className={styles.sectionItem}>
 					<Image
@@ -45,7 +45,7 @@ export function ProtectSection() {
 						height={70}
 					/>
 					<h3>Prevenção</h3>
-					<p>Body text for whatever you’d like to share more.</p>
+					<p>Eliminar água parada e usar repelentes são medidas essenciais. A colaboração da comunidade é vital para conter o mosquito.</p>
 				</div>
 			</div>
 		</div>
