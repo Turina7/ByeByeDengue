@@ -1,20 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { createArticle } from '@/actions/actions';
 import styles from './createArticle.module.css';
+import Image from 'next/image';
 
-const CreateArticleForm = ({ userId, onSuccess }) => {
+interface CreateArticleFormProps {
+  userId: number;
+  onSuccess: (articleId: number) => void;
+}
+
+const CreateArticleForm: React.FC<CreateArticleFormProps> = ({ userId, onSuccess }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const [imagePreview, setImagePreview] = useState('');
-  const [file, setFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState<string>('');
+  const [file, setFile] = useState<File | null>(null);
 
-  const handleImageChange = (e) => {
-    const selectedFile = e.target.files[0];
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       setFile(selectedFile);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result);
+        setImagePreview(reader.result as string);
       };
       reader.readAsDataURL(selectedFile);
     }
@@ -25,12 +31,12 @@ const CreateArticleForm = ({ userId, onSuccess }) => {
     setFile(null);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError('');
 
-    const formData = new FormData(e.target);
+    const formData = new FormData(e.currentTarget);
     formData.append('userId', userId.toString());
     
     if (file) {
@@ -41,12 +47,12 @@ const CreateArticleForm = ({ userId, onSuccess }) => {
       const result = await createArticle(formData);
       if (result.success) {
         onSuccess(result.id);
-        e.target.reset();
+        (e.target as HTMLFormElement).reset();
         setImagePreview('');
         setFile(null);
       }
     } catch (err) {
-			console.error('Error creating article:', err);
+      console.error('Error creating article:', err);
       setError('Ocorreu um erro ao criar o artigo. Tente novamente.');
     } finally {
       setIsSubmitting(false);
@@ -123,7 +129,13 @@ const CreateArticleForm = ({ userId, onSuccess }) => {
           {imagePreview && (
             <div className={styles.imagePreviewContainer}>
               <div className={styles.imagePreview}>
-                <img src={imagePreview} alt="Preview" />
+                <Image 
+                  src={imagePreview} 
+                  alt="Preview" 
+                  width={200} 
+                  height={200} 
+                  style={{ objectFit: 'contain', borderRadius: '4px' }} 
+                />
                 <button
                   type="button"
                   onClick={removeImage}

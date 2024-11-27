@@ -2,24 +2,26 @@
 
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import ArticleComponent from "@/app/components/wikipageSections/ArticleComponent";
 import styles from "./wiki.module.css";
 import Loading from "@/app/components/loading/Loading";
 import Button from '@/app/components/button/button';
-import { Modal, Box, Typography } from '@mui/material';
+import { Modal, Box, Typography, Tooltip } from '@mui/material';
 import CreateArticleForm from "@/app/components/wikipageSections/CreateArticleForm";
 
-type Article = {
+interface Article {
   id: number;
   title: string;
   summary: string;
   createdAt: string;
   text: string;
   userId: number;
-};
+}
 
 const Page = () => {
+  const router = useRouter();
   const title = "";
   const content = "";
   const { user, isAuthenticated } = useAuth();
@@ -84,15 +86,32 @@ const Page = () => {
           <h2>Principais Artigos</h2>
 
           <div className={styles.publishButtonContainer}>
-            <Button 
-              onClick={handlePublishClick}
-              disabled={!isAuthenticated || !user}
-            >
-              Publicar Artigo
-            </Button>
+            {!isAuthenticated || !user ? (
+              <Tooltip 
+                title="Para publicar artigos você deve ser um usuário verificado"
+                arrow
+                placement="top"
+              >
+                <span>
+                  <Button 
+                    onClick={handlePublishClick}
+                    disabled={!isAuthenticated || !user}
+                  >
+                    Publicar Artigo
+                  </Button>
+                </span>
+              </Tooltip>
+            ) : (
+              <Button 
+                onClick={handlePublishClick}
+                disabled={!isAuthenticated || !user}
+              >
+                Publicar Artigo
+              </Button>
+            )}
           </div>
 
-          {showCreateForm && (
+          {showCreateForm && user && (
             <CreateArticleForm 
               userId={user.id}
               onSuccess={handleArticleCreated}
@@ -113,7 +132,7 @@ const Page = () => {
                   text={article.text}
                   summary={article.summary}
                 />
-                ))}
+              ))}
             </div>
           )}
           <p className={styles.content}>{content}</p>
