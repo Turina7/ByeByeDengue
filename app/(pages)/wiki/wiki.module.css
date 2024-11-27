@@ -70,3 +70,20 @@
   margin-top: 20px;
 }
 
+.publishButtonContainer {
+  margin: 20px 0;
+}
+
+.modalContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 4px;
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+}
+
