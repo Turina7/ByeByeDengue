@@ -9,6 +9,7 @@
     margin-bottom: 16px;
     cursor: pointer;
     transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+    box-sizing: border-box;
 }
 
 .artigoContainer:hover {
@@ -67,4 +68,11 @@
     align-items: center;
     justify-content: center;
     padding: 32px;
+}
+
+.articlesContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 16px;
 }

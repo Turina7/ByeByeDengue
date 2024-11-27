@@ -49,7 +49,9 @@ export function ProtectSection() {
 
       <div className={styles.sections}>
         {isLoading ? (
-          <Loading message="Carregando artigos..." />
+          <div className={styles.loadingContainer}>
+            <Loading message="Carregando artigos..." />
+          </div>
         ) : articles.length > 0 ? (
           articles.map((article) => (
             <Link 
