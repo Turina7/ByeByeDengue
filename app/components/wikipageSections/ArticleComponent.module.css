@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    font-size: 16px;
+    width: 100%;
     padding: 16px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -10,6 +10,7 @@
     cursor: pointer;
     transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
     box-sizing: border-box;
+    text-decoration: none;
 }
 
 .artigoContainer:hover {
@@ -19,14 +20,9 @@
 
 .title {
     color: #d70000;
-    text-decoration: none;
     margin-bottom: 4px;
     font-size: 20px;
     font-weight: bold;
-}
-
-.title:hover {
-    text-decoration: underline;
 }
 
 .authorDate {
@@ -40,39 +36,4 @@
     font-size: 15px;
     line-height: 1.5;
     margin-top: 8px;
-}
-
-.modalContent {
-    color: #333;
-    padding: 16px;
-    background-color: #fafafa;
-    border-radius: 8px;
-}
-
-.a4Format {
-    width: 800px;
-    height: calc(800px * 1.414);
-    max-width: 90vw;
-    max-height: 90vh;
-    margin: auto;
-    padding: 32px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    overflow-y: auto;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    position: relative;
-}
-
-.modalContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 32px;
-}
-
-.articlesContainer {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 16px;
 }

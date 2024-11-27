@@ -3,6 +3,7 @@ import {  Typography} from '@mui/material';
 import Link from 'next/link';
 
 interface ArticleComponentProps {
+  id: number;
   title: string;
   author: string;
   date: string;

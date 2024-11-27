@@ -48,7 +48,7 @@ export default function ArticlePage() {
  return (
 			<main className={styles.container}>
 			<Button onClick={() => router.push('/wiki')}>
-				Voltar
+				Outros artigos
 			</Button>
 			<article className={styles.article}>
        <h1>{article.title}</h1>
