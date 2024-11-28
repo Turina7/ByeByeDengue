@@ -4,13 +4,11 @@ import { createUser } from '@/actions/actions';
 import styles from "./login.module.css";
 import Button from "@/app/components/button/button";
 import SuccessDialog from "@/app/components/login/SuccessDialog";
-import { useRouter } from "next/navigation";
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import Cookies from 'js-cookie';
 import { useAuth } from '@/contexts/AuthContext';
  
 const LoginPage = () => {
-  const router = useRouter();
   const { setAuthenticated, setUser } = useAuth();
 
   const nameRef = useRef<HTMLInputElement>(null);
@@ -38,9 +36,6 @@ const LoginPage = () => {
     const newError: string[] = [];
     const formData = new FormData();
 
-    const redirectTo = Cookies.get('redirectPath');
-    if (redirectTo) Cookies.remove('redirectPath');
-
     if (!email) newError.push("email"); else formData.append("email", email);
     if (!password) newError.push("password"); else formData.append("password", password);
 
@@ -59,8 +54,12 @@ const LoginPage = () => {
           setMessage("Usuário criado com sucesso");
           setShowSuccessDialog(true);
         } catch (error) {
-          alert((error as Error).message || "Erro ao criar usuário. Tente novamente.");
-          console.error('Error creating account:', error);
+          setMessage("Erro desconhecido. Tente novamente.");
+          if (error instanceof Error) {
+            const errorMessage = error.message;
+            if (errorMessage.includes("Usuário já cadastrado"))
+              setMessage(error.message);
+          }
         } finally {
           setLoading(false);
         }
@@ -74,11 +73,20 @@ const LoginPage = () => {
         setLoading(true);
         try {
           const response = await axios.post('/api/auth/login', { email, password });
+
+          const redirectTo = Cookies.get('redirectPath');
+          Cookies.remove('redirectPath');
+
           setAuthenticated(true);
           setUser(response.data.user);
-          router.push(redirectTo ?? '/');
+
+          window.location.href = redirectTo ?? '/';
         } catch (error) {
-          alert([(error as Error).message || 'Erro no login. Tente novamente.']);
+          console.log(error);
+          setMessage("Erro inesperado. Tente novamente.");
+          if (error instanceof AxiosError) {
+            setMessage(error.response?.data?.message);
+          }
         } finally {
           setLoading(false);
         }
@@ -136,6 +144,11 @@ const LoginPage = () => {
                 />
               </div>
             </>
+          )}
+          {message && (
+            <div style={{ color: '#D70000', marginTop: '10px' }}>
+              {message}
+            </div>
           )}
           <div style={{ alignItems: 'center', justifyContent: 'space-between', display: 'flex'}}>
             <Button onClick={() => handleSubmit()}>

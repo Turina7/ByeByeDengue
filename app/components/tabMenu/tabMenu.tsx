@@ -46,7 +46,7 @@ const TabMenu: React.FC = () => {
 
   const handleSettingsClick = () => {
     setIsDropDownOpen(!isDropDownOpen);
-    router.push('/settings');
+    window.location.href = '/settings';
   }
 
   useEffect(() => {
