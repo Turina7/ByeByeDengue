@@ -62,3 +62,43 @@
   position: absolute;
   right: 10px;
 }
+
+.userIcon {
+  position: absolute;
+  right: 125px;
+  cursor: pointer;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 90px;
+  right: 30px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+  z-index: 10;
+  min-width: 150px;
+}
+
+.dropdownMenu div {
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.dropdownMenu div:hover {
+  background-color: #f0f0f0;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+}

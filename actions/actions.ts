@@ -16,7 +16,7 @@ export async function createUser(formData: FormData) {
 	});
 
 	if (user !== null) {
-		throw new Error('Usuario ja cadastrado');
+		throw new Error('Usuário já cadastrado');
 	}
 
 	try {
@@ -45,13 +45,12 @@ export async function loginUser(email: string, password: string) {
     where: { email },
   });
 
-  if (!user) {
-    throw new Error("Usuário não encontrado");
-  }
+  const isPasswordValid = bcrypt.compareSync(password, user?.password || '');
 
-  const isPasswordValid = bcrypt.compareSync(password, user.password);
-  if (!isPasswordValid) {
-    throw new Error("Senha incorreta");
+  if (!user || !isPasswordValid) {
+    const error = new Error("Usuário ou senha inválidos");
+    (error as any).status = 401;
+    throw error;
   }
 
   const token = jwt.sign(
@@ -524,6 +523,64 @@ export async function getFeedbacks() {
   } catch (error) {
     console.error("Error fetching feedbacks:", error);
     throw error;
+  }
+}
+
+export async function updateUser(formData: FormData) {
+  try {
+    const data: Record<string, any> = {};
+    const userId = parseInt(formData.get('userId') as string);
+    const name = formData.get("name") as string || "";
+    const password = formData.get("password") as string || "";
+    const imageFile = formData.get("imageFile") as File || null;
+
+    const hashedPassword = password ? bcrypt.hashSync(formData.get("password") as string, 10) : undefined;
+
+    if (name) data.name = name;
+    if (hashedPassword) data.password = hashedPassword;
+    if (imageFile && imageFile.size > 0) {
+      try {
+        const extension = imageFile.name.split('.').pop();
+        const uniqueName = `${randomUUID()}.${extension}`;
+        
+        const { url } = await put(uniqueName, imageFile, {
+          access: 'public',
+          token: process.env.BLOB_READ_WRITE_TOKEN!
+        });
+        
+        data.imageUrl = url;
+      } catch (uploadError) {
+        console.error('Error uploading file:', uploadError);
+        throw new Error('Failed to upload file');
+      }
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data
+    });
+
+    return updatedUser;
+  } catch (error) {
+    console.error("Erro ao atualizar usuário:", error);
+    throw new Error("Não foi possível atualizar o usuário");
+  }
+}
+
+export async function getUserPic(userId: number) {
+  try {
+    if (userId) {
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+      });
+      return user?.imageUrl;
+    }
+    else {
+      throw new Error("Id inválido");
+    }
+  } catch (error) {
+    console.error("Erro ao consultar usuário:", error);
+    throw new Error("Não foi possível consultar usuário");
   }
 }
 

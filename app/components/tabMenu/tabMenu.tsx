@@ -1,17 +1,21 @@
 "use client";
 
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import styles from "./tabMenu.module.css";
 import Image from "next/image";
 import logo from "@/app/images/Logo.png";
 import Link from "next/link";
 import AuthButton from "../authButton/authButton";
+import userIcon from "@/app/images/user-icon.jpg";
+import gearIcon from "@/app/images/gear-icon.png";
 
 const TabMenu: React.FC = () => {
   const tabs = ["Home", "Wiki", "Mapas", "Denúncias", "Math", "Fórum"];
   const router = useRouter();
   const pathname = usePathname();
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const getActiveTab = (path: string) => {
     if (path === '/') return 'Home';
@@ -40,6 +44,26 @@ const TabMenu: React.FC = () => {
     }
   };
 
+  const handleSettingsClick = () => {
+    setIsDropDownOpen(!isDropDownOpen);
+    window.location.href = '/settings';
+  }
+
+  useEffect(() => {
+
+    document.addEventListener('mousedown', handleClickOutside);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isDropDownOpen]);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      setIsDropDownOpen(!isDropDownOpen);
+    }
+  };
+
   return (
     <div className={styles.tabMenu}>
       <div className={styles.logoAndButtonContainer}>
@@ -52,6 +76,24 @@ const TabMenu: React.FC = () => {
             />
           </div>
         </Link>
+        <div
+          className={styles.userIcon}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsDropDownOpen(!isDropDownOpen);
+          }}>
+          <Image src={userIcon} alt="User Icon" width={60} height={60} />
+        </div>
+
+        {isDropDownOpen && (
+            <div ref={dropdownRef} className={styles.dropdownMenu}>
+              <div className={styles.menuItem} onClick={() => handleSettingsClick()}>
+                <Image src={gearIcon} alt="Gear Icon" width={16} height={16} className={styles.icon} />
+                <span>Configurações</span>
+              </div>
+            </div>
+          )}
+
         <AuthButton className={styles.authButton} />
       </div>
   
