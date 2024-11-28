@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { loginUser } from '../../../../actions/actions';
+import { AxiosError } from 'axios';
 
 export async function POST(req: Request) {
   const { email, password } = await req.json();
@@ -16,7 +17,15 @@ export async function POST(req: Request) {
     });
 
     return res;
-  } catch (error) {
-    return NextResponse.json({ message: (error as Error).message }, { status: 401 });
+  } catch (error: unknown) {
+    let status = 0;
+    if (error instanceof AxiosError) {
+      status = error.response?.status || 500;
+    } else {
+      status = 500;
+    }
+    const message = (error as Error).message.includes("Usuário ou senha inválidos") ? 
+                    (error as Error).message : "";
+      return NextResponse.json({ message: message }, { status: status });
   }
 }

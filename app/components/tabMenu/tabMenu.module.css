@@ -64,7 +64,8 @@
 }
 
 .userIcon {
-  margin-left: 1160px;
+  position: absolute;
+  right: 125px;
   cursor: pointer;
 }
 

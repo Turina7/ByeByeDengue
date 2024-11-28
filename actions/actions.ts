@@ -45,13 +45,12 @@ export async function loginUser(email: string, password: string) {
     where: { email },
   });
 
-  if (!user) {
-    throw new Error("Usuário não encontrado");
-  }
+  const isPasswordValid = bcrypt.compareSync(password, user?.password || '');
 
-  const isPasswordValid = bcrypt.compareSync(password, user.password);
-  if (!isPasswordValid) {
-    throw new Error("Senha incorreta");
+  if (!user || !isPasswordValid) {
+    const error = new Error("Usuário ou senha inválidos");
+    (error as any).status = 401;
+    throw error;
   }
 
   const token = jwt.sign(
