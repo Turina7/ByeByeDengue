@@ -16,7 +16,7 @@ export async function createUser(formData: FormData) {
 	});
 
 	if (user !== null) {
-		throw new Error('Usuario ja cadastrado');
+		throw new Error('Usuário já cadastrado');
 	}
 
 	try {
