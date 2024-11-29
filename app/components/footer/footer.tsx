@@ -39,7 +39,6 @@ const Footer: React.FC = () => {
             <li><a href="/about">Nossos Objetivos</a></li>
             <li><a href="/about">Como ajudar?</a></li>
             <li><a href="mailto:ssouza@usp.br?subject=Bye-Bye-Dengue&body=Bom%20dia%20professora,%20vi%20o%20projeto%20Bye-Bye-Dengue%20e%20acredito%20que%20tenho%20a%20contribuir%20como%20usuario%20verificado%20por%20motivo%20de...">Quero ser verificado</a></li>
-            <li><a href="/feedback">Feedback de Denúncias</a></li>
           </ul>
         </div>
       </div>
