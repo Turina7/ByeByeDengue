@@ -14,6 +14,7 @@ import CreateArticleForm from "@/app/components/wikipageSections/CreateArticleFo
 interface Article {
   id: number;
   title: string;
+  author: string;
   summary: string;
   createdAt: string;
   text: string;
@@ -175,6 +176,7 @@ const Page = () => {
                 <ArticleComponent
                   key={article.id}
                   id={article.id}
+                  author={article.author}
                   title={article.title}
                   date={new Date(article.createdAt).toLocaleDateString()}
                   text={article.text}
