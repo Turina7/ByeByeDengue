@@ -107,3 +107,39 @@
 .ngoMarker {
   background-color: #FFFF00;
 }
+
+.ngoCallout {
+  background-color: #fff1f2;
+  border: 1px solid #fecdd3;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.ngoCallout h3 {
+  color: #9f1239;
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.ngoCallout p {
+  color: #881337;
+  margin: 0 0 16px 0;
+  line-height: 1.5;
+}
+
+.contactButton {
+  display: inline-block;
+  background-color: #e11d48;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.contactButton:hover {
+  background-color: #be123c;
+}
