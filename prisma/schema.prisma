@@ -103,3 +103,30 @@ model News {
   keywords    String
   userId      Int
 }
+
+model HealthFacility {
+  id          Int      @id @default(autoincrement())
+  name        String
+  type        String
+  address     String
+  latitude    Float
+  longitude   Float
+  phone       String?
+  website     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model NGO {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  address     String
+  latitude    Float
+  longitude   Float
+  phone       String
+  email       String?
+  website     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

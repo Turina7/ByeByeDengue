@@ -18,11 +18,15 @@ export function ExploreSection() {
         </Link>
 
         {/* Instituições Section */}
-        <Link href="/about" className={styles.exploreItem}>
-          <Image src={campaignImage} alt="Campanha de combate" />
-          <h3>Apoie as instituições de combate</h3>
-          <p>Junte-se às iniciativas que combatem a dengue.
-		  Conheça organizações que atuam na prevenção e no controle da doença, e veja como você pode contribuir. Sua ajuda faz a diferença na luta contra o mosquito Aedes aegypti.</p>
+        <Link href="/mapas" className={styles.exploreItem}>
+          <Image src={campaignImage} alt="Mapa de unidades de atendimento" />
+          <h3>Encontre unidades de atendimento</h3>
+          <p>
+            Localize hospitais, UPAs e ONGs de combate à dengue próximos a você. 
+            Nosso mapa interativo mostra os pontos de atendimento em sua região e 
+            fornece informações essenciais como endereço, telefone e horário de funcionamento. 
+            Se você representa uma ONG que atua no combate à dengue, entre em contato para aparecer em nosso mapa.
+          </p>
         </Link>
       </div>
     </section>
