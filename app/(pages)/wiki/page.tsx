@@ -176,7 +176,6 @@ const Page = () => {
                   key={article.id}
                   id={article.id}
                   title={article.title}
-                  author={`Autor ID ${article.userId}`}
                   date={new Date(article.createdAt).toLocaleDateString()}
                   text={article.text}
                   summary={article.summary}
