@@ -96,7 +96,7 @@ export default function MathWithGraph() {
       setData(aggregatedData);
     } catch (error) {
       console.error("Error fetching data:", error);
-      alert("Failed to fetch data. Please try again later.");
+      alert("Não há dados nesse período");
     } finally {
       setLoading(false);
     }
