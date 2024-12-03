@@ -1,0 +1,74 @@
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.mapWrapper {
+  height: 600px;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.map {
+  height: 100%;
+  width: 100%;
+}
+
+.popup {
+  padding: 10px;
+}
+
+.popup h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.popup p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.legend {
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  display: inline-block;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.legendMarker {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.hospitalMarker {
+  background-color: #FF0000;
+}
+
+.upaMarker {
+  background-color: #00FF00;
+}
+
+.ngoMarker {
+  background-color: #FFFF00;
+}

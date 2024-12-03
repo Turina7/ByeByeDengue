@@ -1,50 +1,129 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import Button from "@/app/components/button/button";
+import { getHealthFacilities, getNGOs } from '@/actions/actions';
+import styles from '@/app/components/tabMaps/Map.module.css';
+import Loading from '@/app/components/loading/Loading';
 
-// Load MapComponent only on the client side
-const MapComponent = dynamic(() => import('@/app/components/tabMaps/MapComponent'), { ssr: false });
+const MapComponent = dynamic(() => import('@/app/components/tabMaps/MapComponent'), {
+  ssr: false
+});
 
-// Define the type for marker coordinates
-type Marker = {
-  position: number[];
+interface PrismaHealthFacility {
+  id: number;
+  name: string;
+  type: string;
+  latitude: number;
+  longitude: number;
+  address: string;
+  phone: string | null;
+  website: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface PrismaNGO {
+  id: number;
+  name: string;
   description: string;
-};
+  latitude: number;
+  longitude: number;
+  address: string;
+  phone: string;
+  email: string | null;
+  website: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-const coordinatesHospitals: Marker[] = [
-  { position: [-20.818, -49.376], description: 'Hospital de Base de São José do Rio Preto' },
-  { position: [-20.801, -49.370], description: 'Hospital da Unimed São José do Rio Preto' },
-  { position: [-20.816, -49.390], description: 'Hospital São Lucas' },
-  { position: [-20.805, -49.370], description: 'Hospital Infantil de São José do Rio Preto' },
-];
+interface Location {
+  id: number;
+  name: string;
+  type?: string;
+  latitude: number;
+  longitude: number;
+  address: string;
+  phone?: string;
+  website?: string;
+  description?: string;
+}
 
-const coordinatesUpas: Marker[] = [
-  { position: [-20.825, -49.377], description: 'UPA São José do Rio Preto - Jardim Nazareth' },
-  { position: [-20.814, -49.392], description: 'UPA São José do Rio Preto - Vila Elvira' },
-  { position: [-20.803, -49.373], description: 'UPA São José do Rio Preto - Parque da Cidadania' },
-  { position: [-20.810, -49.385], description: 'UPA São José do Rio Preto - Parque Industrial' },
-];
+const convertHealthFacilityData = (data: PrismaHealthFacility): Location => ({
+  id: data.id,
+  name: data.name,
+  type: data.type,
+  latitude: data.latitude,
+  longitude: data.longitude,
+  address: data.address,
+  phone: data.phone || undefined,
+  website: data.website || undefined,
+});
 
-export default function Mapas() {
-  // Specify the type for the useState array
-  const [markers, setMarkers] = useState<Marker[]>([]);
+const convertNGOData = (data: PrismaNGO): Location => ({
+  id: data.id,
+  name: data.name,
+  type: 'ONG',
+  latitude: data.latitude,
+  longitude: data.longitude,
+  address: data.address,
+  phone: data.phone,
+  website: data.website || undefined,
+  description: data.description,
+});
 
-  const handleHospitaisClick = () => {
-    setMarkers(coordinatesHospitals);
-  };
+export default function MapPage() {
+  const [facilities, setFacilities] = useState<Location[]>([]);
+  const [ngos, setNGOs] = useState<Location[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleUpasClick = () => {
-    setMarkers(coordinatesUpas);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [facilitiesData, ngosData] = await Promise.all([
+          getHealthFacilities(),
+          getNGOs()
+        ]);
+        
+        setFacilities(facilitiesData.map(convertHealthFacilityData));
+        setNGOs(ngosData.map(convertNGOData));
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
-    <div>
-      <h1>Mapas</h1>
-      <Button onClick={handleHospitaisClick} style={{ margin: "5px" }}>Hospitais</Button>
-      <Button onClick={handleUpasClick}>Upas</Button>
-      <MapComponent markers={markers} />
+    <div className={styles.container}>
+      <h1 className={styles.title}>Mapa de Recursos contra Dengue</h1>
+      <div className={styles.mapWrapper}>
+        <MapComponent
+          facilities={facilities}
+          ngos={ngos}
+        />
+      </div>
+      <div className={styles.legend}>
+        <div className={styles.legendItem}>
+          <div className={`${styles.legendMarker} ${styles.hospitalMarker}`}></div>
+          Hospitais
+        </div>
+        <div className={styles.legendItem}>
+          <div className={`${styles.legendMarker} ${styles.upaMarker}`}></div>
+          UPAs
+        </div>
+        <div className={styles.legendItem}>
+          <div className={`${styles.legendMarker} ${styles.ngoMarker}`}></div>
+          ONGs
+        </div>
+      </div>
     </div>
   );
 }
