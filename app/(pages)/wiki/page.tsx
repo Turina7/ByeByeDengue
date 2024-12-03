@@ -58,7 +58,7 @@ const Page = () => {
         if (!response.ok) {
           throw new Error("Erro ao buscar artigos");
         }
-        const data = await response.json();
+        const data: Article[] = await response.json(); // Especifica o tipo de data como Article[]
   
         // Lê o parâmetro `keyword` da URL
         const queryParams = new URLSearchParams(window.location.search);
@@ -66,7 +66,7 @@ const Page = () => {
   
         if (keyword) {
           // Filtra artigos que contenham a keyword
-          const filteredData = data.filter((article) =>
+          const filteredData = data.filter((article: Article) =>
             article.keywords.includes(keyword)
           );
           setSelectedKeyword(keyword); // Atualiza o estado da keyword
@@ -84,6 +84,7 @@ const Page = () => {
   
     fetchArticles();
   }, []);
+  
   
   const handleClearFilter = () => {
     // Redefine o filtro e remove o parâmetro `keyword` da URL

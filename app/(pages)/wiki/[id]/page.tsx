@@ -38,7 +38,7 @@ const insertKeywordLinks = (
         {part}
       </a>
     ) : (
-      part
+      <span key={index}>{part}</span> // Envolve texto puro em <span>
     )
   );
 };
