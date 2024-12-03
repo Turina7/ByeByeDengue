@@ -30,12 +30,47 @@
 .popup h3 {
   margin: 0 0 10px 0;
   font-size: 16px;
-  font-weight: bold;
 }
 
 .popup p {
   margin: 5px 0;
   font-size: 14px;
+}
+
+.locationButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: white;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 6px 8px;
+  cursor: pointer;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+  transition: background-color 0.3s;
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.locationButton:hover {
+  background-color: #f4f4f4;
+}
+
+.userMarker {
+  background: transparent;
+}
+
+.userMarkerInner {
+  width: 20px;
+  height: 20px;
+  background: #4A90E2;
+  border: 3px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #4A90E2, 0 0 8px rgba(0, 0, 0, 0.3);
 }
 
 .legend {

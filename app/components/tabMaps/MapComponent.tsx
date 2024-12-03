@@ -1,7 +1,8 @@
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { LatLngTuple } from 'leaflet';
+import { useEffect, useState } from 'react';
 import styles from './Map.module.css';
 
 const hospitalIcon = L.icon({
@@ -31,6 +32,13 @@ const ngoIcon = L.icon({
   shadowSize: [41, 41]
 });
 
+const userIcon = L.divIcon({
+  className: styles.userMarker,
+  html: '<div class="' + styles.userMarkerInner + '"></div>',
+  iconSize: [20, 20],
+  iconAnchor: [10, 10],
+});
+
 interface Location {
   id: number;
   name: string;
@@ -48,8 +56,79 @@ interface MapComponentProps {
   ngos: Location[];
 }
 
+function LocationButton() {
+  const map = useMap();
+
+  const handleClick = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (location) => {
+          const newPosition: LatLngTuple = [
+            location.coords.latitude,
+            location.coords.longitude
+          ];
+          map.flyTo(newPosition, 16);
+        },
+        (error) => {
+          console.error("Erro ao obter localização:", error);
+          alert("Não foi possível obter sua localização. Por favor, verifique as permissões do seu navegador.");
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
+        }
+      );
+    }
+  };
+
+  return (
+    <button className={styles.locationButton} onClick={handleClick} title="Ir para minha localização">
+      📍
+    </button>
+  );
+}
+
+
+function LocationMarker() {
+  const [position, setPosition] = useState<LatLngTuple | null>(null);
+  const map = useMap();
+
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (location) => {
+          const newPosition: LatLngTuple = [
+            location.coords.latitude,
+            location.coords.longitude
+          ];
+          setPosition(newPosition);
+          map.flyTo(newPosition, map.getZoom());
+        },
+        (error) => {
+          console.error("Erro ao obter localização:", error);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
+        }
+      );
+    }
+  }, [map]);
+
+  return position === null ? null : (
+    <Marker position={position} icon={userIcon}>
+      <Popup>
+        <div className={styles.popup}>
+          <h3>Sua localização</h3>
+        </div>
+      </Popup>
+    </Marker>
+  );
+}
+
 export default function MapComponent({ facilities, ngos }: MapComponentProps) {
-  // Centro do mapa (você pode ajustar para sua região)
   const defaultCenter: LatLngTuple = [-23.5505, -46.6333]; // São Paulo
 
   const getIcon = (type: string | undefined) => {
@@ -73,6 +152,9 @@ export default function MapComponent({ facilities, ngos }: MapComponentProps) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
+
+      <LocationMarker />
+      <LocationButton />
       
       {facilities.map((facility) => (
         <Marker
