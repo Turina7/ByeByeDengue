@@ -2,11 +2,17 @@ import axios from 'axios';
 
 
 interface SisaWebResponse {
-
-    field1: string;
-    field2: number;
-    field3: boolean;
-}
+    area: string;
+    censitario: string;
+    trabalhados: string;
+    nao_trabalhados: string;
+    focal: string;
+    perifocal: string;
+    nebulizacao: string;
+    mecanico: string;
+    alternativo: string;
+  }
+  
 
 /**
  * Fetches data from the SISA Web API.

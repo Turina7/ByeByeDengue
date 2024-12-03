@@ -12,22 +12,27 @@ import {
   Title,
   Tooltip,
   Legend,
+  TooltipItem
 } from "chart.js";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+interface DataItem {
+  area: string;
+  trabalhados: number;
+  nao_trabalhados: number;
+  focal: number;
+  perifocal: number;
+  nebulizacao: number;
+  mecanico: number;
+  alternativo: number;
+}
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export default function MathWithGraph() {
   const [tipo, setTipo] = useState<string>("1");
   const [inicio, setInicio] = useState<string>("");
   const [final, setFinal] = useState<string>("");
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<DataItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const tipoOptions = [
@@ -54,55 +59,85 @@ export default function MathWithGraph() {
       alert("Please select both start and end dates.");
       return;
     }
-
+  
     setLoading(true);
     try {
       const result = await fetchSisaData(tipo, inicio, final);
-      setData(result);
+  
+      // Formatar os dados retornados pela API
+      const formattedData: DataItem[] = result.map((item) => ({
+        area: item.area, // Certifique-se de que `area` é um campo correto
+        trabalhados: parseInt(item.trabalhados, 10),
+        nao_trabalhados: parseInt(item.nao_trabalhados, 10),
+        focal: parseInt(item.focal, 10),
+        perifocal: parseInt(item.perifocal, 10),
+        nebulizacao: parseInt(item.nebulizacao, 10),
+        mecanico: parseInt(item.mecanico, 10),
+        alternativo: parseInt(item.alternativo, 10),
+      }));
+  
+      // Agrupar dados por `area`
+      const aggregatedData = formattedData.reduce((acc, curr) => {
+        const existing = acc.find((item) => item.area === curr.area);
+        if (existing) {
+          existing.trabalhados += curr.trabalhados;
+          existing.nao_trabalhados += curr.nao_trabalhados;
+          existing.focal += curr.focal;
+          existing.perifocal += curr.perifocal;
+          existing.nebulizacao += curr.nebulizacao;
+          existing.mecanico += curr.mecanico;
+          existing.alternativo += curr.alternativo;
+        } else {
+          acc.push({ ...curr });
+        }
+        return acc;
+      }, [] as DataItem[]);
+  
+      setData(aggregatedData);
     } catch (error) {
       console.error("Error fetching data:", error);
       alert("Failed to fetch data. Please try again later.");
     } finally {
       setLoading(false);
     }
-  };
+  };  
 
   const chartData = {
-    labels: data.map((item) => item.area), // Use "area" as labels
+    labels: data.map((item) => item.area), // Rótulos do eixo X
     datasets: [
       {
         label: "Trabalhados",
-        data: data.map((item) => parseInt(item.trabalhados, 10)),
+        data: data.map((item) => item.trabalhados),
         backgroundColor: "rgba(75, 192, 192, 0.6)",
       },
       {
         label: "Não Trabalhados",
-        data: data.map((item) => parseInt(item.nao_trabalhados, 10)),
+        data: data.map((item) => item.nao_trabalhados),
         backgroundColor: "rgba(255, 99, 132, 0.6)",
       },
       {
         label: "Focal",
-        data: data.map((item) => parseInt(item.focal, 10)),
+        data: data.map((item) => item.focal),
         backgroundColor: "rgba(255, 159, 64, 0.6)",
       },
       {
         label: "Perifocal",
-        data: data.map((item) => parseInt(item.perifocal, 10)),
+        data: data.map((item) => item.perifocal),
         backgroundColor: "rgba(153, 102, 255, 0.6)",
       },
       {
         label: "Nebulização",
-        data: data.map((item) => parseInt(item.nebulizacao, 10)),
+        data: data.map((item) => item.nebulizacao),
         backgroundColor: "rgba(54, 162, 235, 0.6)",
       },
       {
         label: "Mecanico",
-        data: data.map((item) => parseInt(item.mecanico, 10)),
+        data: data.map((item) => item.mecanico),
         backgroundColor: "rgba(255, 206, 86, 0.6)",
       },
       {
         label: "Alternativo",
-        data: data.map((item) => parseInt(item.alternativo, 10)),
+        data: data.map((item) => item.alternativo),
         backgroundColor: "rgba(201, 203, 207, 0.6)",
       },
     ],
@@ -116,7 +151,7 @@ export default function MathWithGraph() {
       },
       tooltip: {
         callbacks: {
-          label: (tooltipItem) => {
+          label: (tooltipItem: TooltipItem<'bar'>) => {
             return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`;
           },
         },
@@ -149,7 +184,11 @@ export default function MathWithGraph() {
       <div className={styles.formGroup}>
         <label className={styles.label}>
           Tipo:
-          <select value={tipo} onChange={(e) => setTipo(e.target.value)} className={styles.select}>
+          <select
+            value={tipo}
+            onChange={(e) => setTipo(e.target.value)}
+            className={styles.select}
+          >
             {tipoOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
