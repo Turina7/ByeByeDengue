@@ -661,3 +661,72 @@ export async function getFeaturedArticles() {
     throw new Error('Failed to load featured articles');
   }
 }
+
+export async function getHealthFacilities() {
+  try {
+    const facilities = await prisma.healthFacility.findMany({
+      orderBy: {
+        name: 'asc',
+      },
+    });
+    return facilities;
+  } catch (error) {
+    console.error("Error fetching health facilities:", error);
+    throw error;
+  }
+}
+
+export async function getNGOs() {
+  try {
+    const ngos = await prisma.nGO.findMany({
+      orderBy: {
+        name: 'asc',
+      },
+    });
+    return ngos;
+  } catch (error) {
+    console.error("Error fetching NGOs:", error);
+    throw error;
+  }
+}
+
+export async function createHealthFacility(formData: FormData) {
+  try {
+    const data = {
+      name: formData.get("name") as string,
+      type: formData.get("type") as string,
+      address: formData.get("address") as string,
+      latitude: parseFloat(formData.get("latitude") as string),
+      longitude: parseFloat(formData.get("longitude") as string),
+      phone: formData.get("phone") as string,
+      website: formData.get("website") as string || null,
+    };
+
+    const facility = await prisma.healthFacility.create({ data });
+    return facility;
+  } catch (error) {
+    console.error("Error creating health facility:", error);
+    throw error;
+  }
+}
+
+export async function createNGO(formData: FormData) {
+  try {
+    const data = {
+      name: formData.get("name") as string,
+      description: formData.get("description") as string,
+      address: formData.get("address") as string,
+      latitude: parseFloat(formData.get("latitude") as string),
+      longitude: parseFloat(formData.get("longitude") as string),
+      phone: formData.get("phone") as string,
+      email: formData.get("email") as string || null,
+      website: formData.get("website") as string || null,
+    };
+
+    const ngo = await prisma.nGO.create({ data });
+    return ngo;
+  } catch (error) {
+    console.error("Error creating NGO:", error);
+    throw error;
+  }
+}
