@@ -33,3 +33,14 @@
   text-align: center;
   padding: 2rem;
 }
+
+.link {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: darkblue;
+  text-decoration: none;
+}
